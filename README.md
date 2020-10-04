@@ -4,7 +4,7 @@
 3. Hans M Andreas
 
 ## Homework 1:
-<When you finish your homework, add a link pointing to the solution here (for example, a link to a page on the wiki)> 
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Esimene%20kodut%C3%B6%C3%B6> 
 
 ## Homework 2:
 <Links to the solution>
