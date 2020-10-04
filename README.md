@@ -1,5 +1,5 @@
 # Team Kolmtarkvara:
-1. Allar Kalina
+1. <Allar Kalina>
 2. Indrek Raudla
 3. Hans M Andreas
 
