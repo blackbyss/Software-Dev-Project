@@ -1,5 +1,5 @@
 # Team Kolmtarkvara:
-1. <Allar Kalina>
+1. Allar Kalina
 2. Indrek Raudla
 3. Hans M Andreas
 
@@ -7,7 +7,7 @@
 <https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Esimene%20kodut%C3%B6%C3%B6> 
 
 ## Homework 2:
-<Links to the solution>
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Teine%20kodut%C3%B6%C3%B6>
 
 ## Homework 3:
 <Links to the solution>
