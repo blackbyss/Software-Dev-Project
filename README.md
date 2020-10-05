@@ -4,7 +4,7 @@
 3. Hans M Andreas
 
 ## Homework 1:
-<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%101> 
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%201> 
 
 ## Homework 2:
 <https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%202>
