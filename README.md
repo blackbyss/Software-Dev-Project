@@ -4,10 +4,10 @@
 3. Hans M Andreas
 
 ## Homework 1:
-<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Esimene%20kodut%C3%B6%C3%B6> 
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%101> 
 
 ## Homework 2:
-<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Teine%20kodut%C3%B6%C3%B6>
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%202>
 
 ## Homework 3:
 <Links to the solution>
