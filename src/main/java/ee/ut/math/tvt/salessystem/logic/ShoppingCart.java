@@ -25,6 +25,9 @@ public class ShoppingCart {
         items.add(item);
         //log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
     }
+    public void removeItem(SoldItem item){
+        items.remove((item));
+    }
 
     public List<SoldItem> getAll() {
         return items;
