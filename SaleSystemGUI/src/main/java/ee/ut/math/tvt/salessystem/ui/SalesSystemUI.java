@@ -70,6 +70,8 @@ public class SalesSystemUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
+
         log.info("Salesystem GUI started");
     }
 
