@@ -33,9 +33,11 @@
 } 
 
 .background_style{
-	 /*-fx-background-color: b_color;*/
-	  -fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color);
+	-fx-background-color: sb_color;
+    /*-fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color);
+    */
 }
+
 
 .background_fills{
 	-fx-background-color: #000000, #111111, #000000, #111111;
@@ -139,7 +141,7 @@
  */
  
  .tab-pane > .tab-header-area > .headers-region > .tab:selected:top { 
-    -fx-background-color: b_color;  
+    -fx-background-color: b_color;
     -fx-border-color:title_color;   
 }  
 
