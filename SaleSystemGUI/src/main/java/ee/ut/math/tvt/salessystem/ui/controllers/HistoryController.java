@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.controllers;
 
+import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -15,4 +16,5 @@ public class HistoryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: implement
     }
+
 }

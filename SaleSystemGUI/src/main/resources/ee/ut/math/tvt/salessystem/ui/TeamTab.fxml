@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="500.0" prefWidth="600.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background_style">
+               <children>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="-2.0" prefHeight="246.0" prefWidth="626.0" styleClass="background_style" text="Team info">
+                     <content>
+                        <AnchorPane prefHeight="241.0" prefWidth="691.0" styleClass="background_style">
+                           <children>
+                              <Label layoutX="40.0" layoutY="22.0" text="Team name" />
+                              <Label layoutX="40.0" layoutY="54.0" text="Team leader" />
+                              <Label layoutX="40.0" layoutY="86.0" text="Team leader email" />
+                              <Label layoutX="40.0" layoutY="118.0" text="Team members" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../../../../../../logo.JPG" />
+                                 </image></ImageView>
+                              <Label layoutX="180.0" layoutY="22.0" text="Kolmtarkvara" />
+                              <Label layoutX="180.0" layoutY="54.0" text="Jeesus" />
+                              <Label layoutX="180.0" layoutY="86.0" text="Jeesus@taevas.com" />
+                              <Label layoutX="180.0" layoutY="118.0" text="Hans, Allar, Indrek" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background_style" />
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
