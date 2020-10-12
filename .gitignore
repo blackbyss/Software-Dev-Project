@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # These are some examples of commonly ignored file patterns.
 # You should customize this list as applicable to your project.
 # Learn more about .gitignore:
@@ -47,3 +48,25 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+=======
+bin
+build
+classes
+data
+.gradle
+.settings
+.project
+.classpath
+.idea
+*.iml
+SaleSystemCLI/bin
+SaleSystemCLI/build
+SaleSystemCLI/.settings
+SaleSystemCLI/.project
+SaleSystemCLI/.classpath
+SaleSystemGUI/bin
+SaleSystemGUI/build
+SaleSystemGUI/.settings
+SaleSystemGUI/.project
+SaleSystemGUI/.classpath
+>>>>>>> 2ceb89d6c8c31036ec9f737541b126c18c28d2dd

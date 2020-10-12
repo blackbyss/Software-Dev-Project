@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README #
 
 As a <<user role>>, I want to <<specific requirement>>, so that <<benefit>>.
@@ -41,3 +42,32 @@ Questions about the system:
 14. Shouldn't there be a separate GUI version for warehouse and POS? For example, why does a warehouse worker have the ability to process orders?
 
 **15. What software is currently being used? (For reference)**
+=======
+# Team Kolmtarkvara:
+1. Allar Kalina
+2. Indrek Raudla
+3. Hans M Andreas
+
+## Homework 1:
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%201> 
+
+## Homework 2:
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%202>
+
+## Homework 3:
+<Links to the solution>
+
+## Homework 4:
+<Links to the solution>
+
+## Homework 5:
+<Links to the solution>
+
+## Homework 6:
+<Links to the solution>
+
+## Homework 7:
+<Links to the solution>
+
+We encourage you to use [markdown syntax](https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html)
+>>>>>>> 2ceb89d6c8c31036ec9f737541b126c18c28d2dd
