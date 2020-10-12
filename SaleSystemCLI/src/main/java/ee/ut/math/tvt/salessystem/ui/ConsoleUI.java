@@ -9,11 +9,10 @@ import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 
 /**
  * A simple CLI (limited functionality).
@@ -73,12 +72,20 @@ public class ConsoleUI {
         }
         System.out.println("-------------------------");
     }
-    private void showTeam(){
+    private void showTeam() throws IOException {
         System.out.println("-------------------------");
-        System.out.println("Team name: Kolmtarkvara");
-        System.out.println("Team leader: Jeesus");
-        System.out.println("Team leader email: jesus@taevas.com");
-        System.out.println("Team members: Hans, Allar, Indrek");
+        try (InputStream input = new FileInputStream("src/main/resources/application.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+
+            System.out.println("Team name: "+prop.getProperty("teamName"));
+            System.out.println("Team leader: "+prop.getProperty("teamLeader"));
+            System.out.println("Team leader email: "+prop.getProperty("teamLeaderEmail"));
+            System.out.println("Team members: "+prop.getProperty("teamMembers"));
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
         System.out.println("-------------------------");
     }
 
@@ -95,7 +102,7 @@ public class ConsoleUI {
         System.out.println("-------------------------");
     }
 
-    private void processCommand(String command) {
+    private void processCommand(String command) throws IOException {
         String[] c = command.split(" ");
 
         if (c[0].equals("h"))
