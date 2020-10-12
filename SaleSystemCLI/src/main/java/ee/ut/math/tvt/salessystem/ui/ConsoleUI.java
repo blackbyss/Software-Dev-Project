@@ -73,6 +73,14 @@ public class ConsoleUI {
         }
         System.out.println("-------------------------");
     }
+    private void showTeam(){
+        System.out.println("-------------------------");
+        System.out.println("Team name: Kolmtarkvara");
+        System.out.println("Team leader: Jeesus");
+        System.out.println("Team leader email: jesus@taevas.com");
+        System.out.println("Team members: Hans, Allar, Indrek");
+        System.out.println("-------------------------");
+    }
 
     private void printUsage() {
         System.out.println("-------------------------");
@@ -80,6 +88,7 @@ public class ConsoleUI {
         System.out.println("h\t\tShow this help");
         System.out.println("w\t\tShow warehouse contents");
         System.out.println("c\t\tShow cart contents");
+        System.out.println("t\t\tShow team contents");
         System.out.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
         System.out.println("p\t\tPurchase the shopping cart");
         System.out.println("r\t\tReset the shopping cart");
@@ -93,6 +102,8 @@ public class ConsoleUI {
             printUsage();
         else if (c[0].equals("q"))
             System.exit(0);
+        else if (c[0].equals("t"))
+            showTeam();
         else if (c[0].equals("w"))
             showStock();
         else if (c[0].equals("c"))

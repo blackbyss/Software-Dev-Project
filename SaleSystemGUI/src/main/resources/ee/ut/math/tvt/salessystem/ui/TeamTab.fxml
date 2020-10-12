@@ -23,7 +23,7 @@
                               <Label layoutX="40.0" layoutY="118.0" text="Team members" />
                               <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../../../../../logo.JPG" />
+                                    <Image url="@/logo.JPG" />
                                  </image></ImageView>
                               <Label layoutX="180.0" layoutY="22.0" text="Kolmtarkvara" />
                               <Label layoutX="180.0" layoutY="54.0" text="Jeesus" />
