@@ -1,6 +1,6 @@
 
 .root{
-	 b_color: #FF9C5F;
+	 b_color: #017587;
 	 sb_color: #558188;
 	 main_text_color: #FFEBCD;
 	 control_color: #5FA292;
@@ -34,8 +34,7 @@
 
 .background_style{
 	-fx-background-color: sb_color;
-    /*-fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color);
-    */
+    /*-fx-background-color: linear-gradient(from 25% 100% to 100% 25%, b_color, main_text_color); */
 }
 
 
@@ -69,7 +68,6 @@
 /*
  * SplitPane
  */
- 
 
 .split-pane .split-pane-divider  {
    -fx-border-color: title_color;
@@ -82,7 +80,7 @@
  */
  
  .table-view {
-    -fx-base: red;
+    -fx-base: #f50551;          /*WRONG COLOR*/
     -fx-control-inner-background: control_color;
     -fx-background-color: sb_color;
     -fx-table-cell-border-color: sb_color;
