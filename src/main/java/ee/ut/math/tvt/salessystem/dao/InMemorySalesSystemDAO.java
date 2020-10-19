@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
-    private final List<StockItem> stockItemList;
+    private List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
 
     public InMemorySalesSystemDAO() {
@@ -36,6 +36,16 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     @Override
     public void addNewStockItem(long id, String name, String description, long price, long quantity){
         stockItemList.add(new StockItem(id,name,description,price, (int)quantity));
+    }
+
+    @Override
+    public void deleteStockitem(long id){
+        for (StockItem stockItem : stockItemList) {
+            if (stockItem.getId() == id){
+                stockItemList.remove(stockItem);
+                break;
+            }
+        }
     }
 
     @Override

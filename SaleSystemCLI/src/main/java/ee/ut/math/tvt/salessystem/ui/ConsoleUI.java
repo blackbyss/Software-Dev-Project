@@ -97,6 +97,11 @@ public class ConsoleUI {
         showStock();
     }
 
+    private void deleteStock(long id){
+        dao.deleteStockitem(id);
+        showStock();
+    }
+
     private void showCart() {
         System.out.println("-------------------------");
         for (SoldItem si : cart.getAll()) {
@@ -184,6 +189,8 @@ public class ConsoleUI {
         }
         else if (c[0].equals("wni"))
             addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+        else if (c[0].equals("wri"))
+            deleteStock(Integer.parseInt(c[1]));
         else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p"))

@@ -43,6 +43,7 @@ public interface SalesSystemDAO {
     void editItemName(long id, String name);
     void editItemAmount(long id, long amount);
     void addNewStockItem(long id, String name, String description, long price, long quantity);
+    void deleteStockitem(long id);
 
     void saveSoldItem(SoldItem item);
 
