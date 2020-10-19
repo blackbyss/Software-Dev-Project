@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,7 +63,7 @@ public class SalesSystemUI extends Application {
         Tab teamTab = new Tab();
         teamTab.setText("Team");
         teamTab.setClosable(false);
-        teamTab.setContent(loadControls("TeamTab.fxml", new TeamController(dao)));
+        teamTab.setContent(loadControls("TeamTab.fxml", new TeamController()));
 
         Group root = new Group();
         Scene scene = new Scene(root, 600, 500, Color.WHITE);

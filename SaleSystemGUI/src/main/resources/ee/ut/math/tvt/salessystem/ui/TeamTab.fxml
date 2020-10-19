@@ -7,6 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.text.Text?>
 <AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="500.0" prefWidth="600.0">
@@ -21,14 +22,12 @@
                               <Label layoutX="40.0" layoutY="54.0" text="Team leader" />
                               <Label layoutX="40.0" layoutY="86.0" text="Team leader email" />
                               <Label layoutX="40.0" layoutY="118.0" text="Team members" />
-                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@/logo.JPG" />
-                                 </image></ImageView>
-                              <Label layoutX="180.0" layoutY="22.0" text="Kolmtarkvara" />
-                              <Label layoutX="180.0" layoutY="54.0" text="Jeesus" />
-                              <Label layoutX="180.0" layoutY="86.0" text="Jeesus@taevas.com" />
-                              <Label layoutX="180.0" layoutY="118.0" text="Hans, Allar, Indrek" />
+                              <ImageView fx:id="imageLoc" fitHeight="150.0" fitWidth="200.0" layoutX="427.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+                                </ImageView>
+                              <Label fx:id="teamName" layoutX="180.0" layoutY="22.0" />
+                              <Label fx:id="teamLeader" layoutX="180.0" layoutY="54.0" />
+                              <Label fx:id="teamLeaderEmail" layoutX="180.0" layoutY="86.0" />
+                              <Label fx:id="teamMembers" layoutX="180.0" layoutY="118.0" />
                            </children>
                         </AnchorPane>
                      </content>
