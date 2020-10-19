@@ -146,6 +146,9 @@ public class ConsoleUI {
         System.out.println("To add a new item to the warehouse");
         System.out.println("\twni <ID> <Name> <Description> <Price> <Amount>");
         System.out.println();
+        System.out.println("To DELETE and item from the warehouse");
+        System.out.println("\twri <ID>");
+        System.out.println();
         System.out.println("To edit the specifics of a single warehouse item, use the command");
         System.out.println("\twe <property> <ID> <Parameter>");
         System.out.println("\tSuitable property values\t(name,id,price,amount)");
