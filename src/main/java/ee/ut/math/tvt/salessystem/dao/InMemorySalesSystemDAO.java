@@ -20,6 +20,62 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         this.stockItemList = items;
         this.soldItemList = new ArrayList<>();
     }
+    @Override
+    public void removeStockItem(long id, long amount){
+        for (StockItem item : stockItemList){
+            if (item.getId() == id){
+                int newAmount = item.getQuantity() - (int)amount;
+                if (newAmount < 0) newAmount =0;
+                item.setQuantity(newAmount);
+            }
+        }
+    }
+
+    @Override
+    public void addStockItem(long id, long amount){
+        for (StockItem item : stockItemList){
+            if (item.getId() == id){
+                item.setQuantity(item.getQuantity() + (int)amount);
+            }
+        }
+    }
+
+    @Override
+    public void editItemId(long id, long newId){
+        for (StockItem item : stockItemList){
+            if (item.getId() == id){
+                item.setId(newId);
+            }
+        }
+    }
+
+    @Override
+    public void editItemPrice(long id, long price){
+        for (StockItem stockItem : stockItemList) {
+            if (stockItem.getId() == id){
+                stockItem.setPrice(price);
+            }
+        }
+
+    }
+
+    @Override
+    public void editItemName(long id, String name){
+        for (StockItem stockItem : stockItemList) {
+            if (stockItem.getId() == id){
+                stockItem.setName(name);
+            }
+        }
+    }
+
+    @Override
+    public void editItemAmount(long id, long amount){
+        for (StockItem stockItem : stockItemList) {
+            if (stockItem.getId() == id){
+                stockItem.setQuantity((int)amount);
+            }
+        }
+    }
 
     @Override
     public List<StockItem> findStockItems() {

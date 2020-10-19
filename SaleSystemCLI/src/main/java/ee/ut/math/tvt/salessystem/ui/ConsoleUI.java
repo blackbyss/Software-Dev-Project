@@ -54,12 +54,42 @@ public class ConsoleUI {
         List<StockItem> stockItems = dao.findStockItems();
         System.out.println("-------------------------");
         for (StockItem si : stockItems) {
-            System.out.println(si.getId() + " " + si.getName() + " " + si.getPrice() + "Euro (" + si.getQuantity() + " items)");
+            System.out.println(si.getId() + " " + si.getName() + " " + si.getPrice() + " Euro (" + si.getQuantity() + " units)");
         }
         if (stockItems.size() == 0) {
             System.out.println("\tNothing");
         }
         System.out.println("-------------------------");
+    }
+
+    private void removeStock(long id, long amount){
+        dao.removeStockItem(id, amount);
+        showStock();
+    }
+
+    private void addStock(long id, long amount){
+        dao.addStockItem(id, amount);
+        showStock();
+    }
+
+    private void editStockID(long id, long newId){
+        dao.editItemId(id, newId);
+        showStock();
+    }
+
+    private void editStockName(long id, String name){
+        dao.editItemName(id, name);
+        showStock();
+    }
+
+    private void editStockPrice(long id, long price){
+        dao.editItemPrice(id, price);
+        showStock();
+    }
+
+    private void editStockAmount(long id, long amount){
+        dao.editItemAmount(id, amount);
+        showStock();
     }
 
     private void showCart() {
@@ -72,6 +102,7 @@ public class ConsoleUI {
         }
         System.out.println("-------------------------");
     }
+
     private void showTeam() throws IOException {
         System.out.println("-------------------------");
         String dir = System.getProperty("user.dir");
@@ -92,16 +123,28 @@ public class ConsoleUI {
     }
 
     private void printUsage() {
-        System.out.println("-------------------------");
-        System.out.println("Usage:");
-        System.out.println("h\t\tShow this help");
-        System.out.println("w\t\tShow warehouse contents");
-        System.out.println("c\t\tShow cart contents");
-        System.out.println("t\t\tShow team contents");
-        System.out.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
-        System.out.println("p\t\tPurchase the shopping cart");
-        System.out.println("r\t\tReset the shopping cart");
-        System.out.println("-------------------------");
+        System.out.println("\n----------------------HELP-----------------------");
+        System.out.println("h\t\t\tShow the help menu");
+        System.out.println("clr\t\t\tClear the screen");
+        System.out.println("t\t\t\tShow team contents");
+
+        System.out.println("\n--------------------WAREHOUSE--------------------");
+        System.out.println("w\t\t\t\tShow warehouse contents");
+        System.out.println("wr <ID> <AMOUNT>\tRemove AMOUNT of item with this specific ID");
+        System.out.println("wa <ID> <AMOUNT>\tAdd AMOUNT of item with this specific ID");
+        System.out.println();
+        System.out.println("To edit the specifics of a single warehouse item, use the command");
+        System.out.println("\twe <property> <ID> <Parameter>");
+        System.out.println("\tSuitable property values\t(name,id,price,amount)");
+        System.out.println("\tParameter value must suit the property that is being changed");
+        System.out.println("\tEXAMPLE : we name 1 Estrella - Changes the name of item with id 1 to Estrella");
+
+        System.out.println("\n----------------------CART-----------------------");
+        System.out.println("c\t\t\t\tShow cart contents");
+        System.out.println("a <ID> <AMOUNT>\tAdd AMOUNT of stock item with index ID to the cart");
+        System.out.println("p\t\t\t\tPurchase the shopping cart");
+        System.out.println("r\t\t\t\tReset the shopping cart");
+        System.out.println("--------------------------------------------------");
     }
 
     private void processCommand(String command) throws IOException {
@@ -115,12 +158,32 @@ public class ConsoleUI {
             showTeam();
         else if (c[0].equals("w"))
             showStock();
+        else if (c[0].equals("wr"))
+            removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2])); // TODO implement safety net
+        else if (c[0].equals("wa"))
+            addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
+        else if (c[0].equals("we")){
+            if (c[1].equals("id"))
+                editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else if (c[1].equals("name"))
+                editStockName(Integer.parseInt(c[2]), c[3]); // TODO implement safety net
+            else if (c[1].equals("price"))
+                editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else if (c[1].equals("amount"))
+                editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else
+                System.out.println("Invalid command");
+        }
         else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p"))
             cart.submitCurrentPurchase();
         else if (c[0].equals("r"))
             cart.cancelCurrentPurchase();
+        else if (c[0].equals("clr") || c[0].equals("clear")) {
+            System.out.println(System.lineSeparator().repeat(50));
+            System.out.println("Type h for help");
+        }
         else if (c[0].equals("a") && c.length == 3) {
             try {
                 long idx = Long.parseLong(c[1]);

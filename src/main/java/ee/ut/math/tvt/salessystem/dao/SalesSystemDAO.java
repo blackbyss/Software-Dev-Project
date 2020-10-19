@@ -34,6 +34,15 @@ public interface SalesSystemDAO {
 
     void saveStockItem(StockItem stockItem);
 
+    void removeStockItem(long id, long amount);
+
+    void addStockItem(long id, long amount);
+
+    void editItemId(long id, long newId);
+    void editItemPrice(long id, long price);
+    void editItemName(long id, String name);
+    void editItemAmount(long id, long amount);
+
     void saveSoldItem(SoldItem item);
 
     void beginTransaction();
