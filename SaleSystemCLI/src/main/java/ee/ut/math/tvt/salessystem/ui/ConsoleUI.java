@@ -92,6 +92,16 @@ public class ConsoleUI {
         showStock();
     }
 
+    private void addNewStock(long id, String name, String description, long price, long quantity){
+        dao.addNewStockItem(id, name, description, price, quantity);
+        showStock();
+    }
+
+    private void deleteStock(long id){
+        dao.deleteStockitem(id);
+        showStock();
+    }
+
     private void showCart() {
         System.out.println("-------------------------");
         for (SoldItem si : cart.getAll()) {
@@ -132,6 +142,12 @@ public class ConsoleUI {
         System.out.println("w\t\t\t\tShow warehouse contents");
         System.out.println("wr <ID> <AMOUNT>\tRemove AMOUNT of item with this specific ID");
         System.out.println("wa <ID> <AMOUNT>\tAdd AMOUNT of item with this specific ID");
+        System.out.println();
+        System.out.println("To add a new item to the warehouse");
+        System.out.println("\twni <ID> <Name> <Description> <Price> <Amount>");
+        System.out.println();
+        System.out.println("To DELETE and item from the warehouse");
+        System.out.println("\twri <ID>");
         System.out.println();
         System.out.println("To edit the specifics of a single warehouse item, use the command");
         System.out.println("\twe <property> <ID> <Parameter>");
@@ -174,6 +190,10 @@ public class ConsoleUI {
             else
                 System.out.println("Invalid command");
         }
+        else if (c[0].equals("wni"))
+            addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+        else if (c[0].equals("wri"))
+            deleteStock(Integer.parseInt(c[1]));
         else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p"))
