@@ -74,7 +74,9 @@ public class ConsoleUI {
     }
     private void showTeam() throws IOException {
         System.out.println("-------------------------");
-        try (InputStream input = new FileInputStream("src/main/resources/application.properties")) {
+        String dir = System.getProperty("user.dir");
+        dir = dir.replace("SaleSystemCLI", "src/main/resources/application.properties");
+        try (InputStream input = new FileInputStream(dir)) {
             Properties prop = new Properties();
             prop.load(input);
 
