@@ -2,6 +2,8 @@ package ee.ut.math.tvt.salessystem.ui.controllers;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +22,7 @@ import java.util.ResourceBundle;
 public class StockController implements Initializable {
 
     private final SalesSystemDAO dao;
+
 
     @FXML
     private TextField insertBar;
@@ -47,49 +52,63 @@ public class StockController implements Initializable {
     private Button confirmButton;
 
     @FXML
-    private Button removeButton;
-
+    private Button removeItem;
 
     public StockController(SalesSystemDAO dao) {
 
         this.dao = dao;
-
     }
 
+
+    //Window states
+
+    private void defaultWindow() {
+        confirmButton.setDisable(true);
+        insertBar.setDisable(true);
+        refreshStockItems();
+        autoID();
+        insertPrice.setText("");
+        insertName.setText("");
+        insertAmount.setText("");
+    }
+
+    //Window states end
+
+
+    //TODO- Edit nupu loogika
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        confirmButton.setDisable(true);
-        refreshStockItems();                                   //Kuvab algse lao seisu
-        addItem.setOnAction(new EventHandler<ActionEvent>() {  //Toote lisamine lattu
-            @Override
-            public void handle(ActionEvent event) {             //Vajutades "Add Product" nupule
-                if (valideeriSisend()) {
-                    if (dao.findStockItem(Long.parseLong(insertBar.getText())) != null) { //Kui toode eksisteerib eelnevalt laos
-                        dao.findStockItem(Long.parseLong(insertBar.getText())).setQuantity(dao.findStockItem(Long.parseLong(insertBar.getText())).getQuantity() + Integer.parseInt(insertAmount.getText()));
-                    } else {                                                              //Kui toode ei eksisteeri
-                        addStockItem(Long.parseLong(insertBar.getText()), Integer.parseInt(insertAmount.getText())
-                                , String.valueOf(insertName.getText()), Double.parseDouble(insertPrice.getText()));
-                    }
-                }
-                refreshStockItems();                          //Tagastab uuendatud või uue tootega lao seisu
+
+
+        //Algne kuvand
+        defaultWindow();
+
+
+        //Väljade kontroll, mis aktiveerib "Add product" nupu
+        BooleanBinding controlAddItem = insertBar.textProperty().isEmpty().or(insertName.textProperty().isEmpty())
+                .or(insertAmount.textProperty().isEmpty()).or(insertPrice.textProperty().isEmpty());
+        addItem.disableProperty().bind(controlAddItem);
+
+
+        //Valiku kontroll, mis aktiveerib "Remove" nupu
+        removeItem.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
+
+
+        //Rea valimine ja rea tühistamine
+        warehouseTableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                StockItem current = warehouseTableView.getSelectionModel().getSelectedItem();
+            } else if (event.getButton().equals(MouseButton.SECONDARY)) {
+                warehouseTableView.getSelectionModel().clearSelection();
             }
         });
-        refreshButton.setOnAction(new EventHandler<ActionEvent>() {  //Lao seisu värskendamine(Praegu pole erilist kasu, sest uuendatakse automaatselt)
-            @Override
-            public void handle(ActionEvent event) {
-                refreshButtonClicked();
-            }
-        });
-        removeButton.setOnAction(e -> {                     //Hiire vajutusega valitud toote eemaldamine
-            StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
-            warehouseTableView.getItems().remove(valitud);
-        });
+
 
         editButton.setOnAction(e -> {
 
             confirmButton.setDisable(false);
             addItem.setDisable(true);
-            removeButton.setDisable(true);
+            removeItem.setDisable(true);
             refreshButton.setDisable(true);
 
             StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
@@ -107,7 +126,7 @@ public class StockController implements Initializable {
             confirmButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    if(valideeriMuutus()){
+                    if (valideeriMuutus()) {
                         if (dao.findStockItem(Long.parseLong(insertBar.getText())) != null) { //Kui toode eksisteerib eelnevalt laos
                             dao.findStockItem(Long.parseLong(insertBar.getText())).setQuantity(dao.findStockItem(Long.parseLong(insertBar.getText())).getQuantity() + Integer.parseInt(insertAmount.getText()));
                         } else {
@@ -117,7 +136,7 @@ public class StockController implements Initializable {
                         dao.editItemName(id, String.valueOf(insertName.getText()));
                         dao.editItemPrice(id, Long.parseLong(insertPrice.getText()));
                         addItem.setDisable(false);
-                        removeButton.setDisable(false);
+                        removeItem.setDisable(false);
                         refreshButton.setDisable(false);
                         refreshStockItems();
                     }
@@ -128,21 +147,50 @@ public class StockController implements Initializable {
     }
 
     @FXML
-    public void refreshButtonClicked() {
+    void addItemClicked(MouseEvent event) {
+        if (valideeriSisend()) {            //Kui toode ei eksisteeri
+            addStockItem(Long.parseLong(insertBar.getText()), Integer.parseInt(insertAmount.getText())
+                    , String.valueOf(insertName.getText()), Double.parseDouble(insertPrice.getText()));
+            defaultWindow();
+        }
+        refreshStockItems();                //Tagastab uuendatud või uue tootega lao seisu
+    }
 
+    @FXML
+    void removeItemClicked(MouseEvent event) {
+        StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
+        warehouseTableView.getItems().remove(valitud);
+        warehouseTableView.getSelectionModel().clearSelection();
+        refreshStockItems();
+        autoID();
+    }
+
+    @FXML
+    public void refreshButtonClicked() {
+        warehouseTableView.getSelectionModel().clearSelection();
         refreshStockItems();
         System.out.println("Värskendab");  //Kontroll konsoolile, et veenduda nupu töötamises
-
     }
+
+    void autoID() {
+        long biggestID = 1L;
+        while (true) {
+            if (dao.findStockItem(biggestID) == null) {  //Sellist ID ei ole
+                break;
+            } else {
+                biggestID += 1L;
+            }
+        }
+        insertBar.setText(String.valueOf(biggestID));
+    }
+
 
     /**
      * Värskendab lao seisu
      */
     private void refreshStockItems() {
-
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
-
     }
 
     /**
@@ -152,10 +200,8 @@ public class StockController implements Initializable {
      * @param price  Lisatava toote hind
      */
     private void addStockItem(Long id, int amount, String name, double price) {
-
         StockItem stockItem = new StockItem(id, name, "", price, amount);
         dao.saveStockItem(stockItem);
-
     }
 
     /**
@@ -164,38 +210,24 @@ public class StockController implements Initializable {
      */
 
 
+    //TODO-Kui kogus ei ole int ja kui hind ei ole double.
     private boolean valideeriSisend() {
 
         StringBuilder errors = new StringBuilder();
 
-
-        if (insertBar.getText().trim().isEmpty()) {
-            errors.append("- Please enter ID of the product you wish to add.\n");
+        if(Integer.parseInt(insertAmount.getText()) <= 0 || Integer.parseInt(insertAmount.getText()) > 100){
+            errors.append("- Please enter valid amount.(0-100)\n");
         }
-        if (insertAmount.getText().trim().isEmpty() || Integer.parseInt(insertAmount.getText()) <= 0) {
-            if (insertAmount.getText().trim().isEmpty()) {
-                errors.append("- Please enter the amount you wish to add.\n");
-            } else {
-                errors.append("- Please enter valid amount.\n");
-            }
+        if(Double.parseDouble(insertPrice.getText()) < 0){
+            errors.append("- Please enter valid price.(0...)\n");
         }
-        if (insertName.getText().trim().isEmpty()) {
-            errors.append("- Please enter the name of product.\n");
+        if(dao.findStockItem(insertName.getText()) != null){
+            errors.append("- Please enter unused product name.\n");
         }
-        if (insertPrice.getText().trim().isEmpty() || Integer.parseInt(insertPrice.getText()) < 0) {
-            if(insertPrice.getText().trim().isEmpty()){
-                errors.append("- Please enter the product price.\n");
-            } else {
-                errors.append("- Please enter valid product price\n");
-            }
-
-        }
-
-
         if (errors.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning");
-            alert.setHeaderText("Required Fields Empty");
+            alert.setHeaderText("Insert valid information");
             alert.setContentText(errors.toString());
 
             alert.showAndWait();

@@ -109,6 +109,15 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public StockItem findStockItem(String name){
+        for (StockItem item : stockItemList){
+            if(item.getName().toLowerCase().equals(name.toLowerCase()))
+                return item;
+        }
+        return null;
+    }
+
+    @Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);
     }
