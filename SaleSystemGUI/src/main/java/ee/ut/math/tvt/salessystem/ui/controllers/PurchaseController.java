@@ -34,20 +34,28 @@ public class PurchaseController implements Initializable {
 
     @FXML
     private Button newPurchase;
+
     @FXML
     private Button submitPurchase;
+
     @FXML
     private Button cancelPurchase;
+
     @FXML
     private TextField barCodeField;
+
     @FXML
     private TextField quantityField;
+
     @FXML
     private TextField nameField;
+
     @FXML
     private TextField priceField;
+
     @FXML
     private Button addItemButton;
+
     @FXML
     private TableView<SoldItem> purchaseTableView;
 
