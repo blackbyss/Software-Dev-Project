@@ -15,14 +15,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StockController implements Initializable {
 
-    private final SalesSystemDAO dao;
+    private static final Logger log = LogManager.getLogger(StockController.class);
 
+    private final SalesSystemDAO dao;
 
     @FXML
     private TextField insertBar;
@@ -159,6 +162,7 @@ public class StockController implements Initializable {
     @FXML
     void removeItemClicked(MouseEvent event) {
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
+        log.debug("StockItem to remove: "+ valitud.toString());
         warehouseTableView.getItems().remove(valitud);
         warehouseTableView.getSelectionModel().clearSelection();
         refreshStockItems();
@@ -169,7 +173,7 @@ public class StockController implements Initializable {
     public void refreshButtonClicked() {
         warehouseTableView.getSelectionModel().clearSelection();
         refreshStockItems();
-        System.out.println("Värskendab");  //Kontroll konsoolile, et veenduda nupu töötamises
+        log.info("Refreshing");  //Kontroll konsoolile, et veenduda nupu töötamises
     }
 
     void autoID() {
@@ -201,6 +205,7 @@ public class StockController implements Initializable {
      */
     private void addStockItem(Long id, int amount, String name, double price) {
         StockItem stockItem = new StockItem(id, name, "", price, amount);
+        log.debug("new Item added to stock: "+stockItem.toString());
         dao.saveStockItem(stockItem);
     }
 
