@@ -236,7 +236,7 @@ public class ConsoleUI {
                 int amount = Integer.parseInt(c[2]);
                 StockItem item = dao.findStockItem(idx);
                 if (item != null) {
-                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity())));
+                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
                 } else {
                     log.error("no stock item with id "+ idx);
                 }
