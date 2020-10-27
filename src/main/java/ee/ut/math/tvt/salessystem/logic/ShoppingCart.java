@@ -15,17 +15,40 @@ public class ShoppingCart {
         this.dao = dao;
     }
 
+
     /**
      * Add new SoldItem to table.
      */
-    public void addItem(SoldItem item) {
-        // TODO In case such stockItem already exists increase the quantity of the existing stock
-        // TODO verify that warehouse items' quantity remains at least zero or throw an exception
+    public boolean addItem(SoldItem item) {
 
-        items.add(item);
+        //Add/verify products
+        if (item.getQuantity() > item.getStockItem().getQuantity()) {
+            return false;
+        } else {
+            boolean unused = true;
+            for (SoldItem soldItem : items) {
+                if (soldItem.getStockItem().getId().equals(item.getStockItem().getId())) {
+                    if (soldItem.getQuantity() + item.getQuantity() > dao.findStockItem(soldItem.getStockItem().getId()).getQuantity()) {
+                        return false;
+                    } else {
+                        soldItem.setQuantity(soldItem.getQuantity() + item.getQuantity());
+                        soldItem.setSum(soldItem.getSum() + item.getQuantity() * item.getPrice());
+                    }
+                    unused = false;
+                    break;
+                }
+            }
+            if (unused) {
+                items.add(item);
+            }
+            return true;
+        }
+
+
         //log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
     }
-    public void removeItem(SoldItem item){
+
+    public void removeItem(SoldItem item) {
         items.remove((item));
     }
 
@@ -38,7 +61,12 @@ public class ShoppingCart {
     }
 
     public void submitCurrentPurchase() {
-        // TODO decrease quantities of the warehouse stock
+        for (SoldItem soldItem: items){
+            soldItem.getStockItem().setQuantity(soldItem.getStockItem().getQuantity() - soldItem.getQuantity());
+            if(soldItem.getStockItem().getQuantity() == 0){
+                dao.deleteStockitem(soldItem.getId());
+            }
+        }
         // note the use of transactions. InMemorySalesSystemDAO ignores transactions
         // but when you start using hibernate in lab5, then it will become relevant.
         // what is a transaction? https://stackoverflow.com/q/974596

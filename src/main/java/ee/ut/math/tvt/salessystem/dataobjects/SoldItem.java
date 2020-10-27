@@ -11,15 +11,26 @@ public class SoldItem {
     private String name;
     private Integer quantity;
     private double price;
+    private double sum;
 
     public SoldItem() {
     }
 
-    public SoldItem(StockItem stockItem, int quantity) {
+    public SoldItem(StockItem stockItem, int quantity, double sum) {
+        this.id = stockItem.getId();
         this.stockItem = stockItem;
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
+        this.sum = sum;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
     }
 
     public Long getId() {
@@ -54,9 +65,6 @@ public class SoldItem {
         this.quantity = quantity;
     }
 
-    public double getSum() {
-        return price * ((double) quantity);
-    }
 
     public StockItem getStockItem() {
         return stockItem;

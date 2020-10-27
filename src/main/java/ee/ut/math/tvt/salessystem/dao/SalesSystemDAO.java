@@ -34,6 +34,8 @@ public interface SalesSystemDAO {
 
     StockItem findStockItem(String name);
 
+    SoldItem findSoldItem(long id);
+
     void saveStockItem(StockItem stockItem);
 
     void removeStockItem(long id, long amount);
@@ -41,10 +43,15 @@ public interface SalesSystemDAO {
     void addStockItem(long id, long amount);
 
     void editItemId(long id, long newId);
+
     void editItemPrice(long id, long price);
+
     void editItemName(long id, String name);
+
     void editItemAmount(long id, long amount);
+
     void addNewStockItem(long id, String name, String description, long price, long quantity);
+
     void deleteStockitem(long id);
 
     void saveSoldItem(SoldItem item);

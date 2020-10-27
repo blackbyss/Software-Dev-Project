@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
+import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
 import ee.ut.math.tvt.salessystem.ui.controllers.StockController;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -20,11 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import validators.StockAddValidator;
+import validators.StockEditValidator;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * Graphical user interface of the sales system.
@@ -35,10 +35,16 @@ public class SalesSystemUI extends Application {
 
     private final SalesSystemDAO dao;
     private final ShoppingCart shoppingCart;
+    private final Warehouse warehouse;
+    private final StockAddValidator addValidator;
+    private final StockEditValidator editValidator;
 
     public SalesSystemUI() {
         dao = new InMemorySalesSystemDAO();
         shoppingCart = new ShoppingCart(dao);
+        warehouse = new Warehouse(dao);
+        addValidator = new StockAddValidator((InMemorySalesSystemDAO) dao);
+        editValidator= new StockEditValidator((InMemorySalesSystemDAO) dao);
     }
 
     @Override
@@ -53,7 +59,7 @@ public class SalesSystemUI extends Application {
         Tab stockTab = new Tab();
         stockTab.setText("Warehouse");
         stockTab.setClosable(false);
-        stockTab.setContent(loadControls("StockTab.fxml", new StockController(dao)));
+        stockTab.setContent(loadControls("StockTab.fxml", new StockController(dao, addValidator, editValidator)));
 
         Tab historyTab = new Tab();
         historyTab.setText("History");
