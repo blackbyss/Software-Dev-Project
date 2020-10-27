@@ -13,7 +13,7 @@
 https://bitbucket.org/allark/lab3-kolmtarkvara/commits/36e9a4b760ce0ff799f1b4a01e207ed8a163dd44
 
 ## Homework 4:
-<Links to the solution>
+https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%204
 
 ## Homework 5:
 <Links to the solution>
