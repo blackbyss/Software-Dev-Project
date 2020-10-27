@@ -5,8 +5,12 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 
 import java.util.ArrayList;
 import java.util.List;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 public class ShoppingCart {
+    // TODO create logger (currently throws errors)
+    // private static final Logger log = LogManager.getLogger(ShoppingCart.class);
 
     private final SalesSystemDAO dao;
     private final List<SoldItem> items = new ArrayList<>();

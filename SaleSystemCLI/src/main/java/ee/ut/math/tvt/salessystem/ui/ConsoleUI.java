@@ -41,12 +41,13 @@ public class ConsoleUI {
         System.out.println("===========================");
         System.out.println("=       Sales System      =");
         System.out.println("===========================");
+        log.info("Sales System started");
         printUsage();
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             System.out.print("> ");
             processCommand(in.readLine().trim().toLowerCase());
-            System.out.println("Done. ");
+            log.info("Sales System finished work");
         }
     }
 
@@ -64,41 +65,49 @@ public class ConsoleUI {
 
     private void removeStock(long id, long amount){
         dao.removeStockItem(id, amount);
+        log.debug("StockItem removed: "+id +" "+ amount);
         showStock();
     }
 
     private void addStock(long id, long amount){
         dao.addStockItem(id, amount);
+        log.debug("StockItem added: "+id +" "+ amount);
         showStock();
     }
 
     private void editStockID(long id, long newId){
         dao.editItemId(id, newId);
+        log.debug("StockItem ID edited: "+id +" "+newId);
         showStock();
     }
 
     private void editStockName(long id, String name){
         dao.editItemName(id, name);
+        log.debug("StockItem name edited: "+id +" "+name);
         showStock();
     }
 
     private void editStockPrice(long id, long price){
         dao.editItemPrice(id, price);
+        log.debug("StockItem price edited: "+id +" "+price);
         showStock();
     }
 
     private void editStockAmount(long id, long amount){
         dao.editItemAmount(id, amount);
+        log.debug("StockItem amount edited: "+id +" "+amount);
         showStock();
     }
 
     private void addNewStock(long id, String name, String description, long price, long quantity){
         dao.addNewStockItem(id, name, description, price, quantity);
+        log.debug("New stockItem added: "+id +" "+name+" "+description+" "+price+" "+quantity);
         showStock();
     }
 
     private void deleteStock(long id){
         dao.deleteStockitem(id);
+        log.debug("New stockItem deleted: "+id);
         showStock();
     }
 
@@ -117,6 +126,7 @@ public class ConsoleUI {
         System.out.println("-------------------------");
         String dir = System.getProperty("user.dir");
         dir = dir.replace("SaleSystemCLI", "src/main/resources/application.properties");
+        log.debug("application.properties location: "+dir);
         try (InputStream input = new FileInputStream(dir)) {
             Properties prop = new Properties();
             prop.load(input);
@@ -125,9 +135,11 @@ public class ConsoleUI {
             System.out.println("Team leader: "+prop.getProperty("teamLeader"));
             System.out.println("Team leader email: "+prop.getProperty("teamLeaderEmail"));
             System.out.println("Team members: "+prop.getProperty("teamMembers"));
+            log.debug("Team info: "+prop.getProperty("teamName")+prop.getProperty("teamLeader")+
+                    prop.getProperty("teamLeaderEmail")+prop.getProperty("teamMembers"));
         }
         catch (IOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
         System.out.println("-------------------------");
     }
@@ -166,14 +178,22 @@ public class ConsoleUI {
     private void processCommand(String command) throws IOException {
         String[] c = command.split(" ");
 
-        if (c[0].equals("h"))
+        if (c[0].equals("h")) {
+            log.info("Showing help");
             printUsage();
-        else if (c[0].equals("q"))
+        }
+        else if (c[0].equals("q")) {
+            log.info("Quitting application");
             System.exit(0);
-        else if (c[0].equals("t"))
+        }
+        else if (c[0].equals("t")) {
+            log.info("Showing Team info");
             showTeam();
-        else if (c[0].equals("w"))
+        }
+        else if (c[0].equals("w")) {
+            log.info("Showing Stock info");
             showStock();
+        }
         else if (c[0].equals("wr"))
             removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2])); // TODO implement safety net
         else if (c[0].equals("wa"))
@@ -187,8 +207,10 @@ public class ConsoleUI {
                 editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
             else if (c[1].equals("amount"))
                 editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else
-                System.out.println("Invalid command");
+            else {
+                log.error("Invalid command");
+            }
+
         }
         else if (c[0].equals("wni"))
             addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
@@ -196,10 +218,14 @@ public class ConsoleUI {
             deleteStock(Integer.parseInt(c[1]));
         else if (c[0].equals("c"))
             showCart();
-        else if (c[0].equals("p"))
+        else if (c[0].equals("p")) {
             cart.submitCurrentPurchase();
-        else if (c[0].equals("r"))
+            log.info("Current purhcase submitted"); // TODO: put into shoppincart class
+        }
+        else if (c[0].equals("r")) {
             cart.cancelCurrentPurchase();
+            log.info("Current purhcase canceled"); // TODO: put into shoppincart class
+        }
         else if (c[0].equals("clr") || c[0].equals("clear")) {
             System.out.println(System.lineSeparator().repeat(50));
             System.out.println("Type h for help");
@@ -212,13 +238,13 @@ public class ConsoleUI {
                 if (item != null) {
                     cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity())));
                 } else {
-                    System.out.println("no stock item with id " + idx);
+                    log.error("no stock item with id "+ idx);
                 }
             } catch (SalesSystemException | NoSuchElementException e) {
                 log.error(e.getMessage(), e);
             }
         } else {
-            System.out.println("unknown command");
+            log.error("unknown command");
         }
     }
 
