@@ -173,7 +173,7 @@ public class PurchaseController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Insert valid information");
-                alert.setContentText("Max quantity exceeded. Available:  " + stockItem.getQuantity());
+                alert.setContentText("Max quantity exceeded. Max:  " + stockItem.getQuantity());
 
                 alert.showAndWait();
             }

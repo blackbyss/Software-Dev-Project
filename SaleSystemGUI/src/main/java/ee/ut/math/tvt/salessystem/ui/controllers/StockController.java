@@ -27,7 +27,6 @@ public class StockController implements Initializable {
     private final StockEditValidator editValidator;
     private static final Logger log = LogManager.getLogger(StockController.class);
 
-    private final SalesSystemDAO dao;
 
     @FXML
     private TextField insertBar;
@@ -156,76 +155,6 @@ public class StockController implements Initializable {
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
-    }
-
-    /**
-     * @param id     Lisatava toote ID
-     * @param amount Lisatava toote kogus
-     * @param name   Lisatava toote nimetus
-     * @param price  Lisatava toote hind
-     */
-    private void addStockItem(Long id, int amount, String name, double price) {
-        StockItem stockItem = new StockItem(id, name, "", price, amount);
-        log.debug("new Item added to stock: "+stockItem.toString());
-        dao.saveStockItem(stockItem);
-    }
-
-    /**
-     * Juhul kui eelenvalt on laos identse toote ID-ga toode, siis TextField täitmine on automaatne
-     * Saab muuta kogust
-     */
-
-
-    //TODO-Kui kogus ei ole int ja kui hind ei ole double.
-    private boolean valideeriSisend() {
-
-        StringBuilder errors = new StringBuilder();
-
-        if(Integer.parseInt(insertAmount.getText()) <= 0 || Integer.parseInt(insertAmount.getText()) > 100){
-            errors.append("- Please enter valid amount.(0-100)\n");
-        }
-        if(Double.parseDouble(insertPrice.getText()) < 0){
-            errors.append("- Please enter valid price.(0...)\n");
-        }
-        if(dao.findStockItem(insertName.getText()) != null){
-            errors.append("- Please enter unused product name.\n");
-        }
-        if (errors.length() > 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Insert valid information");
-            alert.setContentText(errors.toString());
-
-            alert.showAndWait();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean valideeriMuutus() {
-        StringBuilder errors = new StringBuilder();
-
-
-        if (Integer.parseInt(insertAmount.getText()) <= 0) {
-
-            errors.append("- Please enter valid amount.\n");
-        }
-        if (Integer.parseInt(insertPrice.getText()) < 0) {
-            errors.append("- Please enter valid price.\n");
-        }
-
-        if (errors.length() > 0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Required Fields Empty");
-            alert.setContentText(errors.toString());
-
-            alert.showAndWait();
-            return false;
-        }
-
-        return true;
     }
 }
 
