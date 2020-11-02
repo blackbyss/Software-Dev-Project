@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui;
 import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
@@ -138,8 +139,23 @@ public class ConsoleUI {
             log.debug("Team info: "+prop.getProperty("teamName")+prop.getProperty("teamLeader")+
                     prop.getProperty("teamLeaderEmail")+prop.getProperty("teamMembers"));
         }
+        
         catch (IOException ex) {
             log.error(ex.getMessage(), ex);
+        }
+        System.out.println("-------------------------");
+    }
+    
+    private void showHistory() {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (HistoryItem item : historyItems) {
+                System.out.println("Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            }
         }
         System.out.println("-------------------------");
     }
@@ -149,6 +165,7 @@ public class ConsoleUI {
         System.out.println("h\t\t\tShow the help menu");
         System.out.println("clr\t\t\tClear the screen");
         System.out.println("t\t\t\tShow team contents");
+        System.out.println("his\t\t\tShow history contents");
 
         System.out.println("\n--------------------WAREHOUSE--------------------");
         System.out.println("w\t\t\t\tShow warehouse contents");
@@ -189,6 +206,10 @@ public class ConsoleUI {
         else if (c[0].equals("t")) {
             log.info("Showing Team info");
             showTeam();
+        }
+        else if (c[0].equals("his")) {
+            log.info("Showing history info");
+            showHistory();
         }
         else if (c[0].equals("w")) {
             log.info("Showing Stock info");
@@ -234,7 +255,9 @@ public class ConsoleUI {
                 int amount = Integer.parseInt(c[2]);
                 StockItem item = dao.findStockItem(idx);
                 if (item != null) {
+                    //TODO: fixida mis iganes siin peaks olema kui siin valesti
                     //cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
+                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity()), item.getPrice() * item.getQuantity()));
                 } else {
                     log.error("no stock item with id "+ idx);
                 }
