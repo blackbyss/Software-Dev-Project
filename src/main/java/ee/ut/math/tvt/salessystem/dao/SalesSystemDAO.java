@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.dao;
 
+import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
@@ -30,6 +31,8 @@ public interface SalesSystemDAO {
 
     List<StockItem> findStockItems();
 
+    List<HistoryItem> findHistoryItems();
+
     StockItem findStockItem(long id);
 
     StockItem findStockItem(String name);
@@ -55,6 +58,8 @@ public interface SalesSystemDAO {
     void deleteStockitem(long id);
 
     void saveSoldItem(SoldItem item);
+
+    void saveHistoryItem(HistoryItem item);
 
     void beginTransaction();
 

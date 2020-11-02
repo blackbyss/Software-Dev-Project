@@ -220,11 +220,9 @@ public class ConsoleUI {
             showCart();
         else if (c[0].equals("p")) {
             cart.submitCurrentPurchase();
-            log.info("Current purhcase submitted"); // TODO: put into shoppincart class
         }
         else if (c[0].equals("r")) {
             cart.cancelCurrentPurchase();
-            log.info("Current purhcase canceled"); // TODO: put into shoppincart class
         }
         else if (c[0].equals("clr") || c[0].equals("clear")) {
             System.out.println(System.lineSeparator().repeat(50));
@@ -236,7 +234,7 @@ public class ConsoleUI {
                 int amount = Integer.parseInt(c[2]);
                 StockItem item = dao.findStockItem(idx);
                 if (item != null) {
-                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
+                    //cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
                 } else {
                     log.error("no stock item with id "+ idx);
                 }

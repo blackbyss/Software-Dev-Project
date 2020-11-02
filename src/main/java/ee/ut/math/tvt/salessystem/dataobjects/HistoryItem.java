@@ -1,63 +1,50 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryItem {
 
-    private Date date;
-    private Time time;
-    private Long total;
-    private List<SoldItem> purchase;
-
-    public HistoryItem() {
-    }
+    private final LocalDate date;
+    private final String time;
+    private final Double total;
+    private final List<SoldItem> purchase = new ArrayList<>();
 
     public HistoryItem(List<SoldItem> purchase) {
-        this.purchase = purchase;
+        this.date = LocalDate.now();
+        this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:00.000"));
+        this.purchase.addAll(purchase);
+        this.total = sum(purchase);
     }
 
-    public Date getDate() {
-        return date;
+    private static Double sum(List<SoldItem> items) {
+        double sum = 0;
+        for (SoldItem item : items)
+            sum += item.getPrice() * item.getQuantity();
+        return sum;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public Long getTotal() {
-        return total;
-    }
-
-    public void setTotal(Long total) {
-        this.total = total;
-    }
-
-    public List<SoldItem> getPurchase() {
+    public List<SoldItem> getItems() {
         return purchase;
     }
 
-    public void setPurchase(List<SoldItem> purchase) {
-        this.purchase = purchase;
+    public LocalDate getDate() {
+        return date;
     }
 
-    @Override
-    public String toString() {
-        return "HistoryItem{" +
-                "date=" + date +
-                ", time=" + time +
-                ", total=" + total +
-                ", purchase=" + purchase +
-                '}';
+    public String getTime() {
+        return time;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public String toString(){
+        return time + " cart contents: " + purchase.toString();
     }
 
 }
