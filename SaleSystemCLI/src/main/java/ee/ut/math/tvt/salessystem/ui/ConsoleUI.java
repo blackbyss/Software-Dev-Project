@@ -6,11 +6,14 @@ import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -146,15 +149,67 @@ public class ConsoleUI {
         System.out.println("-------------------------");
     }
     
-    private void showHistory() {
+    private void showHistoryAll() {
         List<HistoryItem> historyItems = dao.findHistoryItems();
         System.out.println("-------------------------");
         if (historyItems.size() == 0) {
             System.out.println("\tNothing");
         }
         else {
-            for (HistoryItem item : historyItems) {
-                System.out.println("Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            for (int i = 0; i < historyItems.size(); i++) {
+                HistoryItem item = historyItems.get(i);
+                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            }
+        }
+        System.out.println("-------------------------");
+    }
+    private void showHistoryTen() {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (int i = 0; i < 10; i++) {
+                HistoryItem item = historyItems.get(i);
+                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            }
+        }
+        System.out.println("-------------------------");
+    }
+    private void showHistoryDetail(int index){
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0 || historyItems.size() < index || index < 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            HistoryItem sale = historyItems.get(index);
+            List<SoldItem> items = sale.getItems();
+            for (SoldItem item: items) {
+                System.out.println("ID: "+item.getId()+" Name: "+ item.getName()+ " Price: "+item.getPrice()
+                +" Quantity: "+item.getQuantity()+" Sum: "+item.getSum());
+            }
+
+        }
+        System.out.println("-------------------------");
+    }
+
+    private void showHistoryBetweenDates(String string1, String string2) {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        LocalDate date1 = LocalDate.parse(string1);
+        LocalDate date2 = LocalDate.parse(string2);
+
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (int i = 0; i < historyItems.size(); i++) {
+                HistoryItem item = historyItems.get(i);
+                if(date1.isBefore(item.getDate()) && date2.isAfter(item.getDate())){
+                    System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+                }
             }
         }
         System.out.println("-------------------------");
@@ -165,7 +220,6 @@ public class ConsoleUI {
         System.out.println("h\t\t\tShow the help menu");
         System.out.println("clr\t\t\tClear the screen");
         System.out.println("t\t\t\tShow team contents");
-        System.out.println("his\t\t\tShow history contents");
 
         System.out.println("\n--------------------WAREHOUSE--------------------");
         System.out.println("w\t\t\t\tShow warehouse contents");
@@ -183,6 +237,13 @@ public class ConsoleUI {
         System.out.println("\tSuitable property values\t(name,id,price,amount)");
         System.out.println("\tParameter value must suit the property that is being changed");
         System.out.println("\tEXAMPLE : we name 1 Estrella - Changes the name of item with id 1 to Estrella");
+
+        System.out.println("\n----------------------HISTORY-----------------------");
+        System.out.println("ha\t\t\tShow all past sales");
+        System.out.println("ht\t\t\tShow last 10 sales");
+        System.out.println("hd <DATE> <DATE>\t\t\tShow last 10 sales");
+        System.out.println("hi <ID>\t\t\tShow sale id contents");
+        System.out.println("--------------------------------------------------");
 
         System.out.println("\n----------------------CART-----------------------");
         System.out.println("c\t\t\t\tShow cart contents");
@@ -207,9 +268,22 @@ public class ConsoleUI {
             log.info("Showing Team info");
             showTeam();
         }
-        else if (c[0].equals("his")) {
-            log.info("Showing history info");
-            showHistory();
+        else if (c[0].equals("ha")) {
+            log.info("Showing all history info");
+            showHistoryAll();
+        }
+        else if (c[0].equals("ht")) {
+            log.info("Showing last 10 history info");
+            showHistoryTen();
+        }
+        else if (c[0].equals("hi")) { // TODO implement safety net
+            int idx = Integer.parseInt(c[1]);
+            log.info("Showing details of sale: "+idx);
+            showHistoryDetail(idx);
+        }
+        else if (c[0].equals("hd")) { // TODO implement safety net
+            log.info("Showing history info between dates");
+            showHistoryBetweenDates(c[1], c[2]);
         }
         else if (c[0].equals("w")) {
             log.info("Showing Stock info");
