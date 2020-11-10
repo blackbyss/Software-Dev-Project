@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.logic;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;

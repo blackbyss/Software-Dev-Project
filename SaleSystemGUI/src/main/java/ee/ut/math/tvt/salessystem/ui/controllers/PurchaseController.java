@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import validators.PurchaseAddValidator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
