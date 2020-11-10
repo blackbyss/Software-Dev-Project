@@ -3,13 +3,17 @@ package ee.ut.math.tvt.salessystem.ui;
 import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -138,8 +142,75 @@ public class ConsoleUI {
             log.debug("Team info: "+prop.getProperty("teamName")+prop.getProperty("teamLeader")+
                     prop.getProperty("teamLeaderEmail")+prop.getProperty("teamMembers"));
         }
+        
         catch (IOException ex) {
             log.error(ex.getMessage(), ex);
+        }
+        System.out.println("-------------------------");
+    }
+    
+    private void showHistoryAll() {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (int i = 0; i < historyItems.size(); i++) {
+                HistoryItem item = historyItems.get(i);
+                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            }
+        }
+        System.out.println("-------------------------");
+    }
+    private void showHistoryTen() {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (int i = 0; i < 10; i++) {
+                HistoryItem item = historyItems.get(i);
+                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            }
+        }
+        System.out.println("-------------------------");
+    }
+    private void showHistoryDetail(int index){
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0 || historyItems.size() < index || index < 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            HistoryItem sale = historyItems.get(index);
+            List<SoldItem> items = sale.getItems();
+            for (SoldItem item: items) {
+                System.out.println("ID: "+item.getId()+" Name: "+ item.getName()+ " Price: "+item.getPrice()
+                +" Quantity: "+item.getQuantity()+" Sum: "+item.getSum());
+            }
+
+        }
+        System.out.println("-------------------------");
+    }
+
+    private void showHistoryBetweenDates(String string1, String string2) {
+        List<HistoryItem> historyItems = dao.findHistoryItems();
+        LocalDate date1 = LocalDate.parse(string1);
+        LocalDate date2 = LocalDate.parse(string2);
+
+        System.out.println("-------------------------");
+        if (historyItems.size() == 0) {
+            System.out.println("\tNothing");
+        }
+        else {
+            for (int i = 0; i < historyItems.size(); i++) {
+                HistoryItem item = historyItems.get(i);
+                if(date1.isBefore(item.getDate()) && date2.isAfter(item.getDate())){
+                    System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+                }
+            }
         }
         System.out.println("-------------------------");
     }
@@ -167,6 +238,13 @@ public class ConsoleUI {
         System.out.println("\tParameter value must suit the property that is being changed");
         System.out.println("\tEXAMPLE : we name 1 Estrella - Changes the name of item with id 1 to Estrella");
 
+        System.out.println("\n----------------------HISTORY-----------------------");
+        System.out.println("ha\t\t\tShow all past sales");
+        System.out.println("ht\t\t\tShow last 10 sales");
+        System.out.println("hd <DATE> <DATE>\t\t\tShow last 10 sales");
+        System.out.println("hi <ID>\t\t\tShow sale id contents");
+        System.out.println("--------------------------------------------------");
+
         System.out.println("\n----------------------CART-----------------------");
         System.out.println("c\t\t\t\tShow cart contents");
         System.out.println("a <ID> <AMOUNT>\tAdd AMOUNT of stock item with index ID to the cart");
@@ -181,62 +259,103 @@ public class ConsoleUI {
         if (c[0].equals("h")) {
             log.info("Showing help");
             printUsage();
-        }
-        else if (c[0].equals("q")) {
+        } else if (c[0].equals("q")) {
             log.info("Quitting application");
             System.exit(0);
-        }
-        else if (c[0].equals("t")) {
+        } else if (c[0].equals("t")) {
             log.info("Showing Team info");
             showTeam();
-        }
-        else if (c[0].equals("w")) {
+        } else if (c[0].equals("ha")) {
+            log.info("Showing all history info");
+            showHistoryAll();
+        } else if (c[0].equals("ht")) {
+            log.info("Showing last 10 history info");
+            showHistoryTen();
+        } else if (c[0].equals("hi")) { // TODO implement safety net
+            int idx = Integer.parseInt(c[1]);
+            log.info("Showing details of sale: "+idx);
+            showHistoryDetail(idx);
+        } else if (c[0].equals("hd")) { // TODO implement safety net
+            log.info("Showing history info between dates");
+            showHistoryBetweenDates(c[1], c[2]);
+        } else if (c[0].equals("w")) {
             log.info("Showing Stock info");
             showStock();
-        }
-        else if (c[0].equals("wr"))
-            removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2])); // TODO implement safety net
-        else if (c[0].equals("wa"))
-            addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
-        else if (c[0].equals("we")){
-            if (c[1].equals("id"))
-                editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else if (c[1].equals("name"))
-                editStockName(Integer.parseInt(c[2]), c[3]); // TODO implement safety net
-            else if (c[1].equals("price"))
-                editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else if (c[1].equals("amount"))
-                editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else {
+        } else if (c[0].equals("wr")){
+            if (c.length != 3) {
+                System.out.println("INVALID INPUT");
+                return;
+            } try {
+                removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
+            } catch (NumberFormatException ex){
+                System.out.println("Invalid number input!");
+            }
+        } else if (c[0].equals("wa")){
+            if (c.length != 3) {
+                System.out.println("INVALID INPUT");
+                return;
+            } try {
+                addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
+            } catch (NumberFormatException ex){
+                System.out.println("Invalid number input!");
+            }
+        } else if (c[0].equals("we")){
+            if (c.length != 4) {
+                System.out.println("INVALID INPUT");
+                return;
+            } try {
+                if (c[1].equals("id"))
+                    editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
+                else if (c[1].equals("name"))
+                    editStockName(Integer.parseInt(c[2]), c[3]);
+                else if (c[1].equals("price"))
+                    editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
+                else if (c[1].equals("amount"))
+                    editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
+                else {
+                    log.error("Invalid command");
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number input");
                 log.error("Invalid command");
             }
+        } else if (c[0].equals("wni")) {
+            if (c.length != 6){
+                System.out.println("INVALID INPUT");
+                return;
+            } try {
+                addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number input");
+            }
 
-        }
-        else if (c[0].equals("wni"))
-            addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
-        else if (c[0].equals("wri"))
-            deleteStock(Integer.parseInt(c[1]));
-        else if (c[0].equals("c"))
+        } else if (c[0].equals("wri")) {
+            if (c.length != 2){
+                System.out.println("INVALID INPUT");
+                return;
+            } try {
+                deleteStock(Integer.parseInt(c[1]));
+            } catch (NumberFormatException ex){
+                System.out.println("Invalid number input");
+            }
+        } else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p")) {
             cart.submitCurrentPurchase();
-            log.info("Current purhcase submitted"); // TODO: put into shoppincart class
-        }
-        else if (c[0].equals("r")) {
+        } else if (c[0].equals("r")) {
             cart.cancelCurrentPurchase();
-            log.info("Current purhcase canceled"); // TODO: put into shoppincart class
-        }
-        else if (c[0].equals("clr") || c[0].equals("clear")) {
+        } else if (c[0].equals("clr") || c[0].equals("clear")) {
             System.out.println(System.lineSeparator().repeat(50));
             System.out.println("Type h for help");
-        }
-        else if (c[0].equals("a") && c.length == 3) {
+        } else if (c[0].equals("a") && c.length == 3) {
             try {
                 long idx = Long.parseLong(c[1]);
                 int amount = Integer.parseInt(c[2]);
                 StockItem item = dao.findStockItem(idx);
                 if (item != null) {
-                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
+                    //TODO: fixida mis iganes siin peaks olema kui siin valesti
+                    //cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
+                    cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity()), item.getPrice() * item.getQuantity()));
                 } else {
                     log.error("no stock item with id "+ idx);
                 }

@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.dao;
 
+import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
@@ -10,6 +11,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     private List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
+    private final List<HistoryItem> historyItemList;
 
     public InMemorySalesSystemDAO() {
         List<StockItem> items = new ArrayList<StockItem>();
@@ -19,11 +21,17 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         items.add(new StockItem(4L, "Free Beer", "Student's delight", 0.0, 100));
         this.stockItemList = items;
         this.soldItemList = new ArrayList<>();
+        this.historyItemList = new ArrayList<>();
     }
 
 
     @Override
     public void removeStockItem(long id, long amount){
+
+        if (amount < 0){
+            System.out.println("Item amount can not be negative!");
+            return;
+        }
         for (StockItem item : stockItemList){
             if (item.getId() == id){
                 int newAmount = item.getQuantity() - (int)amount;
@@ -35,6 +43,10 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addNewStockItem(long id, String name, String description, long price, long quantity){
+        if (quantity < 0 || price < 0){
+            System.out.println("Invalid input!");
+            return;
+        }
         stockItemList.add(new StockItem(id,name,description,price, (int)quantity));
     }
 
@@ -50,6 +62,10 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addStockItem(long id, long amount){
+        if (amount < 0){
+            System.out.println("Item amount can not be negative!");
+            return;
+        }
         for (StockItem item : stockItemList){
             if (item.getId() == id){
                 item.setQuantity(item.getQuantity() + (int)amount);
@@ -68,16 +84,23 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void editItemPrice(long id, long price){
+        if (price < 0){
+            System.out.println("Item price can nott be negative!");
+            return;
+        }
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setPrice(price);
             }
         }
-
     }
 
     @Override
     public void editItemName(long id, String name){
+        if (name.replaceAll("\\s+", "").length() == 0){
+            System.out.println("Invalid name!");
+            return;
+        }
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setName(name);
@@ -87,6 +110,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void editItemAmount(long id, long amount){
+        if (amount < 0){
+            System.out.println("Invalid amount! (Less than 0)");
+            return;
+        }
+
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setQuantity((int)amount);
@@ -97,6 +125,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     @Override
     public List<StockItem> findStockItems() {
         return stockItemList;
+    }
+
+    @Override
+    public List<HistoryItem> findHistoryItems(){
+        return historyItemList;
     }
 
     @Override
@@ -126,7 +159,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
-
     @Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);
@@ -135,6 +167,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveStockItem(StockItem stockItem) {
         stockItemList.add(stockItem);
+    }
+
+    @Override
+    public void saveHistoryItem(HistoryItem historyItem){
+        historyItemList.add(historyItem);
     }
 
     @Override

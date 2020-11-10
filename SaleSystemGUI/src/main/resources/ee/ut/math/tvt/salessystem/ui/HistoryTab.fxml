@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.6543624161073825" orientation="VERTICAL" prefHeight="300.0" prefWidth="600.0">
@@ -21,17 +22,17 @@
                   <Region layoutY="1.0" prefHeight="127.0" prefWidth="62.0" />
                   <VBox layoutX="62.0" prefHeight="127.0" prefWidth="185.0">
                      <children>
-                        <Button fx:id="showBetweenDates" mnemonicParsing="false" prefHeight="26.0" prefWidth="187.0" text="Show between dates">
+                        <Button fx:id="showBetweenDates" onAction="#showBetweenDatesClicked" mnemonicParsing="false" prefHeight="26.0" prefWidth="187.0" text="Show between dates">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="showLastTen" mnemonicParsing="false" prefHeight="26.0" prefWidth="186.0" text="Show last 10">
+                        <Button fx:id="showLastTen" onAction="#showLastTenClicked" mnemonicParsing="false" prefHeight="26.0" prefWidth="186.0" text="Show last 10">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="showAll" mnemonicParsing="false" prefHeight="26.0" prefWidth="186.0" text="Show all" />
+                        <Button fx:id="showAll" onAction="#showAllClicked" mnemonicParsing="false" prefHeight="26.0" prefWidth="186.0" text="Show all" />
                      </children>
                   </VBox>
                   <VBox layoutX="284.0" prefHeight="127.0" prefWidth="62.0">
@@ -50,12 +51,12 @@
                   </VBox>
                   <VBox layoutX="346.0" prefHeight="127.0" prefWidth="195.0">
                      <children>
-                        <DatePicker fx:id="selectStartDate" prefHeight="26.0" prefWidth="198.0">
+                        <DatePicker fx:id="startDate" prefHeight="26.0" prefWidth="198.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </DatePicker>
-                        <DatePicker fx:id="selectEndDate" prefHeight="26.0" prefWidth="195.0" />
+                        <DatePicker fx:id="endDate" prefHeight="26.0" prefWidth="195.0" />
                      </children>
                   </VBox>
                </children>
@@ -64,11 +65,23 @@
                <children>
                   <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="120.0" prefWidth="600.0" text="Purchase history">
                      <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="historyTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn prefWidth="200.0" text="Date" />
-                            <TableColumn prefWidth="200.0" text="Time" />
-                              <TableColumn prefWidth="200.0" text="Total" />
+                              <TableColumn prefWidth="200.0" text="Date">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="date"/>
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="200.0" text="Time">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="time"/>
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="200.0" text="Total">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="total"/>
+                                  </cellValueFactory>
+                              </TableColumn>
                           </columns>
                         </TableView>
                      </content>
@@ -77,13 +90,33 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <TableView layoutY="298.0" prefHeight="200.0" prefWidth="600.0">
+      <TableView fx:id="purchaseTable" layoutY="298.0" prefHeight="200.0" prefWidth="600.0">
         <columns>
-          <TableColumn prefWidth="120.0" text="Id" />
-          <TableColumn prefWidth="120.0" text="Name" />
-            <TableColumn prefWidth="120.0" text="Price" />
-            <TableColumn prefWidth="120.0" text="Quantity" />
-            <TableColumn prefWidth="120.0" text="Sum" />
+            <TableColumn prefWidth="120.0" text="Id">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="120.0" text="Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="120.0" text="Price">
+                <cellValueFactory>
+                    <PropertyValueFactory property="price"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="120.0" text="Quantity">
+                <cellValueFactory>
+                    <PropertyValueFactory property="quantity"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="120.0" text="Sum">
+                <cellValueFactory>
+                    <PropertyValueFactory property="sum"/>
+                </cellValueFactory>
+            </TableColumn>
         </columns>
       </TableView>
    </children>
