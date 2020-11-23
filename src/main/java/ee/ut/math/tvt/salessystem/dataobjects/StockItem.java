@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.dataobjects;
 
 //Database imports
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Stock item.
@@ -12,6 +11,7 @@ import java.util.List;
 public class StockItem {
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -19,7 +19,11 @@ public class StockItem {
 
     @Column(name = "price")
     private double price;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "quantity")
     private int quantity;
 
     public StockItem() {
