@@ -1,7 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui;
 
+import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
-import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import ee.ut.math.tvt.salessystem.ui.controllers.HistoryController;
 import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
@@ -41,11 +41,11 @@ public class SalesSystemUI extends Application {
     private final StockEditValidator editValidator;
 
     public SalesSystemUI() {
-        dao = new InMemorySalesSystemDAO();
+        dao = new HibernateSalesSystemDAO();
         shoppingCart = new ShoppingCart(dao);
         warehouse = new Warehouse(dao);
-        addValidator = new StockAddValidator((InMemorySalesSystemDAO) dao);
-        editValidator= new StockEditValidator((InMemorySalesSystemDAO) dao);
+        addValidator = new StockAddValidator(dao);
+        editValidator= new StockEditValidator(dao);
     }
 
     @Override

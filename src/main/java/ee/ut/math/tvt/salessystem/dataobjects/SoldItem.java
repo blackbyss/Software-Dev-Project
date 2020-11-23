@@ -13,8 +13,7 @@ public class SoldItem {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sold_id", referencedColumnName = "id")
+    @Transient
     private StockItem stockItem;
 
     @Column(name = "name")
@@ -26,7 +25,7 @@ public class SoldItem {
     @Column(name = "price")
     private double price;
 
-    @Column (name = "sum")
+    @Column (name = "total")
     private double sum;
 
     public SoldItem() {

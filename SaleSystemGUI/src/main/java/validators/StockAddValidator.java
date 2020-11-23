@@ -1,13 +1,15 @@
 package validators;
 
+import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import javafx.scene.control.Alert;
 
 public class StockAddValidator {
 
-    private final InMemorySalesSystemDAO dao;
+    private final SalesSystemDAO dao;
 
-    public StockAddValidator(InMemorySalesSystemDAO dao) {
+    public StockAddValidator(SalesSystemDAO dao) {
         this.dao = dao;
     }
 
