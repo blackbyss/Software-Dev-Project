@@ -16,12 +16,11 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
+<AnchorPane  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
     <SplitPane dividerPositions="0.27710843373493976" orientation="VERTICAL" prefHeight="500.0" prefWidth="600.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background_style">
-          <children>
             <HBox prefHeight="131.0" prefWidth="598.0">
               <children>
                 <Region prefHeight="158.0" prefWidth="116.0" />
@@ -81,7 +80,6 @@
                 </Pane>
               </children>
             </HBox>
-          </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
           <children>
@@ -133,5 +131,4 @@
         </AnchorPane>
       </items>
     </SplitPane>
-  </children>
 </AnchorPane>

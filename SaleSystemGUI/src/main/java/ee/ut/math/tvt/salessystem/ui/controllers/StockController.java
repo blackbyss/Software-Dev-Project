@@ -69,7 +69,7 @@ public class StockController implements Initializable {
     private void defaultWindow() {
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
-        refreshStockItems();
+        //refreshStockItems();
         autoID();
         insertPrice.setText("");
         insertName.setText("");
@@ -118,7 +118,7 @@ public class StockController implements Initializable {
             dao.saveStockItem(new StockItem(bar, name, "", price, amount));
             defaultWindow();
         }
-        refreshStockItems();                //Tagastab uuendatud või uue tootega lao seisu
+        //refreshStockItems();                //Tagastab uuendatud või uue tootega lao seisu
     }
 
     @FXML
@@ -127,14 +127,14 @@ public class StockController implements Initializable {
         log.debug("StockItem to remove: "+ valitud.toString());
         warehouseTableView.getItems().remove(valitud);
         warehouseTableView.getSelectionModel().clearSelection();
-        refreshStockItems();
+        //refreshStockItems();
         autoID();
     }
 
     @FXML
     public void refreshButtonClicked() {
         warehouseTableView.getSelectionModel().clearSelection();
-        refreshStockItems();
+        //refreshStockItems();
         autoID();
         System.out.println("Värskendab");  //Kontroll konsoolile, et veenduda nupu töötamises
         log.info("Refreshing");  //Kontroll konsoolile, et veenduda nupu töötamises
@@ -152,10 +152,11 @@ public class StockController implements Initializable {
         insertBar.setText(String.valueOf(biggestID));
     }
 
+    /*
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
-    }
+    }*/
 }
 
 
