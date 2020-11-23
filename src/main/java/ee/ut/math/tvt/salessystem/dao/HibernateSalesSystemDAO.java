@@ -76,13 +76,24 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public StockItem findStockItem(String name) {
-        return null;
+        return em.find(StockItem.class, name);
     }
 
     //Add new item
+    @Override
     public void addNewStockItem(StockItem item){
         beginTransaction();
         saveStockItem(item);
+        commitTransaction();
+    }
+
+    @Override
+    public void addExistingStockItem(long id, int amount){
+        beginTransaction();
+
+        StockItem itemForAdd = findStockItem(id);
+        itemForAdd.setQuantity(itemForAdd.getQuantity() + amount);
+
         commitTransaction();
     }
 

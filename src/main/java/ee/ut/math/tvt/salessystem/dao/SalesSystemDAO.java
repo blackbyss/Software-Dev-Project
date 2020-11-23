@@ -68,4 +68,6 @@ public interface SalesSystemDAO {
     void commitTransaction();
 
     void addNewStockItem(StockItem item);
+
+    void addExistingStockItem(long id, int amount);
 }

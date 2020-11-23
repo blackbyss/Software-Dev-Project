@@ -16,11 +16,12 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
     <SplitPane dividerPositions="0.27710843373493976" orientation="VERTICAL" prefHeight="500.0" prefWidth="600.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background_style">
+          <children>
             <HBox prefHeight="131.0" prefWidth="598.0">
               <children>
                 <Region prefHeight="158.0" prefWidth="116.0" />
@@ -31,7 +32,7 @@
                         <Insets top="15.0" />
                       </VBox.margin>
                     </Label>
-                    <Label text="Amount:">
+                    <Label fx:id="amountText" text="Amount:">
                       <VBox.margin>
                         <Insets top="10.0" />
                       </VBox.margin>
@@ -76,10 +77,12 @@
                   <children>
                     <Button fx:id="addItem" layoutX="20.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#addItemClicked" prefHeight="25.0" prefWidth="135.0" text="Add product" />
                     <Button fx:id="removeItem" layoutX="155.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#removeItemClicked" prefHeight="25.0" prefWidth="115.0" text="Remove" />
+                           <Button fx:id="addExisting" layoutX="20.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#addExistingItem" prefHeight="25.0" prefWidth="135.0" text="Add existing" />
                   </children>
                 </Pane>
               </children>
             </HBox>
+          </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
           <children>
@@ -131,4 +134,5 @@
         </AnchorPane>
       </items>
     </SplitPane>
+
 </AnchorPane>

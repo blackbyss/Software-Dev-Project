@@ -5,10 +5,10 @@ import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -30,6 +30,9 @@ public class StockController implements Initializable {
 
 
     @FXML
+    private Label amountText;
+
+    @FXML
     private TextField insertBar;
 
     @FXML
@@ -43,6 +46,9 @@ public class StockController implements Initializable {
 
     @FXML
     private Button addItem;
+
+    @FXML
+    private Button addExisting;
 
     @FXML
     private TableView<StockItem> warehouseTableView;
@@ -73,8 +79,14 @@ public class StockController implements Initializable {
         refreshStockItems();
         autoID();
         insertPrice.setText("");
+        insertPrice.setDisable(false);
         insertName.setText("");
+        insertName.setDisable(false);
         insertAmount.setText("");
+        addExisting.setDisable(false);
+        refreshButton.setDisable(false);
+        amountText.setText("Amount");
+        addExisting.setText("Add existing");
     }
     //Window states end
 
@@ -119,13 +131,33 @@ public class StockController implements Initializable {
             dao.addNewStockItem(new StockItem(bar, name, "", price, amount));
             defaultWindow();
         }
-        //refreshStockItems();                //Tagastab uuendatud või uue tootega lao seisu
+    }
+
+    @FXML
+    void addExistingItem(MouseEvent event) {
+        if (addExisting.getText().equals("Add existing")) {
+            //Changed window state
+            insertBar.setDisable(false);
+            insertName.setDisable(true);
+            insertPrice.setDisable(true);
+            refreshButton.setDisable(true);
+            editButton.setDisable(true);
+            amountText.setText("Add amount:");
+            addExisting.setText("Add");
+            //
+
+        } else {
+            long bar = Long.parseLong(insertBar.getText());
+            int amount = Integer.parseInt(insertAmount.getText());
+            dao.addExistingStockItem(bar, amount);
+            defaultWindow();
+        }
     }
 
     @FXML
     void removeItemClicked(MouseEvent event) {
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
-        log.debug("StockItem to remove: "+ valitud.toString());
+        log.debug("StockItem to remove: " + valitud.toString());
         warehouseTableView.getItems().remove(valitud);
         warehouseTableView.getSelectionModel().clearSelection();
         //refreshStockItems();
@@ -152,7 +184,6 @@ public class StockController implements Initializable {
         }
         insertBar.setText(String.valueOf(biggestID));
     }
-
 
 
     private void refreshStockItems() {
