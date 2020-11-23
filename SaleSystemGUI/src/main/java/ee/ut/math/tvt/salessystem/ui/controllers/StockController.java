@@ -5,6 +5,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -69,7 +70,7 @@ public class StockController implements Initializable {
     private void defaultWindow() {
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
-        //refreshStockItems();
+        refreshStockItems();
         autoID();
         insertPrice.setText("");
         insertName.setText("");
@@ -152,11 +153,12 @@ public class StockController implements Initializable {
         insertBar.setText(String.valueOf(biggestID));
     }
 
-    /*
+
+
     private void refreshStockItems() {
         warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
         warehouseTableView.refresh();
-    }*/
+    }
 }
 
 

@@ -7,6 +7,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     private final EntityManagerFactory emf;
     private final EntityManager em;
     private List<StockItem> stockItemList;
-    private final List<SoldItem> soldItemList;
-    private final List<HistoryItem> historyItemList;
 
     public HibernateSalesSystemDAO() {
         // if you get ConnectException/JDBCConnectionException then you
@@ -28,14 +27,13 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         items.add(new StockItem(2L, "Chupa-chups", "Sweets", 8.0, 8));
         items.add(new StockItem(3L, "Frankfurters", "Beer sauseges", 15.0, 12));
         items.add(new StockItem(4L, "Free Beer", "Student's delight", 0.0, 100));
-        this.soldItemList = new ArrayList<>();
-        this.historyItemList = new ArrayList<>();
         beginTransaction();
         for (StockItem item:
              items) {
             saveStockItem(item);
         }
         commitTransaction();
+        updateState();
     }
 
     // TODO implement missing methods
@@ -43,6 +41,11 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     public void close() {
         em.close();
         emf.close();
+    }
+
+    public void updateState() {
+        String sql = "FROM StockItem";
+        stockItemList = em.createQuery(sql, StockItem.class).getResultList();
     }
     
     @Override
@@ -62,7 +65,8 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<StockItem> findStockItems() {
-        return null;
+        Query query = em.createQuery("Select si FROM StockItem si");
+        return query.getResultList();
     }
 
     @Override
@@ -87,12 +91,12 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void saveStockItem(StockItem stockItem) {
-
+        em.merge(stockItem);
+        updateState();
     }
 
     @Override
     public void removeStockItem(long id, long amount) {
-
     }
 
     @Override
