@@ -57,11 +57,12 @@ public class SalesSystemUI extends Application {
         purchaseTab.setClosable(false);
         purchaseTab.setContent(loadControls("PurchaseTab.fxml", new PurchaseController(dao, shoppingCart)));
 
+        /*
         Tab stockTab = new Tab();
         stockTab.setText("Warehouse");
         stockTab.setClosable(false);
         stockTab.setContent(loadControls("StockTab.fxml", new StockController(dao, addValidator, editValidator)));
-
+ */
         Tab historyTab = new Tab();
         historyTab.setText("History");
         historyTab.setClosable(false);
@@ -79,7 +80,7 @@ public class SalesSystemUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.prefHeightProperty().bind(scene.heightProperty());
         borderPane.prefWidthProperty().bind(scene.widthProperty());
-        borderPane.setCenter(new TabPane(purchaseTab, stockTab, historyTab, teamTab));
+        borderPane.setCenter(new TabPane(purchaseTab, historyTab, teamTab));
         root.getChildren().add(borderPane);
 
         primaryStage.setTitle("Sales system");

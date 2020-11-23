@@ -75,8 +75,8 @@
                 </VBox>
                 <Pane prefHeight="131.0" prefWidth="310.0">
                   <children>
-                    <Button fx:id="addItem" layoutX="20.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Add product" />
-                    <Button fx:id="removeItem" layoutX="155.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Remove" />
+                    <Button fx:id="addItem" layoutX="20.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#addItemClicked" prefHeight="25.0" prefWidth="135.0" text="Add product" />
+                    <Button fx:id="removeItem" layoutX="155.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#removeItemClicked" prefHeight="25.0" prefWidth="115.0" text="Remove" />
                   </children>
                 </Pane>
               </children>
@@ -120,7 +120,7 @@
                   <top>
                     <HBox prefHeight="17.0" prefWidth="579.0" BorderPane.alignment="CENTER">
                       <children>
-                        <Button fx:id="refreshButton" text="Refresh warehouse" />
+                        <Button fx:id="refreshButton" onMouseClicked="#refreshButtonClicked" text="Refresh warehouse" />
                         <Button fx:id="editButton" mnemonicParsing="false" text="Edit" />
                                     <Button fx:id="confirmButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="131.0" text="Confrim" />
                       </children>
