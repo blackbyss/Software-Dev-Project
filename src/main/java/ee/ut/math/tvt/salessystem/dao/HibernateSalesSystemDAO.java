@@ -70,17 +70,24 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
-    public List<HistoryItem> findHistoryItems() {
-        return null;
-    }
-
-    @Override
     public StockItem findStockItem(long id) {
-        return null;
+        return em.find(StockItem.class, id);
     }
 
     @Override
     public StockItem findStockItem(String name) {
+        return null;
+    }
+
+    //Add new item
+    public void addNewStockItem(StockItem item){
+        beginTransaction();
+        saveStockItem(item);
+        commitTransaction();
+    }
+
+    @Override
+    public List<HistoryItem> findHistoryItems() {
         return null;
     }
 

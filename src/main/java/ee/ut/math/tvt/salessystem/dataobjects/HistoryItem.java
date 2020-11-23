@@ -1,10 +1,14 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.*;
+
 
 public class HistoryItem {
 

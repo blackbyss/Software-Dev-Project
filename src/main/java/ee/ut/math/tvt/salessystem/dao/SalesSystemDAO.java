@@ -66,4 +66,6 @@ public interface SalesSystemDAO {
     void rollbackTransaction();
 
     void commitTransaction();
+
+    void addNewStockItem(StockItem item);
 }

@@ -116,7 +116,7 @@ public class StockController implements Initializable {
         String name = insertName.getText();
         double price = Double.parseDouble(insertPrice.getText());
         if (addValidator.validateAdd(amount, price, name)) {
-            dao.saveStockItem(new StockItem(bar, name, "", price, amount));
+            dao.addNewStockItem(new StockItem(bar, name, "", price, amount));
             defaultWindow();
         }
         //refreshStockItems();                //Tagastab uuendatud või uue tootega lao seisu
