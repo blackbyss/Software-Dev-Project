@@ -27,11 +27,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void removeStockItem(long id, long amount){
-
-        if (amount < 0){
-            System.out.println("Item amount can not be negative!");
-            return;
-        }
         for (StockItem item : stockItemList){
             if (item.getId() == id){
                 int newAmount = item.getQuantity() - (int)amount;
@@ -43,10 +38,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addNewStockItem(long id, String name, String description, long price, long quantity){
-        if (quantity < 0 || price < 0){
-            System.out.println("Invalid input!");
-            return;
-        }
         stockItemList.add(new StockItem(id,name,description,price, (int)quantity));
     }
 
@@ -62,10 +53,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addStockItem(long id, long amount){
-        if (amount < 0){
-            System.out.println("Item amount can not be negative!");
-            return;
-        }
         for (StockItem item : stockItemList){
             if (item.getId() == id){
                 item.setQuantity(item.getQuantity() + (int)amount);
@@ -84,23 +71,16 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void editItemPrice(long id, long price){
-        if (price < 0){
-            System.out.println("Item price can nott be negative!");
-            return;
-        }
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setPrice(price);
             }
         }
+
     }
 
     @Override
     public void editItemName(long id, String name){
-        if (name.replaceAll("\\s+", "").length() == 0){
-            System.out.println("Invalid name!");
-            return;
-        }
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setName(name);
@@ -110,11 +90,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void editItemAmount(long id, long amount){
-        if (amount < 0){
-            System.out.println("Invalid amount! (Less than 0)");
-            return;
-        }
-
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
                 stockItem.setQuantity((int)amount);

@@ -260,95 +260,71 @@ public class ConsoleUI {
         if (c[0].equals("h")) {
             log.info("Showing help");
             printUsage();
-        } else if (c[0].equals("q")) {
+        }
+        else if (c[0].equals("q")) {
             log.info("Quitting application");
             System.exit(0);
-        } else if (c[0].equals("t")) {
+        }
+        else if (c[0].equals("t")) {
             log.info("Showing Team info");
             showTeam();
-        } else if (c[0].equals("ha")) {
+        }
+        else if (c[0].equals("ha")) {
             log.info("Showing all history info");
             showHistoryAll();
-        } else if (c[0].equals("ht")) {
+        }
+        else if (c[0].equals("ht")) {
             log.info("Showing last 10 history info");
             showHistoryTen();
-        } else if (c[0].equals("hi")) { // TODO implement safety net
+        }
+        else if (c[0].equals("hi")) { // TODO implement safety net
             int idx = Integer.parseInt(c[1]);
             log.info("Showing details of sale: "+idx);
             showHistoryDetail(idx);
-        } else if (c[0].equals("hd")) { // TODO implement safety net
+        }
+        else if (c[0].equals("hd")) { // TODO implement safety net
             log.info("Showing history info between dates");
             showHistoryBetweenDates(c[1], c[2]);
-        } else if (c[0].equals("w")) {
+        }
+        else if (c[0].equals("w")) {
             log.info("Showing Stock info");
             showStock();
-        } else if (c[0].equals("wr")){
-            if (c.length != 3) {
-                System.out.println("INVALID INPUT");
-                return;
-            } try {
-                removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
-            } catch (NumberFormatException ex){
-                System.out.println("Invalid number input!");
-            }
-        } else if (c[0].equals("wa")){
-            if (c.length != 3) {
-                System.out.println("INVALID INPUT");
-                return;
-            } try {
-                addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
-            } catch (NumberFormatException ex){
-                System.out.println("Invalid number input!");
-            }
-        } else if (c[0].equals("we")){
-            if (c.length != 4) {
-                System.out.println("INVALID INPUT");
-                return;
-            } try {
-                if (c[1].equals("id"))
-                    editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
-                else if (c[1].equals("name"))
-                    editStockName(Integer.parseInt(c[2]), c[3]);
-                else if (c[1].equals("price"))
-                    editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
-                else if (c[1].equals("amount"))
-                    editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
-                else {
-                    log.error("Invalid command");
-                }
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid number input");
+        }
+        else if (c[0].equals("wr"))
+            removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2])); // TODO implement safety net
+        else if (c[0].equals("wa"))
+            addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
+        else if (c[0].equals("we")){
+            if (c[1].equals("id"))
+                editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else if (c[1].equals("name"))
+                editStockName(Integer.parseInt(c[2]), c[3]); // TODO implement safety net
+            else if (c[1].equals("price"))
+                editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else if (c[1].equals("amount"))
+                editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
+            else {
                 log.error("Invalid command");
             }
-        } else if (c[0].equals("wni")) {
-            if (c.length != 6){
-                System.out.println("INVALID INPUT");
-                return;
-            } try {
-                addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
-            } catch (NumberFormatException ex) {
-                System.out.println("Invalid number input");
-            }
 
-        } else if (c[0].equals("wri")) {
-            if (c.length != 2){
-                System.out.println("INVALID INPUT");
-                return;
-            } try {
-                deleteStock(Integer.parseInt(c[1]));
-            } catch (NumberFormatException ex){
-                System.out.println("Invalid number input");
-            }
-        } else if (c[0].equals("c"))
+        }
+        else if (c[0].equals("wni"))
+            addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
+        else if (c[0].equals("wri"))
+            deleteStock(Integer.parseInt(c[1]));
+        else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p")) {
             cart.submitCurrentPurchase();
-        } else if (c[0].equals("r")) {
+        }
+        else if (c[0].equals("r")) {
             cart.cancelCurrentPurchase();
-        } else if (c[0].equals("clr") || c[0].equals("clear")) {
+        }
+        else if (c[0].equals("clr") || c[0].equals("clear")) {
             System.out.println(System.lineSeparator().repeat(50));
             System.out.println("Type h for help");
-        } else if (c[0].equals("a") && c.length == 3) {
+        }
+        else if (c[0].equals("a") && c.length == 3) {
             try {
                 long idx = Long.parseLong(c[1]);
                 int amount = Integer.parseInt(c[2]);
