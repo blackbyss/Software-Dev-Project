@@ -29,7 +29,7 @@ jar {
 	doFirst {
         manifest {
             if (!configurations.runtime.isEmpty()) {
-                attributes('Class-Path': 
+                attributes('Class-Path':
                                 configurations.runtime.collect{it.toURI().toString()}.join(' '))
             }
         }
