@@ -33,7 +33,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
             saveStockItem(item);
         }
         commitTransaction();
-        updateState();
     }
 
     // TODO implement missing methods
@@ -41,11 +40,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     public void close() {
         em.close();
         emf.close();
-    }
-
-    public void updateState() {
-        String sql = "FROM StockItem";
-        stockItemList = em.createQuery(sql, StockItem.class).getResultList();
     }
     
     @Override
@@ -79,7 +73,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         return em.find(StockItem.class, name);
     }
 
-    //Add new item
     @Override
     public void addNewStockItem(StockItem item){
         beginTransaction();
@@ -119,13 +112,11 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveStockItem(StockItem stockItem) {
         em.merge(stockItem);
-        updateState();
     }
 
     @Override
     public void saveSoldItem(SoldItem item) {
         em.merge(item);
-        updateState();
     }
 
     @Override
