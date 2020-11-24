@@ -123,6 +123,12 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public void saveSoldItem(SoldItem item) {
+        em.merge(item);
+        updateState();
+    }
+
+    @Override
     public void removeStockItem(long id, long amount) {
 
     }
@@ -154,12 +160,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addNewStockItem(long id, String name, String description, long price, long quantity) {
-
-    }
-
-
-    @Override
-    public void saveSoldItem(SoldItem item) {
 
     }
 

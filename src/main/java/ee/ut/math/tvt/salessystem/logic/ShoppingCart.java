@@ -69,6 +69,8 @@ public class ShoppingCart {
             soldItem.getStockItem().setQuantity(soldItem.getStockItem().getQuantity() - soldItem.getQuantity());
             if(soldItem.getStockItem().getQuantity() == 0){
                 dao.deleteStockitem(soldItem.getId());
+                SoldItem item = new SoldItem(soldItem.getStockItem(), soldItem.getQuantity(), soldItem.getSum());
+                dao.saveSoldItem(item);
             }
         }
         // note the use of transactions. InMemorySalesSystemDAO ignores transactions

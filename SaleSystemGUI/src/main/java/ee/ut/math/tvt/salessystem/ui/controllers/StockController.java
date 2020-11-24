@@ -83,9 +83,8 @@ public class StockController implements Initializable {
         autoID();
         insertPrice.setText("");
         insertPrice.setDisable(false);
-        insertName.setText("");
-        insertName.setDisable(false);
         insertAmount.setText("");
+        insertName.setDisable(false);
         addExisting.setDisable(false);
         refreshButton.setDisable(false);
         amountText.setText("Amount");
@@ -145,20 +144,20 @@ public class StockController implements Initializable {
         if (addExisting.getText().equals("Add existing")) {
             //Changed window state
             insertBar.setDisable(false);
-            insertName.setDisable(true);
+            amountText.setText("Increase:");
             insertPrice.setDisable(true);
             refreshButton.setDisable(true);
+            insertName.setDisable(true);
             editButton.setDisable(true);
-            amountText.setText("Add amount:");
             addExisting.setText("Add");
             cancelButton.setDisable(false);
             //
 
         } else {
             long bar = Long.parseLong(insertBar.getText());
-            int amount = Integer.parseInt(insertAmount.getText());
-            if (addValidator.validateExisting(amount, bar)) {
-                dao.addExistingStockItem(bar, amount);
+            int amountInc = Integer.parseInt(insertAmount.getText());
+            if (addValidator.validateExisting(amountInc, bar)) {
+                dao.addExistingStockItem(bar, amountInc);
                 defaultWindow();
             }
         }
