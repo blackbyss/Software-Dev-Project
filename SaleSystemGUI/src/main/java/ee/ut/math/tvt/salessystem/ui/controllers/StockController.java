@@ -157,10 +157,9 @@ public class StockController implements Initializable {
     @FXML
     void removeItemClicked(MouseEvent event) {
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
+        dao.deleteStockitem(valitud.getId());
         log.debug("StockItem to remove: " + valitud.toString());
-        warehouseTableView.getItems().remove(valitud);
-        warehouseTableView.getSelectionModel().clearSelection();
-        //refreshStockItems();
+        refreshStockItems();
         autoID();
     }
 

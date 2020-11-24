@@ -98,6 +98,15 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public void deleteStockitem(long id) {
+        beginTransaction();
+
+        StockItem itemForRemove = findStockItem(id);
+        em.remove(itemForRemove);
+        commitTransaction();
+    }
+
+    @Override
     public List<HistoryItem> findHistoryItems() {
         return null;
     }
@@ -115,6 +124,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void removeStockItem(long id, long amount) {
+
     }
 
     @Override
@@ -147,10 +157,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     }
 
-    @Override
-    public void deleteStockitem(long id) {
-
-    }
 
     @Override
     public void saveSoldItem(SoldItem item) {
