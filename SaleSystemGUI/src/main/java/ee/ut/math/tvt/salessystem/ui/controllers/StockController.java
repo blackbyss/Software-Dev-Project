@@ -51,6 +51,9 @@ public class StockController implements Initializable {
     private Button addExisting;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private TableView<StockItem> warehouseTableView;
 
     @FXML
@@ -87,6 +90,8 @@ public class StockController implements Initializable {
         refreshButton.setDisable(false);
         amountText.setText("Amount");
         addExisting.setText("Add existing");
+        cancelButton.setDisable(true);
+        editButton.setDisable(false);
     }
     //Window states end
 
@@ -123,6 +128,7 @@ public class StockController implements Initializable {
 
     @FXML
     void addItemClicked(MouseEvent event) {
+        warehouseTableView.getSelectionModel().clearSelection();
         long bar = Long.parseLong(insertBar.getText());
         int amount = Integer.parseInt(insertAmount.getText());
         String name = insertName.getText();
@@ -135,6 +141,7 @@ public class StockController implements Initializable {
 
     @FXML
     void addExistingItem(MouseEvent event) {
+        warehouseTableView.getSelectionModel().clearSelection();
         if (addExisting.getText().equals("Add existing")) {
             //Changed window state
             insertBar.setDisable(false);
@@ -144,6 +151,7 @@ public class StockController implements Initializable {
             editButton.setDisable(true);
             amountText.setText("Add amount:");
             addExisting.setText("Add");
+            cancelButton.setDisable(false);
             //
 
         } else {
@@ -152,6 +160,11 @@ public class StockController implements Initializable {
             dao.addExistingStockItem(bar, amount);
             defaultWindow();
         }
+    }
+
+    @FXML
+    void cancelButtonClicked(MouseEvent event) {
+        defaultWindow();
     }
 
     @FXML

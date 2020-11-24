@@ -78,6 +78,7 @@
                     <Button fx:id="addItem" layoutX="20.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#addItemClicked" prefHeight="25.0" prefWidth="135.0" text="Add product" />
                     <Button fx:id="removeItem" layoutX="155.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#removeItemClicked" prefHeight="25.0" prefWidth="115.0" text="Remove" />
                            <Button fx:id="addExisting" layoutX="20.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#addExistingItem" prefHeight="25.0" prefWidth="135.0" text="Add existing" />
+                           <Button fx:id="cancelButton" layoutX="155.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#cancelButtonClicked" prefHeight="25.0" prefWidth="115.0" text="Cancel" />
                   </children>
                 </Pane>
               </children>
