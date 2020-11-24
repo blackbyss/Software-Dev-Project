@@ -157,8 +157,10 @@ public class StockController implements Initializable {
         } else {
             long bar = Long.parseLong(insertBar.getText());
             int amount = Integer.parseInt(insertAmount.getText());
-            dao.addExistingStockItem(bar, amount);
-            defaultWindow();
+            if (addValidator.validateExisting(amount, bar)) {
+                dao.addExistingStockItem(bar, amount);
+                defaultWindow();
+            }
         }
     }
 
