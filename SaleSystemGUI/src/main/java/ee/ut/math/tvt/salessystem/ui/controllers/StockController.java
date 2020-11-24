@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.controllers;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -17,7 +18,6 @@ import validators.StockAddValidator;
 import validators.StockEditValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +27,7 @@ public class StockController implements Initializable {
     private final StockAddValidator addValidator;
     private final StockEditValidator editValidator;
     private static final Logger log = LogManager.getLogger(StockController.class);
-
+    private final Warehouse warehouse;
 
     @FXML
     private Label amountText;
@@ -68,37 +68,43 @@ public class StockController implements Initializable {
     @FXML
     private Button removeItem;
 
-    public StockController(SalesSystemDAO dao, StockAddValidator addValidator, StockEditValidator editValidator) {
+    public StockController(SalesSystemDAO dao, StockAddValidator addValidator, StockEditValidator editValidator, Warehouse warehouse) {
         this.dao = dao;
         this.addValidator = addValidator;
         this.editValidator = editValidator;
+        this.warehouse = warehouse;
     }
 
-
-    //Window states
+    //Default window state
     private void defaultWindow() {
+
+        //Nuppude kättesaadavus
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
-        refreshStockItems();
-        autoID();
-        insertPrice.setText("");
-        insertPrice.setDisable(false);
-        insertAmount.setText("");
+        cancelButton.setDisable(true);
         insertName.setDisable(false);
         addExisting.setDisable(false);
         refreshButton.setDisable(false);
+        editButton.setDisable(false);
+        insertPrice.setDisable(false);
+
+        //Nuppude/Teksti muutmine
+        insertPrice.setText("");
+        insertAmount.setText("");
         amountText.setText("Amount");
         addExisting.setText("Add existing");
-        cancelButton.setDisable(true);
-        editButton.setDisable(false);
-    }
-    //Window states end
 
+        //Värskendame sisu
+        updateWarehouseState();
+
+        //Genereerime ID
+        insertBar.setText(warehouse.autoID());
+
+    }
 
     //TODO- Edit nupu loogika
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
 
         //Algne kuvand
         defaultWindow();
@@ -127,37 +133,51 @@ public class StockController implements Initializable {
 
     @FXML
     void addItemClicked(MouseEvent event) {
+
+        //Tühistame valitud warehouse toote
         warehouseTableView.getSelectionModel().clearSelection();
+
+        //Lisatava toote tunnused
         long bar = Long.parseLong(insertBar.getText());
         int amount = Integer.parseInt(insertAmount.getText());
         String name = insertName.getText();
         double price = Double.parseDouble(insertPrice.getText());
+
+        //Kontrollime, kas sisendid sobivad
         if (addValidator.validateAdd(amount, price, name)) {
-            dao.addNewStockItem(new StockItem(bar, name, "", price, amount));
+            warehouse.addToStock(new StockItem(bar, name, "", price, amount));
             defaultWindow();
         }
+
     }
 
     @FXML
     void addExistingItem(MouseEvent event) {
+
+        //Tühistame valitud warehouse toote
         warehouseTableView.getSelectionModel().clearSelection();
+
+        //Muudame window state, kui alustame toote lisamist
         if (addExisting.getText().equals("Add existing")) {
-            //Changed window state
-            insertBar.setDisable(false);
-            amountText.setText("Increase:");
             insertPrice.setDisable(true);
             refreshButton.setDisable(true);
             insertName.setDisable(true);
             editButton.setDisable(true);
-            addExisting.setText("Add");
+            insertBar.setDisable(false);
             cancelButton.setDisable(false);
-            //
+            amountText.setText("Increase:");
+            addExisting.setText("Add");
 
+        //Lisame tootele sisestatud koguse
         } else {
+
+            //Suurendatava toote tunnused
             long bar = Long.parseLong(insertBar.getText());
             int amountInc = Integer.parseInt(insertAmount.getText());
+
+            //Kontrollime, kas sisendid sobivad
             if (addValidator.validateExisting(amountInc, bar)) {
-                dao.addExistingStockItem(bar, amountInc);
+                warehouse.addExisting(bar, amountInc);
                 defaultWindow();
             }
         }
@@ -170,36 +190,34 @@ public class StockController implements Initializable {
 
     @FXML
     void removeItemClicked(MouseEvent event) {
+
+        //Valime toote mida soovime eemaldada
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
-        dao.deleteStockitem(valitud.getId());
+        warehouse.deleteFromStock(valitud.getId());
+        updateWarehouseState();
+
+        //Juhul kui eemaldame mõne väiksema, siis vabastame ID
+        insertBar.setText(warehouse.autoID());
+
+        //Logging
         log.debug("StockItem to remove: " + valitud.toString());
-        refreshStockItems();
-        autoID();
     }
 
     @FXML
     public void refreshButtonClicked() {
+
+        //Tühistame valitud warehouse toote
         warehouseTableView.getSelectionModel().clearSelection();
-        refreshStockItems();
-        autoID();
+        updateWarehouseState();
+        insertBar.setText(warehouse.autoID());
+
+        //Logging
         log.info("Refreshing");  //Kontroll konsoolile, et veenduda nupu töötamises
+
     }
 
-    void autoID() {
-        long biggestID = 1L;
-        while (true) {
-            if (dao.findStockItem(biggestID) == null) {  //Sellist ID ei ole
-                break;
-            } else {
-                biggestID += 1L;
-            }
-        }
-        insertBar.setText(String.valueOf(biggestID));
-    }
-
-
-    private void refreshStockItems() {
-        warehouseTableView.setItems(FXCollections.observableList(dao.findStockItems()));
+    private void updateWarehouseState() {
+        warehouseTableView.setItems(FXCollections.observableList(warehouse.refreshWarehouse()));
         warehouseTableView.refresh();
     }
 }

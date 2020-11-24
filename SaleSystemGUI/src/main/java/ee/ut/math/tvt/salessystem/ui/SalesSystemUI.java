@@ -61,7 +61,7 @@ public class SalesSystemUI extends Application {
         Tab stockTab = new Tab();
         stockTab.setText("Warehouse");
         stockTab.setClosable(false);
-        stockTab.setContent(loadControls("StockTab.fxml", new StockController(dao, addValidator, editValidator)));
+        stockTab.setContent(loadControls("StockTab.fxml", new StockController(dao, addValidator, editValidator, warehouse)));
 
         Tab historyTab = new Tab();
         historyTab.setText("History");
