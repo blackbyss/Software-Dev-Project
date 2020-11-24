@@ -166,9 +166,8 @@ public class StockController implements Initializable {
     @FXML
     public void refreshButtonClicked() {
         warehouseTableView.getSelectionModel().clearSelection();
-        //refreshStockItems();
+        refreshStockItems();
         autoID();
-        System.out.println("Värskendab");  //Kontroll konsoolile, et veenduda nupu töötamises
         log.info("Refreshing");  //Kontroll konsoolile, et veenduda nupu töötamises
     }
 
