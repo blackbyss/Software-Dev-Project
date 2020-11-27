@@ -30,6 +30,10 @@ public class History {
         return dao.findOrders();
     }
 
+    public Order getOrder(long id){
+        return dao.findOrder(id);
+    }
+
     public void removeFromHistory(HistoryItem item) {
         items.remove(item);
     }

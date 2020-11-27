@@ -25,7 +25,7 @@ public class Order {
     @Column(name = "total")
     private double total;
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     private List<HistoryItem> items;
 
     public Order() {
@@ -42,7 +42,7 @@ public class Order {
     public double totalOrder(){
         double total = 0;
         for (HistoryItem item: items) {
-            total += item.getTotal();
+            total += item.getSum();
         }
         return total;
     }

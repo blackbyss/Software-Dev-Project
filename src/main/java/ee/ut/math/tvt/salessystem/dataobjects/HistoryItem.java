@@ -1,10 +1,5 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,6 +10,9 @@ public class HistoryItem {
     @Id
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "name")
+    private String name;
 
     @Transient
     private SoldItem soldItem;
@@ -34,14 +32,35 @@ public class HistoryItem {
 
     public HistoryItem(SoldItem soldItem) {
         this.id = soldItem.getId();
+        this.name = soldItem.getName();
         this.soldItem = soldItem;
         this.quantity = soldItem.getQuantity();
         this.price = soldItem.getPrice();
         this.sum = soldItem.getQuantity() * soldItem.getPrice();
     }
 
-    public Double getTotal() {
+    public Long getId() {
+        return id;
+    }
+
+    public SoldItem getSoldItem() {
+        return soldItem;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Double getSum() {
         return sum;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String toString(){

@@ -92,6 +92,7 @@ public class ShoppingCart {
                 dao.saveHistoryItem(item1);
                 hisItem.add(item1);
             }
+            System.out.println(hisItem);
             dao.saveOrder(new Order(hisItem, LocalDate.now(), LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:00.000"))));
             dao.commitTransaction();
             items.clear();

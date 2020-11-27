@@ -42,6 +42,8 @@ public interface SalesSystemDAO {
 
     List<Order> findOrders();
 
+    Order findOrder(long id);
+
     void saveStockItem(StockItem stockItem);
 
     void saveOrder(Order order);

@@ -138,6 +138,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public Order findOrder(long id) {
+        return null;
+    }
+
+    @Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);
     }

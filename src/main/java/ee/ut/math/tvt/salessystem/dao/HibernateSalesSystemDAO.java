@@ -138,6 +138,11 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public Order findOrder(long id) {
+        return em.find(Order.class, id);
+    }
+
+    @Override
     public void saveStockItem(StockItem stockItem) {
         em.merge(stockItem);
     }
