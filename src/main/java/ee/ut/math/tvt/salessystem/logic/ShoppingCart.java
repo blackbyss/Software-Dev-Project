@@ -2,12 +2,19 @@ package ee.ut.math.tvt.salessystem.logic;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.bytebuddy.asm.Advice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mockito.internal.matchers.Or;
 
 public class ShoppingCart {
     // TODO create logger (currently throws errors)
@@ -78,10 +85,14 @@ public class ShoppingCart {
         // what is a transaction? https://stackoverflow.com/q/974596
         dao.beginTransaction();
         try {
+            List<HistoryItem> hisItem = new ArrayList<>();
             for (SoldItem item : items) {
+                HistoryItem item1 = new HistoryItem(item);
                 dao.saveSoldItem(item);
-                dao.saveHistoryItem(new HistoryItem());
+                dao.saveHistoryItem(item1);
+                hisItem.add(item1);
             }
+            dao.saveOrder(new Order(hisItem, LocalDate.now(), LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:00.000"))));
             dao.commitTransaction();
             items.clear();
             log.info("Current purhcase submitted");

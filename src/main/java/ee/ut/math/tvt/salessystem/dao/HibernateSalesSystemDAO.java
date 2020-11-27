@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.dao;
 
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
@@ -28,8 +29,8 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         items.add(new StockItem(3L, "Frankfurters", "Beer sauseges", 15.0, 12));
         items.add(new StockItem(4L, "Free Beer", "Student's delight", 0.0, 100));
         beginTransaction();
-        for (StockItem item:
-             items) {
+        for (StockItem item :
+                items) {
             saveStockItem(item);
         }
         commitTransaction();
@@ -37,11 +38,15 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     // TODO implement missing methods
 
-    public void close() {
+     public void close() {
         em.close();
         emf.close();
     }
-    
+
+
+    /**
+     * Transaction methods
+     */
     @Override
     public void beginTransaction() {
         em.getTransaction().begin();
@@ -57,6 +62,10 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         em.getTransaction().commit();
     }
 
+
+    /**
+     * Find items from Stock methods
+     */
     @Override
     public List<StockItem> findStockItems() {
         Query query = em.createQuery("Select si FROM StockItem si");
@@ -73,15 +82,19 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         return em.find(StockItem.class, name);
     }
 
+
+    /**
+     * Add item to Stock methods
+     */
     @Override
-    public void addNewStockItem(StockItem item){
+    public void addNewStockItem(StockItem item) {
         beginTransaction();
         saveStockItem(item);
         commitTransaction();
     }
 
     @Override
-    public void addExistingStockItem(long id, int amount){
+    public void addExistingStockItem(long id, int amount) {
         beginTransaction();
 
         StockItem itemForAdd = findStockItem(id);
@@ -90,6 +103,10 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         commitTransaction();
     }
 
+
+    /**
+     * Delete item from Stock methods
+     */
     @Override
     public void deleteStockitem(long id) {
         beginTransaction();
@@ -99,14 +116,25 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         commitTransaction();
     }
 
+
+    /**
+     * Find items from History methods
+     */
     @Override
     public List<HistoryItem> findHistoryItems() {
-        return null;
+        Query query = em.createQuery("Select si FROM HistoryItem si");
+        return query.getResultList();
     }
 
     @Override
     public SoldItem findSoldItem(long id) {
         return null;
+    }
+
+    @Override
+    public List<Order> findOrders(){
+        Query query = em.createQuery("Select si FROM Order si");
+        return query.getResultList();
     }
 
     @Override
@@ -117,6 +145,16 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveSoldItem(SoldItem item) {
         em.merge(item);
+    }
+
+    @Override
+    public void saveHistoryItem(HistoryItem item) {
+        em.merge(item);
+    }
+
+    @Override
+    public void saveOrder(Order order){
+        em.merge(order);
     }
 
     @Override
@@ -154,8 +192,5 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     }
 
-    @Override
-    public void saveHistoryItem(HistoryItem item) {
-
-    }
 }
+

@@ -2,7 +2,9 @@ package ee.ut.math.tvt.salessystem.ui.controllers;
 
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
+import ee.ut.math.tvt.salessystem.logic.History;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,9 +29,11 @@ public class HistoryController implements Initializable {
 
     private final SalesSystemDAO dao;
     private static final Logger log = LogManager.getLogger(HistoryController.class);
+    private final History history;
 
-    public HistoryController(SalesSystemDAO dao){
+    public HistoryController(SalesSystemDAO dao, History history){
         this.dao = dao;
+        this.history = history;
     }
 
     @FXML
@@ -48,9 +52,10 @@ public class HistoryController implements Initializable {
     private DatePicker endDate;
 
     @FXML
-    private TableView<HistoryItem> historyTable;
+    private TableView<HistoryItem> contentTable;
+
     @FXML
-    private TableView<SoldItem> purchaseTable;
+    private TableView<Order> orderTable;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,6 +72,7 @@ public class HistoryController implements Initializable {
 
     @FXML
     protected void showAllClicked() {
+        orderTable.setItems(FXCollections.observableList(history.getOrders()));
     }
 
 }

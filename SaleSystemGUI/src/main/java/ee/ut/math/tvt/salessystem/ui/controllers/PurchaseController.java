@@ -4,6 +4,7 @@ import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +32,7 @@ public class PurchaseController implements Initializable {
 
     private final SalesSystemDAO dao;
     private final ShoppingCart shoppingCart;
+    private final History history;
 
     @FXML
     private Button newPurchase;
@@ -59,9 +61,10 @@ public class PurchaseController implements Initializable {
     @FXML
     private TableView<SoldItem> purchaseTableView;
 
-    public PurchaseController(SalesSystemDAO dao, ShoppingCart shoppingCart) {
+    public PurchaseController(SalesSystemDAO dao, ShoppingCart shoppingCart, History history) {
         this.dao = dao;
         this.shoppingCart = shoppingCart;
+        this.history = history;
     }
 
     @Override

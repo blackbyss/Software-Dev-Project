@@ -80,7 +80,6 @@ public class SoldItem {
         this.quantity = quantity;
     }
 
-
     public StockItem getStockItem() {
         return stockItem;
     }

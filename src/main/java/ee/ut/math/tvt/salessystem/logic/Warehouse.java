@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import java.util.List;
 
 public class Warehouse {
+
     private final SalesSystemDAO dao;
 
     public Warehouse(SalesSystemDAO dao) {
@@ -20,7 +21,6 @@ public class Warehouse {
         dao.addExistingStockItem(id, amount);
     }
 
-
     public void deleteFromStock(long id){
         dao.deleteStockitem(id);
     }
@@ -28,7 +28,6 @@ public class Warehouse {
     public List<StockItem> refreshWarehouse(){
         return dao.findStockItems();
     }
-
 
     public String autoID() {
         long biggestID = 1L;

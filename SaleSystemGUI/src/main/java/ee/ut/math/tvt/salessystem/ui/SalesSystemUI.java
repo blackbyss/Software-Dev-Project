@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
+import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import ee.ut.math.tvt.salessystem.ui.controllers.HistoryController;
 import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
@@ -36,6 +37,7 @@ public class SalesSystemUI extends Application {
 
     private final SalesSystemDAO dao;
     private final ShoppingCart shoppingCart;
+    private final History history;
     private final Warehouse warehouse;
     private final StockAddValidator addValidator;
     private final StockEditValidator editValidator;
@@ -43,6 +45,7 @@ public class SalesSystemUI extends Application {
     public SalesSystemUI() {
         dao = new HibernateSalesSystemDAO();
         shoppingCart = new ShoppingCart(dao);
+        history = new History(dao);
         warehouse = new Warehouse(dao);
         addValidator = new StockAddValidator(dao);
         editValidator= new StockEditValidator(dao);
@@ -55,7 +58,7 @@ public class SalesSystemUI extends Application {
         Tab purchaseTab = new Tab();
         purchaseTab.setText("Point-of-sale");
         purchaseTab.setClosable(false);
-        purchaseTab.setContent(loadControls("PurchaseTab.fxml", new PurchaseController(dao, shoppingCart)));
+        purchaseTab.setContent(loadControls("PurchaseTab.fxml", new PurchaseController(dao, shoppingCart, history)));
 
 
         Tab stockTab = new Tab();
@@ -66,7 +69,7 @@ public class SalesSystemUI extends Application {
         Tab historyTab = new Tab();
         historyTab.setText("History");
         historyTab.setClosable(false);
-        historyTab.setContent(loadControls("HistoryTab.fxml", new HistoryController(dao)));
+        historyTab.setContent(loadControls("HistoryTab.fxml", new HistoryController(dao, history)));
 
         Tab teamTab = new Tab();
         teamTab.setText("Team");

@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.dao;
 
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
@@ -39,7 +40,11 @@ public interface SalesSystemDAO {
 
     SoldItem findSoldItem(long id);
 
+    List<Order> findOrders();
+
     void saveStockItem(StockItem stockItem);
+
+    void saveOrder(Order order);
 
     void removeStockItem(long id, long amount);
 

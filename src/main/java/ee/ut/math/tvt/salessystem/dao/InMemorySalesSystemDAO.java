@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.dao;
 
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
@@ -132,6 +133,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
+    public List<Order> findOrders() {
+        return null;
+    }
+
+    @Override
     public void saveSoldItem(SoldItem item) {
         soldItemList.add(item);
     }
@@ -139,6 +145,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveStockItem(StockItem stockItem) {
         stockItemList.add(stockItem);
+    }
+
+    @Override
+    public void saveOrder(Order order) {
+
     }
 
     @Override

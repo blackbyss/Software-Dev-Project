@@ -28,31 +28,16 @@ public class HistoryItem {
     @Column(name = "total")
     private Double sum;
 
-    @Column(name = "date")
-    private LocalDate date;
-
-    @Column(name = "time")
-    private String time;
-
     public HistoryItem() {
 
     }
 
-    public HistoryItem(SoldItem soldItem, int quantity, double sum) {
+    public HistoryItem(SoldItem soldItem) {
         this.id = soldItem.getId();
         this.soldItem = soldItem;
-        this.quantity = quantity;
+        this.quantity = soldItem.getQuantity();
         this.price = soldItem.getPrice();
-        this.sum = sum;
-        this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:00.000"));
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public String getTime() {
-        return time;
+        this.sum = soldItem.getQuantity() * soldItem.getPrice();
     }
 
     public Double getTotal() {
