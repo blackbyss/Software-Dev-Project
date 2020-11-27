@@ -80,8 +80,8 @@ public class ShoppingCart {
         try {
             for (SoldItem item : items) {
                 dao.saveSoldItem(item);
+                dao.saveHistoryItem(new HistoryItem());
             }
-            dao.saveHistoryItem(new HistoryItem(items));
             dao.commitTransaction();
             items.clear();
             log.info("Current purhcase submitted");

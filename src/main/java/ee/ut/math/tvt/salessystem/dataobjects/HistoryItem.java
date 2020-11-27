@@ -8,29 +8,43 @@ import java.util.List;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name= "HISTORY_ITEM")
 public class HistoryItem {
 
-    private final LocalDate date;
-    private final String time;
-    private final Double total;
-    private final List<SoldItem> purchase = new ArrayList<>();
+    @Id
+    @Column(name = "id")
+    private Long id;
 
-    public HistoryItem(List<SoldItem> purchase) {
-        this.date = LocalDate.now();
+    @Transient
+    private SoldItem soldItem;
+
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "price")
+    private double price;
+
+    @Column(name = "total")
+    private Double sum;
+
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "time")
+    private String time;
+
+    public HistoryItem() {
+
+    }
+
+    public HistoryItem(SoldItem soldItem, int quantity, double sum) {
+        this.id = soldItem.getId();
+        this.soldItem = soldItem;
+        this.quantity = quantity;
+        this.price = soldItem.getPrice();
+        this.sum = sum;
         this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:00.000"));
-        this.purchase.addAll(purchase);
-        this.total = sum(purchase);
-    }
-
-    private static Double sum(List<SoldItem> items) {
-        double sum = 0;
-        for (SoldItem item : items)
-            sum += item.getPrice() * item.getQuantity();
-        return sum;
-    }
-
-    public List<SoldItem> getItems() {
-        return purchase;
     }
 
     public LocalDate getDate() {
@@ -42,11 +56,11 @@ public class HistoryItem {
     }
 
     public Double getTotal() {
-        return total;
+        return sum;
     }
 
     public String toString(){
-        return time + " cart contents: " + purchase.toString();
+        return "xd";
     }
 
 }

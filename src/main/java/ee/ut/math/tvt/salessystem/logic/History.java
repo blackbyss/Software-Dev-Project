@@ -9,6 +9,7 @@ import java.util.List;
 public class History {
 
     public final List<HistoryItem> items = new ArrayList<>();
+
     public void addToHistory(HistoryItem item){
         items.remove(item);
     }

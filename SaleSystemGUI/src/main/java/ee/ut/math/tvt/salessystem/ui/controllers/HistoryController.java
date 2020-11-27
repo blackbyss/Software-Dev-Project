@@ -54,47 +54,19 @@ public class HistoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("History controller initialized");
-        historyTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection == null) return;
-            purchaseTable.setItems(FXCollections.observableList(newSelection.getItems()));
-        });
+
     }
     @FXML
     protected void showBetweenDatesClicked() {
-        if (startDate.getValue() == null || endDate.getValue() == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error");
-            alert.setHeaderText("Dates not selected");
-            alert.setContentText("Please select valid dates");
-            alert.showAndWait();
-            return;
-        }
-        LocalDate start = startDate.getValue().minusDays(1);
-        LocalDate end = endDate.getValue().plusDays(1);
-        List<HistoryItem> historyItems = new ArrayList<>();
-        for (HistoryItem historyItem : dao.findHistoryItems()) {
-            if (historyItem.getDate().isAfter(start) && historyItem.getDate().isBefore(end))
-                historyItems.add(historyItem);
-        }
-        log.debug("Showing purchases made between " + start + " (including) to " + end + " (including).");
-        historyTable.setItems(FXCollections.observableList(historyItems));
+
     }
 
     @FXML
     protected void showLastTenClicked() {
-        log.debug("Showing last 10 purchases.");
-        List<HistoryItem> historyItems = dao.findHistoryItems();
-        if (historyItems.size() > 10)
-            historyItems = historyItems.subList(historyItems.size()-10, historyItems.size());
-        historyTable.setItems(FXCollections.observableList(historyItems));
     }
 
     @FXML
     protected void showAllClicked() {
-        List<HistoryItem> historyItems = dao.findHistoryItems();
-        log.debug("Showing all " + historyItems.size() + " past purchases.");
-        historyTable.setItems(FXCollections.observableList(historyItems));
     }
 
 }
