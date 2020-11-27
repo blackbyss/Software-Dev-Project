@@ -23,7 +23,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
 
-    @Override
     public void removeStockItem(long id, long amount){
         for (StockItem item : stockItemList){
             if (item.getId() == id){
@@ -34,7 +33,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-    @Override
     public void addNewStockItem(long id, String name, String description, long price, long quantity){
         stockItemList.add(new StockItem(id,name,description,price, (int)quantity));
     }
@@ -49,7 +47,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-    @Override
     public void addStockItem(long id, long amount){
         for (StockItem item : stockItemList){
             if (item.getId() == id){
@@ -58,7 +55,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-    @Override
     public void editItemId(long id, long newId){
         for (StockItem item : stockItemList){
             if (item.getId() == id){
@@ -67,7 +63,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-    @Override
     public void editItemPrice(long id, long price){
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
@@ -77,7 +72,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     }
 
-    @Override
     public void editItemName(long id, String name){
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
@@ -86,7 +80,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
-    @Override
     public void editItemAmount(long id, long amount){
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id){
@@ -123,7 +116,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
-    @Override
     public SoldItem findSoldItem(long id) {
         for (SoldItem item : soldItemList) {
             if (item.getId() == id)

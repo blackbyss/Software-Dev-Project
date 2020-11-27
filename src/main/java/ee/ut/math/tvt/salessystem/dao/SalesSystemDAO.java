@@ -30,15 +30,36 @@ import java.util.List;
  */
 public interface SalesSystemDAO {
 
+
+    //GUI
+    void beginTransaction();
+
+    //GUI
+    void rollbackTransaction();
+
+    //GUI
+    void commitTransaction();
+
+    //GUI
     List<StockItem> findStockItems();
 
-    List<HistoryItem> findHistoryItems();
-
+    //GUI
     StockItem findStockItem(long id);
 
+    //GUI
     StockItem findStockItem(String name);
 
-    SoldItem findSoldItem(long id);
+    //GUI
+    void addNewStockItem(StockItem item);
+
+    //GUI
+    void addExistingStockItem(long id, int amount);
+
+    //GUI
+    void deleteStockitem(long id);
+
+    //GUI
+    List<HistoryItem> findHistoryItems();
 
     List<Order> findOrders();
 
@@ -46,35 +67,9 @@ public interface SalesSystemDAO {
 
     void saveStockItem(StockItem stockItem);
 
-    void saveOrder(Order order);
-
-    void removeStockItem(long id, long amount);
-
-    void addStockItem(long id, long amount);
-
-    void editItemId(long id, long newId);
-
-    void editItemPrice(long id, long price);
-
-    void editItemName(long id, String name);
-
-    void editItemAmount(long id, long amount);
-
-    void addNewStockItem(long id, String name, String description, long price, long quantity);
-
-    void deleteStockitem(long id);
-
     void saveSoldItem(SoldItem item);
 
     void saveHistoryItem(HistoryItem item);
 
-    void beginTransaction();
-
-    void rollbackTransaction();
-
-    void commitTransaction();
-
-    void addNewStockItem(StockItem item);
-
-    void addExistingStockItem(long id, int amount);
+    void saveOrder(Order order);
 }

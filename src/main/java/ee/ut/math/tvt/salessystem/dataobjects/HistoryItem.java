@@ -14,9 +14,6 @@ public class HistoryItem {
     @Column(name = "name")
     private String name;
 
-    @Transient
-    private SoldItem soldItem;
-
     @Column(name = "quantity")
     private int quantity;
 
@@ -33,34 +30,32 @@ public class HistoryItem {
     public HistoryItem(SoldItem soldItem) {
         this.id = soldItem.getId();
         this.name = soldItem.getName();
-        this.soldItem = soldItem;
         this.quantity = soldItem.getQuantity();
         this.price = soldItem.getPrice();
         this.sum = soldItem.getQuantity() * soldItem.getPrice();
     }
 
+    /**
+     * Getters for historyController contentTable
+     */
     public Long getId() {
         return id;
     }
 
-    public SoldItem getSoldItem() {
-        return soldItem;
-    }
-
-    public int getQuantity() {
-        return quantity;
+    public String getName() {
+        return name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public Double getSum() {
-        return sum;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public String getName() {
-        return name;
+    public Double getSum() {
+        return sum;
     }
 
     public String toString(){

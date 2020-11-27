@@ -19,8 +19,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     private List<StockItem> stockItemList;
 
     public HibernateSalesSystemDAO() {
-        // if you get ConnectException/JDBCConnectionException then you
-        // probably forgot to start the database before starting the application
         emf = Persistence.createEntityManagerFactory("pos");
         em = emf.createEntityManager();
         List<StockItem> items = new ArrayList<StockItem>();
@@ -47,16 +45,19 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     /**
      * Transaction methods
      */
+    //GUI
     @Override
     public void beginTransaction() {
         em.getTransaction().begin();
     }
 
+    //GUI
     @Override
     public void rollbackTransaction() {
         em.getTransaction().rollback();
     }
 
+    //GUI
     @Override
     public void commitTransaction() {
         em.getTransaction().commit();
@@ -66,17 +67,20 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     /**
      * Find items from Stock methods
      */
+    //GUI
     @Override
     public List<StockItem> findStockItems() {
         Query query = em.createQuery("Select si FROM StockItem si");
         return query.getResultList();
     }
 
+    //GUI
     @Override
     public StockItem findStockItem(long id) {
         return em.find(StockItem.class, id);
     }
 
+    //GUI
     @Override
     public StockItem findStockItem(String name) {
         return em.find(StockItem.class, name);
@@ -86,6 +90,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     /**
      * Add item to Stock methods
      */
+    //GUI
     @Override
     public void addNewStockItem(StockItem item) {
         beginTransaction();
@@ -93,6 +98,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         commitTransaction();
     }
 
+    //GUI
     @Override
     public void addExistingStockItem(long id, int amount) {
         beginTransaction();
@@ -107,6 +113,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     /**
      * Delete item from Stock methods
      */
+    //GUI
     @Override
     public void deleteStockitem(long id) {
         beginTransaction();
@@ -120,15 +127,11 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     /**
      * Find items from History methods
      */
+    //GUI
     @Override
     public List<HistoryItem> findHistoryItems() {
         Query query = em.createQuery("Select si FROM HistoryItem si");
         return query.getResultList();
-    }
-
-    @Override
-    public SoldItem findSoldItem(long id) {
-        return null;
     }
 
     @Override
@@ -160,41 +163,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveOrder(Order order){
         em.merge(order);
-    }
-
-    @Override
-    public void removeStockItem(long id, long amount) {
-
-    }
-
-    @Override
-    public void addStockItem(long id, long amount) {
-
-    }
-
-    @Override
-    public void editItemId(long id, long newId) {
-
-    }
-
-    @Override
-    public void editItemPrice(long id, long price) {
-
-    }
-
-    @Override
-    public void editItemName(long id, String name) {
-
-    }
-
-    @Override
-    public void editItemAmount(long id, long amount) {
-
-    }
-
-    @Override
-    public void addNewStockItem(long id, String name, String description, long price, long quantity) {
-
     }
 
 }

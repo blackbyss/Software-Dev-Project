@@ -68,6 +68,7 @@ public class HistoryController implements Initializable {
                 contentTable.setItems(FXCollections.observableList(valitud.getItems()));
             } else if (event.getButton().equals(MouseButton.SECONDARY)) {
                 orderTable.getSelectionModel().clearSelection();
+                contentTable.setItems(null);
             }
         });
 
@@ -79,6 +80,7 @@ public class HistoryController implements Initializable {
 
     @FXML
     protected void showLastTenClicked() {
+
     }
 
     @FXML
