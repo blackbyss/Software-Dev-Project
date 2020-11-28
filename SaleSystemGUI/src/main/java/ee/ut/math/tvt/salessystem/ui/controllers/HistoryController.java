@@ -80,12 +80,12 @@ public class HistoryController implements Initializable {
 
     @FXML
     protected void showLastTenClicked() {
-
+        orderTable.setItems(FXCollections.observableList(history.showLast10()));
     }
 
     @FXML
     protected void showAllClicked() {
-        orderTable.setItems(FXCollections.observableList(history.getOrders()));
+        orderTable.setItems(FXCollections.observableList(history.showAll()));
     }
 
 }

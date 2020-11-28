@@ -18,35 +18,19 @@ public class History {
         this.dao = dao;
     }
 
-    public void addToHistory(HistoryItem item) {
-
+    public List<Order> showAll() {
+        return dao.showAll();
     }
 
-    public void addOrder(List<SoldItem> soldItems) {
-
-    }
-
-    public List<Order> getOrders() {
-        return dao.findOrders();
+    public List<Order> showLast10() {
+        return dao.showLast10();
     }
 
     public Order getOrder(long id){
         return dao.findOrder(id);
     }
 
-    public void removeFromHistory(HistoryItem item) {
-        items.remove(item);
-    }
-
     public List<HistoryItem> showBetweenDates() {
-        return items;
-    }
-
-    public List<HistoryItem> showLast10() {
-        return items;
-    }
-
-    public List<HistoryItem> showAll() {
         return items;
     }
 

@@ -4,6 +4,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
+import org.mockito.internal.matchers.Or;
 
 import java.util.List;
 
@@ -61,8 +62,6 @@ public interface SalesSystemDAO {
     //GUI
     List<HistoryItem> findHistoryItems();
 
-    List<Order> findOrders();
-
     Order findOrder(long id);
 
     void saveStockItem(StockItem stockItem);
@@ -72,4 +71,8 @@ public interface SalesSystemDAO {
     void saveHistoryItem(HistoryItem item);
 
     void saveOrder(Order order);
+
+    List<Order> showAll();
+
+    List<Order> showLast10();
 }

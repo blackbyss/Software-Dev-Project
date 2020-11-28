@@ -23,67 +23,67 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
 
-    public void removeStockItem(long id, long amount){
-        for (StockItem item : stockItemList){
-            if (item.getId() == id){
-                int newAmount = item.getQuantity() - (int)amount;
-                if (newAmount < 0) newAmount =0;
+    public void removeStockItem(long id, long amount) {
+        for (StockItem item : stockItemList) {
+            if (item.getId() == id) {
+                int newAmount = item.getQuantity() - (int) amount;
+                if (newAmount < 0) newAmount = 0;
                 item.setQuantity(newAmount);
             }
         }
     }
 
-    public void addNewStockItem(long id, String name, String description, long price, long quantity){
-        stockItemList.add(new StockItem(id,name,description,price, (int)quantity));
+    public void addNewStockItem(long id, String name, String description, long price, long quantity) {
+        stockItemList.add(new StockItem(id, name, description, price, (int) quantity));
     }
 
     @Override
-    public void deleteStockitem(long id){
+    public void deleteStockitem(long id) {
         for (StockItem stockItem : stockItemList) {
-            if (stockItem.getId() == id){
+            if (stockItem.getId() == id) {
                 stockItemList.remove(stockItem);
                 break;
             }
         }
     }
 
-    public void addStockItem(long id, long amount){
-        for (StockItem item : stockItemList){
-            if (item.getId() == id){
-                item.setQuantity(item.getQuantity() + (int)amount);
+    public void addStockItem(long id, long amount) {
+        for (StockItem item : stockItemList) {
+            if (item.getId() == id) {
+                item.setQuantity(item.getQuantity() + (int) amount);
             }
         }
     }
 
-    public void editItemId(long id, long newId){
-        for (StockItem item : stockItemList){
-            if (item.getId() == id){
+    public void editItemId(long id, long newId) {
+        for (StockItem item : stockItemList) {
+            if (item.getId() == id) {
                 item.setId(newId);
             }
         }
     }
 
-    public void editItemPrice(long id, long price){
+    public void editItemPrice(long id, long price) {
         for (StockItem stockItem : stockItemList) {
-            if (stockItem.getId() == id){
+            if (stockItem.getId() == id) {
                 stockItem.setPrice(price);
             }
         }
 
     }
 
-    public void editItemName(long id, String name){
+    public void editItemName(long id, String name) {
         for (StockItem stockItem : stockItemList) {
-            if (stockItem.getId() == id){
+            if (stockItem.getId() == id) {
                 stockItem.setName(name);
             }
         }
     }
 
-    public void editItemAmount(long id, long amount){
+    public void editItemAmount(long id, long amount) {
         for (StockItem stockItem : stockItemList) {
-            if (stockItem.getId() == id){
-                stockItem.setQuantity((int)amount);
+            if (stockItem.getId() == id) {
+                stockItem.setQuantity((int) amount);
             }
         }
     }
@@ -94,7 +94,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
-    public List<HistoryItem> findHistoryItems(){
+    public List<HistoryItem> findHistoryItems() {
         return historyItemList;
     }
 
@@ -108,9 +108,9 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
-    public StockItem findStockItem(String name){
-        for (StockItem item : stockItemList){
-            if(item.getName().toLowerCase().equals(name.toLowerCase()))
+    public StockItem findStockItem(String name) {
+        for (StockItem item : stockItemList) {
+            if (item.getName().toLowerCase().equals(name.toLowerCase()))
                 return item;
         }
         return null;
@@ -121,11 +121,6 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
             if (item.getId() == id)
                 return item;
         }
-        return null;
-    }
-
-    @Override
-    public List<Order> findOrders() {
         return null;
     }
 
@@ -150,7 +145,17 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
-    public void saveHistoryItem(HistoryItem historyItem){
+    public List<Order> showAll() {
+        return null;
+    }
+
+    @Override
+    public List<Order> showLast10() {
+        return null;
+    }
+
+    @Override
+    public void saveHistoryItem(HistoryItem historyItem) {
         historyItemList.add(historyItem);
     }
 

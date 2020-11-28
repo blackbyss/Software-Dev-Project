@@ -5,10 +5,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +67,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     //GUI
     @Override
     public List<StockItem> findStockItems() {
-        Query query = em.createQuery("Select si FROM StockItem si");
+        Query query = em.createQuery("Select e FROM StockItem e");
         return query.getResultList();
     }
 
@@ -130,13 +127,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     //GUI
     @Override
     public List<HistoryItem> findHistoryItems() {
-        Query query = em.createQuery("Select si FROM HistoryItem si");
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Order> findOrders(){
-        Query query = em.createQuery("Select si FROM Order si");
+        Query query = em.createQuery("Select e FROM HistoryItem e");
         return query.getResultList();
     }
 
@@ -163,6 +154,16 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     @Override
     public void saveOrder(Order order){
         em.merge(order);
+    }
+
+    @Override
+    public List<Order> showAll() {
+        return em.createQuery("Select e FROM Order e").getResultList();
+    }
+
+    @Override
+    public List<Order> showLast10() {
+        return em.createQuery("Select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
     }
 
 }
