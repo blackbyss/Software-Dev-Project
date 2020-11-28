@@ -36,7 +36,7 @@ public class HistoryItem {
     }
 
     /**
-     * Getters for historyController contentTable
+     * Getters
      */
     public Long getId() {
         return id;
@@ -59,7 +59,7 @@ public class HistoryItem {
     }
 
     public String toString(){
-        return "xd";
+        return " ";
     }
 
 }

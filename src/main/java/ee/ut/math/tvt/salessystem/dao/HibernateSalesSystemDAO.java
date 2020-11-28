@@ -139,6 +139,30 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         return query.getResultList();
     }
 
+    /**
+     * Methods to show Orders
+     */
+    //GUI
+    @Override
+    public List<Order> showAll() {
+        return em.createQuery("select e FROM Order e").getResultList();
+    }
+
+    //GUI
+    @Override
+    public List<Order> showLast10() {
+        return em.createQuery("select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
+    }
+
+    //GUI
+    @Override
+    public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
+        return em.createQuery("select e FROM Order e where e.dateSQL between :begin and :end")
+                .setParameter("begin", Date.valueOf(begin))
+                .setParameter("end", Date.valueOf(end))
+                .getResultList();
+    }
+
     @Override
     public Order findOrder(long id) {
         return em.find(Order.class, id);
@@ -164,23 +188,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         em.merge(order);
     }
 
-    @Override
-    public List<Order> showAll() {
-        return em.createQuery("select e FROM Order e").getResultList();
-    }
-
-    @Override
-    public List<Order> showLast10() {
-        return em.createQuery("select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
-    }
-
-    @Override
-    public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
-        return em.createQuery("select e FROM Order e where e.dateSQL between :begin and :end")
-                .setParameter("begin", Date.valueOf(begin))
-                .setParameter("end", Date.valueOf(end))
-                .getResultList();
-    }
 
 }
 

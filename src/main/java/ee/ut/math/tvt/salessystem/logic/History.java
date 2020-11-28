@@ -3,7 +3,6 @@ package ee.ut.math.tvt.salessystem.logic;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.Order;
-import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +18,9 @@ public class History {
         this.dao = dao;
     }
 
+    /**
+     * Methods used by HibernateDAO to retrieve orders
+     */
     public List<Order> showAll() {
         return dao.showAll();
     }
@@ -27,12 +29,15 @@ public class History {
         return dao.showLast10();
     }
 
-    public Order getOrder(long id){
-        return dao.findOrder(id);
-    }
-
     public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
         return dao.showBetweenDates(begin, end);
+    }
+
+    /**
+     * Getters
+     */
+    public Order getOrder(long id){
+        return dao.findOrder(id);
     }
 
 }

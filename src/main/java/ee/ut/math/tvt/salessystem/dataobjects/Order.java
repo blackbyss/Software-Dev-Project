@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Order which contains historyItems which are made out of soldItem
+ * Order which contains historyItems
  */
 @Entity
 @Table(name ="ORDER_HISTORY")
@@ -32,6 +32,9 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL)
     private List<HistoryItem> items;
 
+    /**
+     * Constructors
+     */
     public Order() {
 
     }
@@ -44,6 +47,9 @@ public class Order {
         this.total = totalOrder();
     }
 
+    /**
+     * Get order total
+     */
     public double totalOrder(){
         double total = 0;
         for (HistoryItem item: items) {
@@ -56,6 +62,9 @@ public class Order {
         return id;
     }
 
+    /**
+     * Getters
+     */
     public LocalDate getDate() {
         return date;
     }
