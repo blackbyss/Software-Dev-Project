@@ -39,5 +39,4 @@ public class History {
     public Order getOrder(long id){
         return dao.findOrder(id);
     }
-
 }

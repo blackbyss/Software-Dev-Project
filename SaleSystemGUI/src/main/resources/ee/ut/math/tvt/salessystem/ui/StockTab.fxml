@@ -124,7 +124,7 @@
                       <children>
                         <Button fx:id="refreshButton" onMouseClicked="#refreshButtonClicked" text="Refresh warehouse" />
                         <Button fx:id="editButton" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
-                                    <Button fx:id="confirmButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="131.0" text="Confrim" />
+                                    <Button fx:id="confirmButton" mnemonicParsing="false" onMouseClicked="#confirmButtonClicked" prefHeight="26.0" prefWidth="131.0" text="Confrim" />
                       </children>
                     </HBox>
                   </top>
