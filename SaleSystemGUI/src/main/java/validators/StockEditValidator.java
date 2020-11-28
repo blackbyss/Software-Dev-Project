@@ -1,7 +1,5 @@
 package validators;
 
-import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
-import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import javafx.scene.control.Alert;
 
@@ -15,15 +13,19 @@ public class StockEditValidator {
 
 
     //TODO-Kogu valideerimine
-    private boolean valideeriMuutus() {
+    public boolean valideeriMuutus(double price) {
         StringBuilder errors = new StringBuilder();
+
+        if(price < 0){
+            errors.append("- Please enter valid price(0 and greater)\n");
+        }
 
 
 
         if (errors.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
-            alert.setHeaderText("Required Fields Empty");
+            alert.setHeaderText("Required Field is faulty");
             alert.setContentText(errors.toString());
 
             alert.showAndWait();

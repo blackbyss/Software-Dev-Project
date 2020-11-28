@@ -18,6 +18,7 @@ import validators.StockAddValidator;
 import validators.StockEditValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,7 +38,6 @@ public class StockController implements Initializable {
 
     @FXML
     private Label priceText;
-
 
     @FXML
     private TextField insertBar;
@@ -85,10 +85,13 @@ public class StockController implements Initializable {
     //Default window state
     private void defaultWindow() {
 
+        //Eemaldame valiku
         warehouseTableView.getSelectionModel().clearSelection();
 
-        //Nuppude kättesaadavus
+        //Eemaldame eelnevad bindingud
         confirmButton.disableProperty().unbind();
+
+        //Nuppude kättesaadavus
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
         cancelButton.setDisable(true);
@@ -99,6 +102,9 @@ public class StockController implements Initializable {
         //Nuppude/Teksti muutmine
         insertPrice.setText("");
         insertAmount.setText("");
+        insertName.setText("");
+        nameText.setText("Name:");
+        priceText.setText("Price:");
         amountText.setText("Amount:");
         addExisting.setText("Add existing");
 
@@ -110,24 +116,54 @@ public class StockController implements Initializable {
 
         //Lisame nuppude saadavuse
         setBindingsToButtons();
+
     }
 
     //"Add Existing" button window state
-    private void addExistingWindowState(Long id){
+    private void addExistingButtonWindowState(StockItem valitud) {
+
+        //Eemaldame eelnevad bindingud
+        removeItem.disableProperty().unbind();
+        editButton.disableProperty().unbind();
+
+        //Nuppude kättesaadavus
         insertPrice.setDisable(true);
         refreshButton.setDisable(true);
         insertName.setDisable(true);
-        insertBar.setText(String.valueOf(id));
-        cancelButton.setDisable(false);
-        amountText.setText("Increase:");
-        addExisting.setText("Add");
-        removeItem.disableProperty().unbind();
-        editButton.disableProperty().unbind();
         removeItem.setDisable(true);
         editButton.setDisable(true);
+        cancelButton.setDisable(false);
+
+        //Nuppude/tekstide muutmine
+        insertBar.setText(String.valueOf(valitud.getId()));
+        amountText.setText("Increase:");
+        addExisting.setText("Add");
+
     }
 
-    private void setBindingsToButtons(){
+    //"Edit" button window state
+    private void editButtonWindowState(StockItem valitud) {
+
+        //Eemaldame eelnevad bindingud
+        addExisting.disableProperty().unbind();
+        removeItem.disableProperty().unbind();
+
+        //Nuppude kättesaadavus
+        refreshButton.setDisable(true);
+        cancelButton.setDisable(false);
+        insertAmount.setDisable(true);
+        removeItem.setDisable(true);
+        addExisting.setDisable(true);
+
+        //Nuppude/tekstide muutmine
+        insertBar.setText(String.valueOf(valitud.getId()));
+        insertAmount.setText(String.valueOf(valitud.getQuantity()));
+        nameText.setText("New name:");
+        priceText.setText("New price:");
+
+    }
+
+    private void setBindingsToButtons() {
         BooleanBinding controlAddItem = insertBar.textProperty().isEmpty().or(insertName.textProperty().isEmpty())
                 .or(insertAmount.textProperty().isEmpty()).or(insertPrice.textProperty().isEmpty());
         addItem.disableProperty().bind(controlAddItem);
@@ -149,7 +185,8 @@ public class StockController implements Initializable {
         warehouseTableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 warehouseTableView.getSelectionModel().getSelectedItem();
-            } else if (event.getButton().equals(MouseButton.SECONDARY)) {
+            }
+            if (event.getButton().equals(MouseButton.SECONDARY)) {
                 warehouseTableView.getSelectionModel().clearSelection();
             }
         });
@@ -189,9 +226,9 @@ public class StockController implements Initializable {
 
         //Muudame window state, kui alustame toote lisamist
         if (addExisting.getText().equals("Add existing")) {
-            addExistingWindowState(valitud.getId());
+            addExistingButtonWindowState(valitud);
 
-        //Lisame tootele sisestatud koguse
+            //Lisame tootele sisestatud koguse
         } else {
 
             //Suurendatava toote tunnused
@@ -224,6 +261,7 @@ public class StockController implements Initializable {
 
         //Logging
         log.debug("StockItem to remove: " + valitud.toString());
+
     }
 
     //TODO Validator for new price and change attributes in DB via Warehouse class
@@ -234,18 +272,7 @@ public class StockController implements Initializable {
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
 
         //Edit aknakuva
-        refreshButton.setDisable(true);
-        cancelButton.setDisable(false);
-        insertBar.setText(String.valueOf(valitud.getId()));
-        insertAmount.setText(String.valueOf(valitud.getQuantity()));
-        insertAmount.setDisable(true);
-        addExisting.setDisable(true);
-        removeItem.disableProperty().unbind();
-        removeItem.setDisable(true);
-        nameText.setText("New name:");
-        priceText.setText("New price:");
-
-
+        editButtonWindowState(valitud);
 
         //Väljade kontroll, mis aktiveerib "Confirm" nupu
         BooleanBinding controlConfirmItem = (insertName.textProperty().isEmpty()).and(insertPrice.textProperty().isEmpty());
@@ -255,6 +282,19 @@ public class StockController implements Initializable {
 
     @FXML
     void confirmButtonClicked(MouseEvent event) {
+
+        //Kontrollime uut hinda ja muudame
+        if (!insertPrice.getText().equals("")) {
+            if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
+                warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
+            }
+        }
+
+        //Muudame nime
+        if (!insertName.getText().equals("")) {
+            warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+        }
+
 
         defaultWindow();
 
@@ -274,8 +314,10 @@ public class StockController implements Initializable {
     }
 
     private void updateWarehouseState() {
+
         warehouseTableView.setItems(FXCollections.observableList(warehouse.refreshWarehouse()));
         warehouseTableView.refresh();
+
     }
 }
 

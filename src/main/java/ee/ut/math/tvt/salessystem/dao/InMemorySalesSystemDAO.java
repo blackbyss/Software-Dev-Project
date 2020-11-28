@@ -186,4 +186,14 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     public void addExistingStockItem(long id, int maount) {
 
     }
+
+    @Override
+    public void editStockItemName(long id, String newName) {
+
+    }
+
+    @Override
+    public void editStockItemPrice(long id, double price) {
+
+    }
 }

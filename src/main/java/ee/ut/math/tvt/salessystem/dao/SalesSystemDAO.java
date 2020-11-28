@@ -58,6 +58,12 @@ public interface SalesSystemDAO {
     void addExistingStockItem(long id, int amount);
 
     //GUI
+    void editStockItemName(long id, String newName);
+
+    //GUI
+    void editStockItemPrice(long id, double price);
+
+    //GUI
     void deleteStockitem(long id);
 
     //GUI

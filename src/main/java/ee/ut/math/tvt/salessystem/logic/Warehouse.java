@@ -25,6 +25,14 @@ public class Warehouse {
         dao.deleteStockitem(id);
     }
 
+    public void editStockItemName(long id, String newName){
+        dao.editStockItemName(id, newName);
+    }
+
+    public void editStockItemPrice(long id, double newPrice) {
+        dao.editStockItemPrice(id, newPrice);
+    }
+
     public List<StockItem> refreshWarehouse(){
         return dao.findStockItems();
     }

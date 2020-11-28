@@ -41,7 +41,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     // TODO implement missing methods
 
-     public void close() {
+    public void close() {
         em.close();
         emf.close();
     }
@@ -116,6 +116,21 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
 
     /**
+     * Edit stockItem
+     */
+    //GUI
+    @Override
+    public void editStockItemName(long id, String newName) {
+        findStockItem(id).setName(newName);
+    }
+
+    //GUI
+    @Override
+    public void editStockItemPrice(long id, double newPrice) {
+        findStockItem(id).setPrice(newPrice);
+    }
+
+    /**
      * Delete item from Stock methods
      */
     //GUI
@@ -184,7 +199,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
     @Override
-    public void saveOrder(Order order){
+    public void saveOrder(Order order) {
         em.merge(order);
     }
 
