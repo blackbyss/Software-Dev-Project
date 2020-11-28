@@ -6,6 +6,8 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +18,19 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     private List<StockItem> stockItemList;
 
     public HibernateSalesSystemDAO() {
+
+        //Create emf and em
         emf = Persistence.createEntityManagerFactory("pos");
         em = emf.createEntityManager();
         List<StockItem> items = new ArrayList<StockItem>();
+
+        //Default Stock
         items.add(new StockItem(1L, "Lays chips", "Potato chips", 11.0, 5));
         items.add(new StockItem(2L, "Chupa-chups", "Sweets", 8.0, 8));
         items.add(new StockItem(3L, "Frankfurters", "Beer sauseges", 15.0, 12));
         items.add(new StockItem(4L, "Free Beer", "Student's delight", 0.0, 100));
+
+        //Add default stockItems to STOCK_ITEM DB
         beginTransaction();
         for (StockItem item :
                 items) {
@@ -158,12 +166,20 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<Order> showAll() {
-        return em.createQuery("Select e FROM Order e").getResultList();
+        return em.createQuery("select e FROM Order e").getResultList();
     }
 
     @Override
     public List<Order> showLast10() {
-        return em.createQuery("Select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
+        return em.createQuery("select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
+    }
+
+    @Override
+    public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
+        return em.createQuery("select e FROM Order e where e.dateSQL between :begin and :end")
+                .setParameter("begin", Date.valueOf(begin))
+                .setParameter("end", Date.valueOf(end))
+                .getResultList();
     }
 
 }

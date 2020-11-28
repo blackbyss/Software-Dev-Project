@@ -5,6 +5,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class History {
         return dao.findOrder(id);
     }
 
-    public List<HistoryItem> showBetweenDates() {
-        return items;
+    public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
+        return dao.showBetweenDates(begin, end);
     }
 
 }

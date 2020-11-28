@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.dataobjects;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class Order {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "dateSQL")
+    private Date dateSQL;
+
     @Column(name = "time")
     private String time;
 
@@ -34,6 +38,7 @@ public class Order {
 
     public Order(List<HistoryItem> items, LocalDate date, String time){
         this.date = date;
+        this.dateSQL = Date.valueOf(date);
         this.time = time;
         this.items = items;
         this.total = totalOrder();

@@ -5,6 +5,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +152,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<Order> showLast10() {
+        return null;
+    }
+
+    @Override
+    public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
         return null;
     }
 

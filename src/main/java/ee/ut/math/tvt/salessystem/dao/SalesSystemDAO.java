@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import org.mockito.internal.matchers.Or;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -75,4 +76,6 @@ public interface SalesSystemDAO {
     List<Order> showAll();
 
     List<Order> showLast10();
+
+    List<Order> showBetweenDates(LocalDate begin, LocalDate end);
 }

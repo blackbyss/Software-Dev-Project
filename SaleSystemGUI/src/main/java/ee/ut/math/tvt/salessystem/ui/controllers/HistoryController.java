@@ -75,7 +75,9 @@ public class HistoryController implements Initializable {
     }
     @FXML
     protected void showBetweenDatesClicked() {
-
+        LocalDate begin = startDate.getValue();
+        LocalDate end = endDate.getValue();
+        orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
     }
 
     @FXML
