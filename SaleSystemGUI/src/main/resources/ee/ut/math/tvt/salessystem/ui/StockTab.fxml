@@ -37,12 +37,12 @@
                         <Insets top="10.0" />
                       </VBox.margin>
                     </Label>
-                    <Label text="Name:">
+                    <Label fx:id="nameText" text="Name:">
                       <VBox.margin>
                         <Insets top="10.0" />
                       </VBox.margin>
                     </Label>
-                    <Label text="Price">
+                    <Label fx:id="priceText" text="Price:">
                       <VBox.margin>
                         <Insets top="10.0" />
                       </VBox.margin>
@@ -123,7 +123,7 @@
                     <HBox prefHeight="17.0" prefWidth="579.0" BorderPane.alignment="CENTER">
                       <children>
                         <Button fx:id="refreshButton" onMouseClicked="#refreshButtonClicked" text="Refresh warehouse" />
-                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="editButton" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
                                     <Button fx:id="confirmButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="131.0" text="Confrim" />
                       </children>
                     </HBox>

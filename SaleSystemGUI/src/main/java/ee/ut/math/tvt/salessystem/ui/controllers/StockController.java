@@ -33,6 +33,13 @@ public class StockController implements Initializable {
     private Label amountText;
 
     @FXML
+    private Label nameText;
+
+    @FXML
+    private Label priceText;
+
+
+    @FXML
     private TextField insertBar;
 
     @FXML
@@ -91,7 +98,7 @@ public class StockController implements Initializable {
         //Nuppude/Teksti muutmine
         insertPrice.setText("");
         insertAmount.setText("");
-        amountText.setText("Amount");
+        amountText.setText("Amount:");
         addExisting.setText("Add existing");
 
         //Värskendame sisu
@@ -116,8 +123,9 @@ public class StockController implements Initializable {
         addItem.disableProperty().bind(controlAddItem);
 
 
-        //Valiku kontroll, mis aktiveerib "Remove" nupu
+        //Valiku kontroll, mis aktiveerib "Remove" ja "Edit" nupu
         removeItem.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
+        editButton.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
 
 
         //Rea valimine ja rea tühistamine
@@ -201,6 +209,32 @@ public class StockController implements Initializable {
 
         //Logging
         log.debug("StockItem to remove: " + valitud.toString());
+    }
+
+    //TODO Validator for new price and change attributes in DB via Warehouse class
+    @FXML
+    void editButtonClicked(MouseEvent event) {
+
+        //Valime toote mida soovime muuta
+        StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
+
+        //Edit aknakuva
+        refreshButton.setDisable(true);
+        insertBar.setText(String.valueOf(valitud.getId()));
+        insertAmount.setText(String.valueOf(valitud.getQuantity()));
+        insertAmount.setDisable(true);
+        addExisting.setDisable(true);
+        removeItem.disableProperty().unbind();
+        removeItem.setDisable(true);
+        nameText.setText("New name:");
+        priceText.setText("New price:");
+
+
+
+        //Väljade kontroll, mis aktiveerib "Confirm" nupu
+        BooleanBinding controlConfirmItem = (insertName.textProperty().isEmpty()).or(insertPrice.textProperty().isEmpty());
+        confirmButton.disableProperty().bind(controlConfirmItem);
+
     }
 
     @FXML
