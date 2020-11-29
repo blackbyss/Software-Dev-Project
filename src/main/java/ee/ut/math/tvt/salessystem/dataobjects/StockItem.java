@@ -1,6 +1,5 @@
 package ee.ut.math.tvt.salessystem.dataobjects;
 
-//Database imports
 import javax.persistence.*;
 
 /**

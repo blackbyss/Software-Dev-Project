@@ -85,13 +85,13 @@ public class StockController implements Initializable {
     //Default window state
     private void defaultWindow() {
 
-        //Eemaldame valiku
+        //Remove tableview selection
         warehouseTableView.getSelectionModel().clearSelection();
 
-        //Eemaldame eelnevad bindingud
+        //Remove previous button bindings
         confirmButton.disableProperty().unbind();
 
-        //Nuppude kättesaadavus
+        //Availability of buttons
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
         cancelButton.setDisable(true);
@@ -100,7 +100,7 @@ public class StockController implements Initializable {
         insertPrice.setDisable(false);
         refreshButton.setDisable(false);
 
-        //Nuppude/Teksti muutmine
+        //Change text of textfields and buttons
         insertPrice.setText("");
         insertAmount.setText("");
         insertName.setText("");
@@ -109,13 +109,13 @@ public class StockController implements Initializable {
         amountText.setText("Amount:");
         addExisting.setText("Add existing");
 
-        //Värskendame sisu
+        //Update warehouse stock
         updateWarehouseState();
 
-        //Genereerime ID
+        //Generate ID-s
         insertBar.setText(warehouse.autoID());
 
-        //Lisame nuppude saadavuse
+        //Append bindings to buttons
         setBindingsToButtons();
 
     }
@@ -123,11 +123,11 @@ public class StockController implements Initializable {
     //"Add Existing" button window state
     private void addExistingButtonWindowState(StockItem valitud) {
 
-        //Eemaldame eelnevad bindingud
+        //Remove tableview selection
         removeItem.disableProperty().unbind();
         editButton.disableProperty().unbind();
 
-        //Nuppude kättesaadavus
+        //Availability of buttons
         insertPrice.setDisable(true);
         refreshButton.setDisable(true);
         insertName.setDisable(true);
@@ -135,7 +135,7 @@ public class StockController implements Initializable {
         editButton.setDisable(true);
         cancelButton.setDisable(false);
 
-        //Nuppude/tekstide muutmine
+        //Change text of textfields and buttons
         insertBar.setText(String.valueOf(valitud.getId()));
         amountText.setText("Increase:");
         addExisting.setText("Add");
@@ -145,13 +145,13 @@ public class StockController implements Initializable {
     //"Edit" button window state
     private void editButtonWindowState(StockItem valitud) {
 
-        //Eemaldame eelnevad bindingud
+        //Remove tableview selection
         addExisting.disableProperty().unbind();
         addItem.disableProperty().unbind();
         removeItem.disableProperty().unbind();
         editButton.disableProperty().unbind();
 
-        //Nuppude kättesaadavus
+        //Availability of buttons
         refreshButton.setDisable(true);
         insertAmount.setDisable(true);
         removeItem.setDisable(true);
@@ -160,7 +160,7 @@ public class StockController implements Initializable {
         editButton.setDisable(true);
         cancelButton.setDisable(false);
 
-        //Nuppude/tekstide muutmine
+        //Change text of textfields and buttons
         insertBar.setText(String.valueOf(valitud.getId()));
         insertAmount.setText(String.valueOf(valitud.getQuantity()));
         nameText.setText("New name:");
@@ -170,24 +170,26 @@ public class StockController implements Initializable {
 
     //Bindings for buttons which activate with tableview entity selection
     private void setBindingsToButtons() {
+
+        //BooleanBInding for adding new product
         BooleanBinding controlAddItem = insertBar.textProperty().isEmpty().or(insertName.textProperty().isEmpty())
                 .or(insertAmount.textProperty().isEmpty()).or(insertPrice.textProperty().isEmpty());
 
+        //Binded buttons
         addItem.disableProperty().bind(controlAddItem);
         removeItem.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
         editButton.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
         addExisting.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
+
     }
 
-    //TODO- Edit nupu loogika
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //Algne kuvand
+        //Default tab view
         defaultWindow();
 
-
-        //Rea valimine ja rea tühistamine
+        //Choosing row and canceling selected
         warehouseTableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 warehouseTableView.getSelectionModel().getSelectedItem();
@@ -202,16 +204,16 @@ public class StockController implements Initializable {
     @FXML
     void addItemClicked(MouseEvent event) {
 
-        //Tühistame valitud warehouse toote
+        //Remove tableview selection
         warehouseTableView.getSelectionModel().clearSelection();
 
-        //Lisatava toote tunnused
+        //Features of new product
         long bar = Long.parseLong(insertBar.getText());
         int amount = Integer.parseInt(insertAmount.getText());
         String name = insertName.getText();
         double price = Double.parseDouble(insertPrice.getText());
 
-        //Kontrollime, kas sisendid sobivad
+        //Validator for checking product features
         if (addValidator.validateAdd(amount, price, name)) {
             warehouse.addToStock(new StockItem(bar, name, "", price, amount));
             defaultWindow();
@@ -222,47 +224,51 @@ public class StockController implements Initializable {
     @FXML
     void addExistingItem(MouseEvent event) {
 
-        //Valime toote mille kogust soovime suurendada
+        //Choose product of which amount we want to increase
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
         addExisting.disableProperty().unbind();
 
-        //Väljade kontroll, mis aktiveerib "Add" nupu
+        //Binding for "Add Existing" button
         BooleanBinding controlAddButton = insertAmount.textProperty().isEmpty();
         addExisting.disableProperty().bind(controlAddButton);
 
-        //Muudame window state, kui alustame toote lisamist
+        //Change window state
         if (addExisting.getText().equals("Add existing")) {
             addExistingButtonWindowState(valitud);
 
-            //Lisame tootele sisestatud koguse
+            //Append inserted amount
         } else {
 
-            //Suurendatava toote tunnused
+            //Product to be increased features
             long bar = Long.parseLong(insertBar.getText());
             int amountInc = Integer.parseInt(insertAmount.getText());
 
-            //Kontrollime, kas sisendid sobivad
+            //Check for valid inputs
             if (addValidator.validateExisting(amountInc, bar)) {
                 warehouse.addExisting(bar, amountInc);
                 defaultWindow();
             }
         }
+
     }
 
     @FXML
     void cancelButtonClicked(MouseEvent event) {
+
         defaultWindow();
+
     }
 
     @FXML
     void removeItemClicked(MouseEvent event) {
 
-        //Valime toote mida soovime eemaldada
+        //Choose product to remove from warehouse
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
         warehouse.deleteFromStock(valitud.getId());
+
         updateWarehouseState();
 
-        //Juhul kui eemaldame mõne väiksema, siis vabastame ID
+        //Incase we remove product with non maximum ID
         insertBar.setText(warehouse.autoID());
 
         //Logging
@@ -270,17 +276,16 @@ public class StockController implements Initializable {
 
     }
 
-    //TODO Validator for new price and change attributes in DB via Warehouse class
     @FXML
     void editButtonClicked(MouseEvent event) {
 
-        //Valime toote mida soovime muuta
+        //Choose product to edit
         StockItem valitud = warehouseTableView.getSelectionModel().getSelectedItem();
 
-        //Edit aknakuva
+        //Edit window state
         editButtonWindowState(valitud);
 
-        //Väljade kontroll, mis aktiveerib "Confirm" nupu
+        //Binding for "Confirm" button
         BooleanBinding controlConfirmItem = (insertName.textProperty().isEmpty()).and(insertPrice.textProperty().isEmpty());
         confirmButton.disableProperty().bind(controlConfirmItem);
 
@@ -313,8 +318,9 @@ public class StockController implements Initializable {
     @FXML
     public void refreshButtonClicked() {
 
-        //Tühistame valitud warehouse toote
+        //Remove tableview selection
         warehouseTableView.getSelectionModel().clearSelection();
+
         updateWarehouseState();
         insertBar.setText(warehouse.autoID());
 
