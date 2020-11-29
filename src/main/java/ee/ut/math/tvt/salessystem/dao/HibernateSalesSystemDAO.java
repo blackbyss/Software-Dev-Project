@@ -93,13 +93,25 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
 
     /**
+     * Find items from Sold
+     */
+    //GUI
+    @Override
+    public SoldItem findSoldItem(long id) {
+        return em.find(SoldItem.class, id);
+    }
+
+
+    /**
      * Add item to Stock methods
      */
     //GUI
     @Override
     public void addNewStockItem(StockItem item) {
         beginTransaction();
+
         saveStockItem(item);
+
         commitTransaction();
     }
 
@@ -130,6 +142,7 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         findStockItem(id).setPrice(newPrice);
     }
 
+
     /**
      * Delete item from Stock methods
      */
@@ -140,6 +153,39 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
 
         StockItem itemForRemove = findStockItem(id);
         em.remove(itemForRemove);
+        commitTransaction();
+    }
+
+
+    @Override
+    //GUI
+    public void addSoldItem(SoldItem item){
+        beginTransaction();
+
+        saveSoldItem(item);
+
+        commitTransaction();
+    }
+
+
+    @Override
+    //GUI
+    public void addHistoryItem(HistoryItem item) {
+        beginTransaction();
+
+        saveHistoryItem(item);
+
+        commitTransaction();
+    }
+
+
+    @Override
+    //GUI
+    public void addOrder(Order order) {
+        beginTransaction();
+
+        saveOrder(order);
+
         commitTransaction();
     }
 

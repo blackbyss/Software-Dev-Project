@@ -48,6 +48,21 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         }
     }
 
+    @Override
+    public void addSoldItem(SoldItem item) {
+
+    }
+
+    @Override
+    public void addHistoryItem(HistoryItem item) {
+
+    }
+
+    @Override
+    public void addOrder(Order order) {
+
+    }
+
     public void addStockItem(long id, long amount) {
         for (StockItem item : stockItemList) {
             if (item.getId() == id) {

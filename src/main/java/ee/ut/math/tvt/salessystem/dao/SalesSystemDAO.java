@@ -52,6 +52,9 @@ public interface SalesSystemDAO {
     StockItem findStockItem(String name);
 
     //GUI
+    SoldItem findSoldItem(long id);
+
+    //GUI
     void addNewStockItem(StockItem item);
 
     //GUI
@@ -65,6 +68,15 @@ public interface SalesSystemDAO {
 
     //GUI
     void deleteStockitem(long id);
+
+    //GUI
+    void addSoldItem(SoldItem item);
+
+    //GUI
+    void addHistoryItem(HistoryItem item);
+
+    //GUI
+    void addOrder(Order order);
 
     //GUI
     List<HistoryItem> findHistoryItems();

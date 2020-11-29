@@ -29,7 +29,7 @@ public class Order {
     @Column(name = "total")
     private double total;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<HistoryItem> items;
 
     /**

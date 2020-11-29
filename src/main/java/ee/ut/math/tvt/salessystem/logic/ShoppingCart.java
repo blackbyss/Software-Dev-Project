@@ -11,10 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bytebuddy.asm.Advice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mockito.internal.matchers.Or;
 
 public class ShoppingCart {
     // TODO create logger (currently throws errors)
@@ -80,21 +78,16 @@ public class ShoppingCart {
                 dao.saveSoldItem(item);
             }
         }
-        // note the use of transactions. InMemorySalesSystemDAO ignores transactions
-        // but when you start using hibernate in lab5, then it will become relevant.
-        // what is a transaction? https://stackoverflow.com/q/974596
-        dao.beginTransaction();
         try {
             List<HistoryItem> hisItem = new ArrayList<>();
             for (SoldItem item : items) {
                 HistoryItem item1 = new HistoryItem(item);
-                dao.saveSoldItem(item);
-                dao.saveHistoryItem(item1);
+                dao.addSoldItem(item);
+                dao.addHistoryItem(item1);
                 hisItem.add(item1);
             }
             System.out.println(hisItem);
-            dao.saveOrder(new Order(hisItem, LocalDate.now(), LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))));
-            dao.commitTransaction();
+            dao.addOrder(new Order(hisItem, LocalDate.now(), LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))));
             items.clear();
             log.info("Current purhcase submitted");
         } catch (Exception e) {
