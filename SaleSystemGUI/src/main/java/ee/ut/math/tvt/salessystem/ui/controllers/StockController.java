@@ -95,9 +95,10 @@ public class StockController implements Initializable {
         confirmButton.setDisable(true);
         insertBar.setDisable(true);
         cancelButton.setDisable(true);
+        insertAmount.setDisable(false);
         insertName.setDisable(false);
-        refreshButton.setDisable(false);
         insertPrice.setDisable(false);
+        refreshButton.setDisable(false);
 
         //Nuppude/Teksti muutmine
         insertPrice.setText("");
@@ -146,14 +147,18 @@ public class StockController implements Initializable {
 
         //Eemaldame eelnevad bindingud
         addExisting.disableProperty().unbind();
+        addItem.disableProperty().unbind();
         removeItem.disableProperty().unbind();
+        editButton.disableProperty().unbind();
 
         //Nuppude kättesaadavus
         refreshButton.setDisable(true);
-        cancelButton.setDisable(false);
         insertAmount.setDisable(true);
         removeItem.setDisable(true);
         addExisting.setDisable(true);
+        addItem.setDisable(true);
+        editButton.setDisable(true);
+        cancelButton.setDisable(false);
 
         //Nuppude/tekstide muutmine
         insertBar.setText(String.valueOf(valitud.getId()));
@@ -163,11 +168,12 @@ public class StockController implements Initializable {
 
     }
 
+    //Bindings for buttons which activate with tableview entity selection
     private void setBindingsToButtons() {
         BooleanBinding controlAddItem = insertBar.textProperty().isEmpty().or(insertName.textProperty().isEmpty())
                 .or(insertAmount.textProperty().isEmpty()).or(insertPrice.textProperty().isEmpty());
-        addItem.disableProperty().bind(controlAddItem);
 
+        addItem.disableProperty().bind(controlAddItem);
         removeItem.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
         editButton.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
         addExisting.disableProperty().bind(Bindings.isEmpty(warehouseTableView.getSelectionModel().getSelectedItems()));
@@ -283,20 +289,24 @@ public class StockController implements Initializable {
     @FXML
     void confirmButtonClicked(MouseEvent event) {
 
-        //Kontrollime uut hinda ja muudame
         if (!insertPrice.getText().equals("")) {
             if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
                 warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
+                if (!insertName.getText().equals("")){
+                    warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+                }
+                defaultWindow();
             }
         }
-
-        //Muudame nime
-        if (!insertName.getText().equals("")) {
+        else if (!insertName.getText().equals("")) {
             warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+            if (!insertPrice.getText().equals("")) {
+                if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
+                    warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
+                }
+            }
+            defaultWindow();
         }
-
-
-        defaultWindow();
 
     }
 
