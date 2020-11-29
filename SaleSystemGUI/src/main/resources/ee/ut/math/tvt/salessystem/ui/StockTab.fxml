@@ -89,7 +89,7 @@
           <children>
             <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="358.0" prefWidth="600.0" text="Warehouse status">
               <content>
-                <BorderPane prefHeight="300.0">
+                <BorderPane prefHeight="300.0" prefWidth="468.0">
                   <center>
                     <TableView fx:id="warehouseTableView" styleClass="blue_style" BorderPane.alignment="CENTER">
                       <columns>
@@ -120,7 +120,7 @@
                     </TableView>
                   </center>
                   <top>
-                    <HBox prefHeight="17.0" prefWidth="579.0" BorderPane.alignment="CENTER">
+                    <HBox fx:id="borderPaneHbox" prefHeight="17.0" prefWidth="579.0" BorderPane.alignment="CENTER">
                       <children>
                         <Button fx:id="refreshButton" onMouseClicked="#refreshButtonClicked" text="Refresh warehouse" />
                         <Button fx:id="editButton" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />

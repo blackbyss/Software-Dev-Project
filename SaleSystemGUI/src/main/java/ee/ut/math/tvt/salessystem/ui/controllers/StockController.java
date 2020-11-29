@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import validators.StockAddValidator;
 import validators.StockEditValidator;
 import org.apache.logging.log4j.LogManager;
@@ -74,6 +75,9 @@ public class StockController implements Initializable {
 
     @FXML
     private Button removeItem;
+
+    @FXML
+    private HBox borderPaneHbox;
 
     public StockController(SalesSystemDAO dao, StockAddValidator addValidator, StockEditValidator editValidator, Warehouse warehouse) {
         this.dao = dao;
@@ -198,7 +202,7 @@ public class StockController implements Initializable {
                 warehouseTableView.getSelectionModel().clearSelection();
             }
         });
-
+        borderPaneHbox.getStyleClass().add("HBox");
     }
 
     @FXML
