@@ -19,7 +19,7 @@ https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%204
 <Links to the solution>
 
 ## Homework 6:
-<Links to the solution>
+<https://docs.google.com/spreadsheets/d/18JHIxjzeD7HAE8TdT5Ivw4JjkG07uVQiU_b5RPav66A/edit?usp=sharing>
 
 ## Homework 7:
 <Links to the solution>
