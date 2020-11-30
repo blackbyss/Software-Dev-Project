@@ -29,6 +29,11 @@ public class Order {
     @Column(name = "total")
     private double total;
 
+    //For testing
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<HistoryItem> items;
 

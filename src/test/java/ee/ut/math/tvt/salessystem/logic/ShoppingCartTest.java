@@ -127,14 +127,14 @@ public class ShoppingCartTest {
         SoldItem soldItem_2 = new SoldItem(stockItem_2, 10, 10*stockItem_1.getPrice());
         cart.addItem(soldItem_1);
         cart.addItem(soldItem_2);
-        /*
+
         List<SoldItem> cartInventory = new ArrayList<>(cart.getAll());
         cart.submitCurrentPurchase();
         // previous HistoryItem now Order, but don't know how to get orders without Database
         System.out.println(dao.findOrder(1));
         Order order = dao.findOrder(1);
         assert order.getItems().size() == 2;
-         */
+
         clearMemory();
     }
     @Test

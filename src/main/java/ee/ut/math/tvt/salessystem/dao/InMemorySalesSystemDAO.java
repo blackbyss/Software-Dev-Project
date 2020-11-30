@@ -66,6 +66,8 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addOrder(Order order) {
+        long id = orderList.size();
+        order.setId(id + 1);
         orderList.add(order);
 
     }
