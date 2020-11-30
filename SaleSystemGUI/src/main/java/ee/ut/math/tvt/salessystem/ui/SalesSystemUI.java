@@ -4,16 +4,14 @@ import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.Warehouse;
-import ee.ut.math.tvt.salessystem.ui.controllers.HistoryController;
-import ee.ut.math.tvt.salessystem.ui.controllers.PurchaseController;
-import ee.ut.math.tvt.salessystem.ui.controllers.StockController;
+import ee.ut.math.tvt.salessystem.ui.controllers.*;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
-import ee.ut.math.tvt.salessystem.ui.controllers.TeamController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -22,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import validators.LoginValidator;
 import validators.StockAddValidator;
 import validators.StockEditValidator;
 
@@ -41,6 +40,7 @@ public class SalesSystemUI extends Application {
     private final Warehouse warehouse;
     private final StockAddValidator addValidator;
     private final StockEditValidator editValidator;
+    private final LoginController loginController;
 
     public SalesSystemUI() {
         dao = new HibernateSalesSystemDAO();
@@ -49,12 +49,27 @@ public class SalesSystemUI extends Application {
         warehouse = new Warehouse(dao);
         addValidator = new StockAddValidator(dao);
         editValidator= new StockEditValidator(dao);
+        loginController = new LoginController();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         log.info("javafx version: " + System.getProperty("javafx.runtime.version"));
 
+        try {
+            Parent root = (Parent) loadControls("LoginWindow.fxml", new LoginController());
+            Scene scene = new Scene(root,400, 300);
+            scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            if(loginController.getTagastatavOigus() == 0){
+                primaryStage.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /**
         Tab purchaseTab = new Tab();
         purchaseTab.setText("Point-of-sale");
         purchaseTab.setClosable(false);
@@ -91,7 +106,9 @@ public class SalesSystemUI extends Application {
         primaryStage.show();
 
         log.info("Salesystem GUI started");
+         **/
     }
+
 
     private Node loadControls(String fxml, Initializable controller) throws IOException {
         URL resource = getClass().getResource(fxml);
@@ -103,6 +120,7 @@ public class SalesSystemUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(resource);
         fxmlLoader.setController(controller);
         return fxmlLoader.load();
+
     }
 }
 

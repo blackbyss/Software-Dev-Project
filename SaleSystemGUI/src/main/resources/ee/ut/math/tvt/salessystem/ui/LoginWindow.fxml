@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="loginButton" layoutX="150.0" layoutY="207.0" mnemonicParsing="false" onMouseClicked="#loginButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Login" />
+      <TextField fx:id="inputUser" layoutX="126.0" layoutY="119.0" prefHeight="30.0" promptText="Username" />
+      <PasswordField fx:id="inputPassword" layoutX="126.0" layoutY="165.0" prefHeight="30.0" promptText="Password" />
+      <Label fx:id="loginStatus" layoutX="38.0" layoutY="61.0" prefHeight="30.0" prefWidth="272.0" text="Status" textFill="RED">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <HBox layoutY="265.0" prefHeight="25.0" prefWidth="400.0">
+         <children>
+            <Button mnemonicParsing="false" prefWidth="100.0" text="Cashier" />
+            <Button mnemonicParsing="false" prefWidth="100.0" text="Warehouse" />
+            <Button mnemonicParsing="false" prefWidth="100.0" text="Manager" />
+            <Button mnemonicParsing="false" prefWidth="100.0" text="Client" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
