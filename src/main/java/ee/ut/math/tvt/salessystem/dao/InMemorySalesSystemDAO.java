@@ -35,6 +35,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
                 int newAmount = item.getQuantity() - (int) amount;
                 if (newAmount < 0) newAmount = 0;
                 item.setQuantity(newAmount);
+                break;
             }
         }
     }
@@ -72,7 +73,8 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     public void addStockItem(long id, long amount) {
         for (StockItem item : stockItemList) {
             if (item.getId() == id) {
-                item.setQuantity(item.getQuantity() + (int) amount);
+                item.setQuantity((int) (item.getQuantity() +  amount));
+                break;
             }
         }
     }
@@ -81,6 +83,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         for (StockItem item : stockItemList) {
             if (item.getId() == id) {
                 item.setId(newId);
+                break;
             }
         }
     }
@@ -89,6 +92,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id) {
                 stockItem.setPrice(price);
+                break;
             }
         }
 
@@ -98,6 +102,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id) {
                 stockItem.setName(name);
+                break;
             }
         }
     }
@@ -106,6 +111,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         for (StockItem stockItem : stockItemList) {
             if (stockItem.getId() == id) {
                 stockItem.setQuantity((int) amount);
+                break;
             }
         }
     }
