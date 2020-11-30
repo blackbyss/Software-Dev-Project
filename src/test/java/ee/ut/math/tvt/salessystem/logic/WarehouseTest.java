@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.logic;
 
 import static org.junit.Assert.*;
 
+import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
@@ -53,5 +54,18 @@ public class WarehouseTest {
         int warehouseSize = stockItems.size();
         dao.deleteStockitem(1);
         assert warehouseSize > dao.findStockItems().size();
+    }
+    @Test
+    public void testAddingNewItemWithNegativeQuantity(){
+        int warehouseSize = dao.findStockItems().size();
+        dao.addNewStockItem(new StockItem((long) 6, "pelmeen", "maitsev", 10.0, -22));
+        assert warehouseSize == dao.findStockItems().size();
+    }
+
+    @Test
+    public void testAddingExistingItemWithNegativeQuantity(){
+        int preAddQuantity = dao.findStockItem(1).getQuantity();
+        dao.addExistingStockItem(1, -11);
+        assert preAddQuantity == dao.findStockItem(1).getQuantity();
     }
 }
