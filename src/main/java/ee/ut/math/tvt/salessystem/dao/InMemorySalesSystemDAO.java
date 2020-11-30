@@ -14,6 +14,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     private List<StockItem> stockItemList;
     private final List<SoldItem> soldItemList;
     private final List<HistoryItem> historyItemList;
+    private final List<Order> orderList;
 
     public InMemorySalesSystemDAO() {
         List<StockItem> items = new ArrayList<StockItem>();
@@ -24,6 +25,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         this.stockItemList = items;
         this.soldItemList = new ArrayList<>();
         this.historyItemList = new ArrayList<>();
+        this.orderList = new ArrayList<>();
     }
 
 
@@ -63,6 +65,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void addOrder(Order order) {
+        orderList.add(order);
 
     }
 
@@ -145,6 +148,11 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public Order findOrder(long id) {
+        for (Order order:orderList) {
+            if(order.getId() == id){
+                return order;
+            }
+        }
         return null;
     }
 

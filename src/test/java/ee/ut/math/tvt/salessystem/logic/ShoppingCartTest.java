@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import org.junit.Before;
@@ -11,6 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShoppingCartTest {
@@ -36,11 +42,11 @@ public class ShoppingCartTest {
         // Items for testing
         StockItem stockItem = new StockItem((long) 87, "Apple", "Green", 15, 90);
         dao.saveStockItem(stockItem);
-        SoldItem soldItemTest = new SoldItem(stockItem, 2 ,2*stockItem.getPrice());
-        cart.addItem(soldItemTest);
-        int preAddQuantity = soldItemTest.getQuantity();
-        cart.addItem(soldItemTest);
-        int postAddQuantity = soldItemTest.getQuantity();
+        SoldItem soldItem = new SoldItem(stockItem, 2 ,2*stockItem.getPrice());
+        cart.addItem(soldItem);
+        int preAddQuantity = soldItem.getQuantity();
+        cart.addItem(soldItem);
+        int postAddQuantity = soldItem.getQuantity();
         assert preAddQuantity < postAddQuantity;
         clearMemory();
 
@@ -51,9 +57,9 @@ public class ShoppingCartTest {
         int index = cart.getAll().size();
         StockItem stockItem = new StockItem((long) 87, "Apple", "Green", 15, 90);
         dao.saveStockItem(stockItem);
-        SoldItem soldItemTest = new SoldItem(stockItem, 2, 2*stockItem.getPrice());
-        cart.addItem(soldItemTest);
-        assert cart.getAll().get(index).equals(soldItemTest);
+        SoldItem soldItem = new SoldItem(stockItem, 2, 2*stockItem.getPrice());
+        cart.addItem(soldItem);
+        assert cart.getAll().get(index).equals(soldItem);
         clearMemory();
     }
 
@@ -92,5 +98,79 @@ public class ShoppingCartTest {
     }
 
     //Submit current purchase testing
+    @Test
+    public void testSubmittingCurrentPurchaseDecreasesStockItemQuantity(){
+        StockItem stockItem = new StockItem((long) 87, "Apple", "Green", 15, 90);
+        dao.saveStockItem(stockItem);
+        SoldItem soldItem = new SoldItem(stockItem, 66, 66*stockItem.getPrice());
+        cart.addItem(soldItem);
+        int warehouseQuantity = dao.findStockItem(87).getQuantity();
+        assert warehouseQuantity == 90;
+        cart.submitCurrentPurchase();
+        warehouseQuantity = dao.findStockItem(87).getQuantity();
+        assert warehouseQuantity == 24;
+        clearMemory();
+    }
+    @Test
+    public void testSubmittingCurrentPurchaseBeginsAndCommitsTransaction(){
+        //TODO
+    }
+
+    /*
+    @Test
+    public void testSubmittingCurrentOrderCreatesHistoryItem(){
+        ////TODO: Make inMemorySalesSystemDao work with Order and historyItem
+        StockItem stockItem_1 = new StockItem((long) 87, "Apple", "Green", 15, 90);
+        StockItem stockItem_2 = new StockItem((long) 88, "Pear", "Green", 10, 60);
+        dao.saveStockItem(stockItem_1);
+        dao.saveStockItem(stockItem_2);
+        SoldItem soldItem_1 = new SoldItem(stockItem_1, 10, 10*stockItem_1.getPrice());
+        SoldItem soldItem_2 = new SoldItem(stockItem_2, 10, 10*stockItem_1.getPrice());
+        cart.addItem(soldItem_1);
+        cart.addItem(soldItem_2);
+
+        List<SoldItem> cartInventory = new ArrayList<>(cart.getAll());
+        cart.submitCurrentPurchase();
+        // previous HistoryItem now Order, but don't know how to get orders without Database
+        System.out.println(dao.findOrder(1));
+        Order order = dao.findOrder(1);
+        assert order.getItems().size() == 2;
+        clearMemory();
+
+    }
+    */
+    @Test
+    public void testSubmittingCurrentOrderCreatesHistoryItem(){
+        //TODO: Make inMemorySalesSystemDao work with Order and historyItem
+    }
+    @Test
+    public void testSubmittingCurrentOrderSavesCorrectTime(){
+        //TODO: Make inMemorySalesSystemDao work with Order and historyItem
+    }
+    @Test
+    public void testCancellingOrder(){
+        assert cart.getAll().size() == 0;
+        StockItem stockItem_1 = new StockItem((long) 87, "Apple", "Green", 15, 90);
+        StockItem stockItem_2 = new StockItem((long) 88, "Pear", "Green", 10, 60);
+        dao.saveStockItem(stockItem_1);
+        dao.saveStockItem(stockItem_2);
+        SoldItem soldItem_1 = new SoldItem(stockItem_1, 10, 10*stockItem_1.getPrice());
+        SoldItem soldItem_2 = new SoldItem(stockItem_2, 10, 10*stockItem_1.getPrice());
+        cart.addItem(soldItem_1);
+        cart.addItem(soldItem_2);
+        assert cart.getAll().size() == 2;
+        cart.cancelCurrentPurchase();
+        assert cart.getAll().size() == 0;
+    }
+    @Test
+    public void testCancellingOrderQuanititesUnchanged(){
+        StockItem stockItem_1 = new StockItem((long) 87, "Apple", "Green", 15, 90);
+        dao.saveStockItem(stockItem_1);
+        assert dao.findStockItem(87).getQuantity() == 90;
+        SoldItem soldItem = new SoldItem(stockItem_1, 66, 66*stockItem_1.getPrice());
+        cart.addItem(soldItem);
+        cart.cancelCurrentPurchase();
+        assert dao.findStockItem(87).getQuantity() == 90;
+    }
 
 }
