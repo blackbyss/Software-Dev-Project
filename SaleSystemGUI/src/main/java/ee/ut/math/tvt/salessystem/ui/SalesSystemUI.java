@@ -56,6 +56,8 @@ public class SalesSystemUI extends Application {
     public void start(Stage primaryStage) throws Exception {
         log.info("javafx version: " + System.getProperty("javafx.runtime.version"));
 
+        //Login window
+        /**
         try {
             Parent root = (Parent) loadControls("LoginWindow.fxml", new LoginController());
             Scene scene = new Scene(root,400, 300);
@@ -63,13 +65,13 @@ public class SalesSystemUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            if(loginController.getTagastatavOigus() == 0){
+            if(loginController.getTagastatavOigus() == 1){
                 primaryStage.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /**
+        **/
         Tab purchaseTab = new Tab();
         purchaseTab.setText("Point-of-sale");
         purchaseTab.setClosable(false);
@@ -106,7 +108,6 @@ public class SalesSystemUI extends Application {
         primaryStage.show();
 
         log.info("Salesystem GUI started");
-         **/
     }
 
 

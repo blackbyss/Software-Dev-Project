@@ -21,10 +21,10 @@
       </Label>
       <HBox layoutY="265.0" prefHeight="25.0" prefWidth="400.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="100.0" text="Cashier" />
-            <Button mnemonicParsing="false" prefWidth="100.0" text="Warehouse" />
-            <Button mnemonicParsing="false" prefWidth="100.0" text="Manager" />
-            <Button mnemonicParsing="false" prefWidth="100.0" text="Client" />
+            <Button fx:id="selectCashier" mnemonicParsing="false" onMouseClicked="#cashierButtonClicked" prefWidth="100.0" text="Cashier" />
+            <Button fx:id="selectWarehouse" mnemonicParsing="false" onMouseClicked="#warehouseButtonClicked" prefWidth="100.0" text="Warehouse" />
+            <Button fx:id="selectManager" mnemonicParsing="false" onMouseClicked="#managerClicked" prefWidth="100.0" text="Manager" />
+            <Button fx:id="selectClient" mnemonicParsing="false" onMouseClicked="#clientClicked" prefWidth="100.0" text="Client" />
          </children>
       </HBox>
    </children>

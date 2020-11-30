@@ -19,6 +19,18 @@ public class LoginController implements Initializable {
     private Button loginButton;
 
     @FXML
+    private Button selectCashier;
+
+    @FXML
+    private Button selectWarehouse;
+
+    @FXML
+    private Button selectManager;
+
+    @FXML
+    private Button selectClient;
+
+    @FXML
     private TextField inputUser;
 
     @FXML
@@ -26,6 +38,30 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label loginStatus;
+
+    @FXML
+    void cashierButtonClicked(MouseEvent event) {
+        inputUser.setText("Cashier");
+        inputPassword.setText("Cashier");
+    }
+
+    @FXML
+    void clientClicked(MouseEvent event) {
+        inputUser.setText("Client");
+        inputPassword.setText("Client");
+    }
+
+    @FXML
+    void managerClicked(MouseEvent event) {
+        inputUser.setText("Manager");
+        inputPassword.setText("Manager");
+    }
+
+    @FXML
+    void warehouseButtonClicked(MouseEvent event) {
+        inputUser.setText("Warehouse");
+        inputPassword.setText("Warehouse");
+    }
 
     @FXML
     void loginButtonClicked(MouseEvent event) {
