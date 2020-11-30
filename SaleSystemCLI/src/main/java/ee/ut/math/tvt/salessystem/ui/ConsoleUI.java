@@ -5,10 +5,12 @@ import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
+import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
+import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,44 +70,32 @@ public class ConsoleUI {
         System.out.println("-------------------------");
     }
 
-    private void removeStock(long id, long amount){
-        dao.removeStockItem(id, amount);
-        log.debug("StockItem removed: "+id +" "+ amount);
+    private void removeStock(long id){
+        dao.deleteStockitem(id);
+        log.debug("StockItem removed: "+id);
         showStock();
     }
 
-    private void addStock(long id, long amount){
-        dao.addStockItem(id, amount);
+    private void addStock(long id, int amount){
+        dao.addExistingStockItem(id, amount);
         log.debug("StockItem added: "+id +" "+ amount);
         showStock();
     }
 
-    private void editStockID(long id, long newId){
-        dao.editItemId(id, newId);
-        log.debug("StockItem ID edited: "+id +" "+newId);
-        showStock();
-    }
-
     private void editStockName(long id, String name){
-        dao.editItemName(id, name);
+        dao.editStockItemName(id, name);
         log.debug("StockItem name edited: "+id +" "+name);
         showStock();
     }
 
     private void editStockPrice(long id, long price){
-        dao.editItemPrice(id, price);
+        dao.editStockItemPrice(id, price);
         log.debug("StockItem price edited: "+id +" "+price);
         showStock();
     }
 
-    private void editStockAmount(long id, long amount){
-        dao.editItemAmount(id, amount);
-        log.debug("StockItem amount edited: "+id +" "+amount);
-        showStock();
-    }
-
-    private void addNewStock(long id, String name, String description, long price, long quantity){
-        dao.addNewStockItem(id, name, description, price, quantity);
+    private void addNewStock(long id, String name, String description, long price, int quantity){
+        dao.addNewStockItem(new StockItem(id, name, description, price, quantity));
         log.debug("New stockItem added: "+id +" "+name+" "+description+" "+price+" "+quantity);
         showStock();
     }
@@ -149,45 +139,43 @@ public class ConsoleUI {
         }
         System.out.println("-------------------------");
     }
-    
-    private void showHistoryAll() {
-        List<HistoryItem> historyItems = dao.findHistoryItems();
+    private void showOrders(List<Order> orders){
         System.out.println("-------------------------");
-        if (historyItems.size() == 0) {
+        if (orders.size() == 0) {
             System.out.println("\tNothing");
         }
         else {
-            for (int i = 0; i < historyItems.size(); i++) {
-                HistoryItem item = historyItems.get(i);
-                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+            for (Order order : orders) {
+                System.out.println("ID: " + order.getId() + " Date: " + order.getDate() + " Time: " + order.getTime() + " Total: " + order.getTotal());
             }
         }
         System.out.println("-------------------------");
+    }
+    private void showHistoryAll() {
+        List<Order> orders = dao.showAll();
+        showOrders(orders);
     }
     private void showHistoryTen() {
-        List<HistoryItem> historyItems = dao.findHistoryItems();
-        System.out.println("-------------------------");
-        if (historyItems.size() == 0) {
-            System.out.println("\tNothing");
-        }
-        else {
-            for (int i = 0; i < 10; i++) {
-                HistoryItem item = historyItems.get(i);
-                System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
+        List<Order> orders = dao.showLast10();
+        showOrders(orders);
+    }
+    private void showHistoryDetail(long index){
+        List<Order> orders = dao.showAll();
+        boolean exists = false;
+        for (Order order: orders) {
+            if(order.getId().equals(index)){
+                exists = true;
+                break;
             }
         }
         System.out.println("-------------------------");
-    }
-    private void showHistoryDetail(int index){
-        List<HistoryItem> historyItems = dao.findHistoryItems();
-        System.out.println("-------------------------");
-        if (historyItems.size() == 0 || historyItems.size() < index || index < 0) {
+        if (!exists) {
             System.out.println("\tNothing");
         }
         else {
-            HistoryItem sale = historyItems.get(index);
-            List<SoldItem> items = sale.getItems();
-            for (SoldItem item: items) {
+            Order order = dao.findOrder(index);
+            List<HistoryItem> items = order.getItems();
+            for (HistoryItem item: items) {
                 System.out.println("ID: "+item.getId()+" Name: "+ item.getName()+ " Price: "+item.getPrice()
                 +" Quantity: "+item.getQuantity()+" Sum: "+item.getSum());
             }
@@ -197,23 +185,10 @@ public class ConsoleUI {
     }
 
     private void showHistoryBetweenDates(String string1, String string2) {
-        List<HistoryItem> historyItems = dao.findHistoryItems();
         LocalDate date1 = LocalDate.parse(string1);
         LocalDate date2 = LocalDate.parse(string2);
-
-        System.out.println("-------------------------");
-        if (historyItems.size() == 0) {
-            System.out.println("\tNothing");
-        }
-        else {
-            for (int i = 0; i < historyItems.size(); i++) {
-                HistoryItem item = historyItems.get(i);
-                if(date1.isBefore(item.getDate()) && date2.isAfter(item.getDate())){
-                    System.out.println("ID: "+i+ " Date: " + item.getDate() + " Time: " + item.getTime() + " Total: " + item.getTotal());
-                }
-            }
-        }
-        System.out.println("-------------------------");
+        List<Order> orders = dao.showBetweenDates(date1, date2);
+        showOrders(orders);
     }
 
     private void printUsage() {
@@ -224,18 +199,17 @@ public class ConsoleUI {
 
         System.out.println("\n--------------------WAREHOUSE--------------------");
         System.out.println("w\t\t\t\tShow warehouse contents");
-        System.out.println("wr <ID> <AMOUNT>\tRemove AMOUNT of item with this specific ID");
         System.out.println("wa <ID> <AMOUNT>\tAdd AMOUNT of item with this specific ID");
         System.out.println();
         System.out.println("To add a new item to the warehouse");
         System.out.println("\twni <ID> <Name> <Description> <Price> <Amount>");
         System.out.println();
-        System.out.println("To DELETE and item from the warehouse");
-        System.out.println("\twri <ID>");
+        System.out.println("To DELETE an item from the warehouse");
+        System.out.println("\twr <ID>");
         System.out.println();
         System.out.println("To edit the specifics of a single warehouse item, use the command");
         System.out.println("\twe <property> <ID> <Parameter>");
-        System.out.println("\tSuitable property values\t(name,id,price,amount)");
+        System.out.println("\tSuitable property values\t(name,price)");
         System.out.println("\tParameter value must suit the property that is being changed");
         System.out.println("\tEXAMPLE : we name 1 Estrella - Changes the name of item with id 1 to Estrella");
 
@@ -291,18 +265,14 @@ public class ConsoleUI {
             showStock();
         }
         else if (c[0].equals("wr"))
-            removeStock(Integer.parseInt(c[1]), Integer.parseInt(c[2])); // TODO implement safety net
+            removeStock(Integer.parseInt(c[1])); // TODO implement safety net
         else if (c[0].equals("wa"))
             addStock(Integer.parseInt(c[1]), Integer.parseInt(c[2]));
         else if (c[0].equals("we")){
-            if (c[1].equals("id"))
-                editStockID(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else if (c[1].equals("name"))
+            if (c[1].equals("name"))
                 editStockName(Integer.parseInt(c[2]), c[3]); // TODO implement safety net
             else if (c[1].equals("price"))
                 editStockPrice(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
-            else if (c[1].equals("amount"))
-                editStockAmount(Integer.parseInt(c[2]), Integer.parseInt(c[3])); // TODO implement safety net
             else {
                 log.error("Invalid command");
             }
@@ -310,8 +280,6 @@ public class ConsoleUI {
         }
         else if (c[0].equals("wni"))
             addNewStock(Integer.parseInt(c[1]), c[2], c[3], Integer.parseInt(c[4]), Integer.parseInt(c[5]));
-        else if (c[0].equals("wri"))
-            deleteStock(Integer.parseInt(c[1]));
         else if (c[0].equals("c"))
             showCart();
         else if (c[0].equals("p")) {
@@ -330,8 +298,6 @@ public class ConsoleUI {
                 int amount = Integer.parseInt(c[2]);
                 StockItem item = dao.findStockItem(idx);
                 if (item != null) {
-                    //TODO: fixida mis iganes siin peaks olema kui siin valesti
-                    //cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity(), item.getPrice() * item.getQuantity())));
                     cart.addItem(new SoldItem(item, Math.min(amount, item.getQuantity()), item.getPrice() * item.getQuantity()));
                 } else {
                     log.error("no stock item with id "+ idx);
