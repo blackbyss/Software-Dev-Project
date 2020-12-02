@@ -5,6 +5,7 @@ public class LoginValidator {
     private int oigus;
 
     public LoginValidator(String username, String password){
+        this.oigus = 0;
         if(username.equals("Cashier") && password.equals("Cashier")){
             this.oigus = 1;
             System.out.println("Saadud õigus validaatori poolt: Cashier");
@@ -21,6 +22,6 @@ public class LoginValidator {
     }
 
     public int getOigus() {
-        return oigus;
+        return this.oigus;
     }
 }

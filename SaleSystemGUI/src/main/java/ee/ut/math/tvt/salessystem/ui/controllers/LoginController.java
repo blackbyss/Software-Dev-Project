@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import validators.LoginValidator;
 
 import java.net.URL;
@@ -69,6 +70,9 @@ public class LoginController implements Initializable {
         LoginValidator validator = new LoginValidator(inputUser.getText(), inputPassword.getText());
         this.tagastatavOigus = validator.getOigus();
         System.out.println(tagastatavOigus);
+        if(this.tagastatavOigus != 0){
+            ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+        }
     }
 
     public LoginController(){

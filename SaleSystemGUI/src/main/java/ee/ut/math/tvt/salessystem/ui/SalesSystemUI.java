@@ -20,7 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import validators.LoginValidator;
 import validators.StockAddValidator;
 import validators.StockEditValidator;
 
@@ -57,21 +56,18 @@ public class SalesSystemUI extends Application {
         log.info("javafx version: " + System.getProperty("javafx.runtime.version"));
 
         //Login window
-        /**
         try {
-            Parent root = (Parent) loadControls("LoginWindow.fxml", new LoginController());
-            Scene scene = new Scene(root,400, 300);
-            scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-            if(loginController.getTagastatavOigus() == 1){
-                primaryStage.close();
-            }
+            Stage stage = new Stage();
+            Parent loginRoot = (Parent) loadControls("LoginWindow.fxml", loginController);
+            Scene loginScene = new Scene(loginRoot,400, 300);
+            loginScene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
+            stage.setScene(loginScene);
+            stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        **/
+
+        //TABS
         Tab purchaseTab = new Tab();
         purchaseTab.setText("Point-of-sale");
         purchaseTab.setClosable(false);
@@ -93,6 +89,7 @@ public class SalesSystemUI extends Application {
         teamTab.setClosable(false);
         teamTab.setContent(loadControls("TeamTab.fxml", new TeamController()));
 
+        //GROUP AND SCENE
         Group root = new Group();
         Scene scene = new Scene(root, 600, 500, Color.WHITE);
         scene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
@@ -100,7 +97,28 @@ public class SalesSystemUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.prefHeightProperty().bind(scene.heightProperty());
         borderPane.prefWidthProperty().bind(scene.widthProperty());
-        borderPane.setCenter(new TabPane(purchaseTab, historyTab, stockTab, teamTab));
+
+        //If login window is closed
+        if(loginController.getTagastatavOigus() == 0){
+            System.exit(0);
+        }
+        //Cashier
+        if(loginController.getTagastatavOigus() == 1){
+            borderPane.setCenter(new TabPane(purchaseTab));
+        }
+        //Warehouse worker
+        else if(loginController.getTagastatavOigus() == 2){
+            borderPane.setCenter(new TabPane(stockTab));
+        }
+        //Manager
+        else if(loginController.getTagastatavOigus() == 3){
+            borderPane.setCenter(new TabPane(historyTab, teamTab));
+        }
+        //Software client
+        else if(loginController.getTagastatavOigus() == 4){
+            borderPane.setCenter(new TabPane(purchaseTab, historyTab, stockTab, teamTab));
+        }
+
         root.getChildren().add(borderPane);
 
         primaryStage.setTitle("Sales system");

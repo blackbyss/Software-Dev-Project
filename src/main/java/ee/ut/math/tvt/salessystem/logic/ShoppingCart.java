@@ -64,6 +64,16 @@ public class ShoppingCart {
         return items;
     }
 
+    public SoldItem getSoldItem(long id){
+        SoldItem tagasta = null;
+        for (SoldItem item : items) {
+            if (id == item.getId()) {
+                tagasta = item;
+            }
+        }
+        return tagasta;
+    }
+
     public void cancelCurrentPurchase() {
         items.clear();
         log.info("Current purhcase canceled");

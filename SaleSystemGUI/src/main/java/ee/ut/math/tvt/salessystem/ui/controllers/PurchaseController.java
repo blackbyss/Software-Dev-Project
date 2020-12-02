@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,6 +16,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,6 +59,9 @@ public class PurchaseController implements Initializable {
     private TextField priceField;
 
     @FXML
+    private Button removeButton;
+
+    @FXML
     private Button addItemButton;
 
     @FXML
@@ -69,9 +75,22 @@ public class PurchaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        updateShoppingCartState();
+
         cancelPurchase.setDisable(true);
         submitPurchase.setDisable(true);
-        purchaseTableView.setItems(FXCollections.observableList(shoppingCart.getAll()));
+        removeButton.disableProperty().bind(Bindings.isEmpty(purchaseTableView.getSelectionModel().getSelectedItems()));
+
+        purchaseTableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                purchaseTableView.getSelectionModel().getSelectedItem();
+            }
+            if (event.getButton().equals(MouseButton.SECONDARY)) {
+                purchaseTableView.getSelectionModel().clearSelection();
+            }
+        });
+
         disableProductField(true);
 
         this.barCodeField.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -82,6 +101,7 @@ public class PurchaseController implements Initializable {
                 }
             }
         });
+
     }
 
     /** Event handler for the <code>new purchase</code> event. */
@@ -124,6 +144,15 @@ public class PurchaseController implements Initializable {
         } catch (SalesSystemException e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    @FXML
+    private void removeButtonClicked(MouseEvent event) {
+        StockItem valitud = purchaseTableView.getSelectionModel().getSelectedItem().getStockItem();
+        shoppingCart.removeItem(shoppingCart.getSoldItem(valitud.getId()));
+        purchaseTableView.refresh();
+        purchaseTableView.getSelectionModel().clearSelection();
+        resetProductField();
     }
 
     // switch UI to the state that allows to proceed with the purchase
@@ -170,8 +199,10 @@ public class PurchaseController implements Initializable {
      */
     @FXML
     public void addItemEventHandler() {
+
         // add chosen item to the shopping cart.
         StockItem stockItem = getStockItemByBarcode();
+        
         if (stockItem != null) {
             int quantity;
             try {
@@ -187,7 +218,10 @@ public class PurchaseController implements Initializable {
 
                 alert.showAndWait();
             }
-            purchaseTableView.refresh();
+
+            updateShoppingCartState();
+            resetProductField();
+
         }
     }
 
@@ -211,4 +245,10 @@ public class PurchaseController implements Initializable {
         nameField.setText("");
         priceField.setText("");
     }
+
+    private void updateShoppingCartState(){
+        purchaseTableView.setItems(FXCollections.observableList(shoppingCart.getAll()));
+        purchaseTableView.refresh();
+    }
+
 }

@@ -202,6 +202,7 @@ public class StockController implements Initializable {
                 warehouseTableView.getSelectionModel().clearSelection();
             }
         });
+
         borderPaneHbox.getStyleClass().add("HBox");
     }
 
