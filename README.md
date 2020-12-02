@@ -19,7 +19,9 @@ https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%204
 <Links to the solution>
 
 ## Homework 6:
-<Links to the solution>
+System-level functional test plan:
+<https://docs.google.com/spreadsheets/d/18JHIxjzeD7HAE8TdT5Ivw4JjkG07uVQiU_b5RPav66A/edit?usp=sharing>
+<https://bitbucket.org/allark/lab3-kolmtarkvara/commits/ed5bc797c1556ee656584ce94b7ac31339a931e3>
 
 ## Homework 7:
 <Links to the solution>
