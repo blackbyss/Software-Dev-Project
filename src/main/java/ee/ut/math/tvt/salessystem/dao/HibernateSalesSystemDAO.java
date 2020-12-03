@@ -206,18 +206,33 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     //GUI
     @Override
     public List<Order> showAll() {
-        return em.createQuery("select e FROM Order e").getResultList();
+        List<Order> orders = em.createQuery("select e FROM Order e").getResultList();
+        if (orders.size() == 0){
+            return null;
+        } else {
+            return orders;
+        }
     }
 
     //GUI
     @Override
     public List<Order> showLast10() {
-        return em.createQuery("select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
+        List<Order> orders = em.createQuery("select e FROM Order e ORDER BY e.id desc").setMaxResults(10).getResultList();
+        if (orders.size() == 0){
+            return null;
+        } else {
+            return orders;
+        }
     }
 
     //GUI
     @Override
     public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
+
+        if (begin == null || end == null){
+            return null;
+        }
+
         return em.createQuery("select e FROM Order e where e.dateSQL between :begin and :end")
                 .setParameter("begin", Date.valueOf(begin))
                 .setParameter("end", Date.valueOf(end))

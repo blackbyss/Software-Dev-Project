@@ -81,7 +81,7 @@
                         </RadioButton>
                      </children>
                   </VBox>
-                  <Text layoutX="284.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best-selling items are calculated based on selected radio button." wrappingWidth="261.5999938964843" />
+                  <Text layoutX="282.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best-selling items are calculated based on selected radio button(Up to 5 items, based on total quantity)." wrappingWidth="279.1999694824218" />
                </children>
             </AnchorPane>
           <AnchorPane prefHeight="120.0" styleClass="background_style">

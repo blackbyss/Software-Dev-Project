@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -26,8 +28,9 @@ public class HistoryController implements Initializable {
     private final SalesSystemDAO dao;
     private static final Logger log = LogManager.getLogger(HistoryController.class);
     private final History history;
+    private final ToggleGroup toggleGroup = new ToggleGroup();
 
-    public HistoryController(SalesSystemDAO dao, History history){
+    public HistoryController(SalesSystemDAO dao, History history) {
         this.dao = dao;
         this.history = history;
     }
@@ -73,33 +76,73 @@ public class HistoryController implements Initializable {
     protected void showBetweenDatesClicked() {
         LocalDate begin = startDate.getValue();
         LocalDate end = endDate.getValue();
-        orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
+
+        if (history.showBetweenDates(begin, end) != null) {
+            orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
+        }
     }
 
     @FXML
     protected void showLastTenClicked() {
-        orderTable.setItems(FXCollections.observableList(history.showLast10()));
+        if (history.showLast10() != null) {
+            orderTable.setItems(FXCollections.observableList(history.showLast10()));
+        }
     }
 
     @FXML
     protected void showAllClicked() {
-        orderTable.setItems(FXCollections.observableList(history.showAll()));
+        if (history.showAll() != null) {
+            orderTable.setItems(FXCollections.observableList(history.showAll()));
+        }
     }
 
     @FXML
     protected void bestSellingButtonClicked(MouseEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Best-Selling products");
-        alert.setHeaderText("Five most sold items");
+
+        LocalDate begin = startDate.getValue();
+        LocalDate end = endDate.getValue();
+        HashMap<String, Integer> bestSelling = history.getBestSellingItems(this.toggleGroup.getSelectedToggle().getUserData().toString(), begin, end);
+        String[] numbrid = new String[]{"One", "Two", "Three", "Four", "Five"};
+
+        if (bestSelling != null) {
+
+            ArrayList<String> nimed = new ArrayList<>(bestSelling.keySet());
+            ArrayList<Integer> kogused = new ArrayList<>(bestSelling.values());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Best-Selling products");
+            alert.setHeaderText(numbrid[bestSelling.size() - 1] + " most sold items:");
+
+            StringBuilder items = new StringBuilder();
+
+            for (int i = 0; i < nimed.size(); i++) {
+                items.append(nimed.get(i)).append(": ").append(kogused.get(i)).append("\n");
+            }
+
+            alert.setContentText(items.toString());
+            alert.show();
+
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("History Error");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No purchases were found for the selected time period");
+            alert.show();
+
+        }
+
     }
 
-    protected void setUp(){
+    protected void setUp() {
 
         //Toggelgroup for radio buttons
-        ToggleGroup toggleGroup = new ToggleGroup();
-        showBetweenBestRadio.setToggleGroup(toggleGroup);
-        showLastBestRadio.setToggleGroup(toggleGroup);
-        showAllBestRadio.setToggleGroup(toggleGroup);
+        showBetweenBestRadio.setToggleGroup(this.toggleGroup);
+        showBetweenBestRadio.setUserData("1");
+        showLastBestRadio.setToggleGroup(this.toggleGroup);
+        showLastBestRadio.setUserData("2");
+        showAllBestRadio.setToggleGroup(this.toggleGroup);
+        showAllBestRadio.setUserData("3");
         showBetweenBestRadio.setSelected(true);
 
         //Selecting order
@@ -114,6 +157,5 @@ public class HistoryController implements Initializable {
         });
 
     }
-
 
 }
