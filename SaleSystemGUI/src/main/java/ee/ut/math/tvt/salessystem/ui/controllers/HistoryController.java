@@ -31,8 +31,10 @@ public class HistoryController implements Initializable {
     private final ToggleGroup toggleGroup = new ToggleGroup();
 
     public HistoryController(SalesSystemDAO dao, History history) {
+
         this.dao = dao;
         this.history = history;
+
     }
 
     @FXML
@@ -74,26 +76,51 @@ public class HistoryController implements Initializable {
 
     @FXML
     protected void showBetweenDatesClicked() {
+
         LocalDate begin = startDate.getValue();
         LocalDate end = endDate.getValue();
 
         if (history.showBetweenDates(begin, end) != null) {
             orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
+        } else {
+            showHistoryEmpty();
         }
+
     }
 
     @FXML
     protected void showLastTenClicked() {
+
         if (history.showLast10() != null) {
             orderTable.setItems(FXCollections.observableList(history.showLast10()));
+        } else {
+            showHistoryEmpty();
         }
+
     }
 
     @FXML
     protected void showAllClicked() {
+
         if (history.showAll() != null) {
             orderTable.setItems(FXCollections.observableList(history.showAll()));
+        } else {
+            showHistoryEmpty();
         }
+
+    }
+
+    /**
+     * Display error
+     */
+    protected void showHistoryEmpty() {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("History Error");
+        alert.setHeaderText("Error!");
+        alert.setContentText("No purchases were made during the selected time period");
+        alert.show();
+
     }
 
     @FXML
@@ -127,7 +154,7 @@ public class HistoryController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("History Error");
             alert.setHeaderText("Error!");
-            alert.setContentText("No purchases were found for the selected time period");
+            alert.setContentText("No items were sold during the selected time period");
             alert.show();
 
         }
