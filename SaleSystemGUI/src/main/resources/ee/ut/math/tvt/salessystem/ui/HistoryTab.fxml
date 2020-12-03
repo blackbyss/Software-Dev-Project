@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,6 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -33,6 +35,7 @@
                            </VBox.margin>
                         </Button>
                         <Button fx:id="showAll" mnemonicParsing="false" onAction="#showAllClicked" prefHeight="26.0" prefWidth="186.0" text="Show all" />
+                        <Button mnemonicParsing="false" onMouseClicked="#bestSellingButtonClicked" prefHeight="26.0" prefWidth="186.0" text="Best-Selling items" />
                      </children>
                   </VBox>
                   <VBox layoutX="284.0" prefHeight="127.0" prefWidth="62.0">
@@ -59,6 +62,26 @@
                         <DatePicker fx:id="endDate" prefHeight="26.0" prefWidth="195.0" />
                      </children>
                   </VBox>
+                  <VBox layoutX="248.0" layoutY="8.0" prefHeight="110.0" prefWidth="34.0">
+                     <children>
+                        <RadioButton fx:id="showBetweenBestRadio" mnemonicParsing="false">
+                           <VBox.margin>
+                              <Insets left="6.0" top="8.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="showLastBestRadio" mnemonicParsing="false">
+                           <VBox.margin>
+                              <Insets left="6.0" top="44.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="showAllBestRadio" mnemonicParsing="false">
+                           <VBox.margin>
+                              <Insets left="6.0" top="12.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                     </children>
+                  </VBox>
+                  <Text layoutX="284.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best-selling items are calculated based on selected radio button." wrappingWidth="261.5999938964843" />
                </children>
             </AnchorPane>
           <AnchorPane prefHeight="120.0" styleClass="background_style">

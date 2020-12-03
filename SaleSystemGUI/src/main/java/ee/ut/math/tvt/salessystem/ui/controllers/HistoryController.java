@@ -7,9 +7,7 @@ import ee.ut.math.tvt.salessystem.logic.History;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +48,15 @@ public class HistoryController implements Initializable {
     private DatePicker endDate;
 
     @FXML
+    private RadioButton showBetweenBestRadio;
+
+    @FXML
+    private RadioButton showLastBestRadio;
+
+    @FXML
+    private RadioButton showAllBestRadio;
+
+    @FXML
     private TableView<HistoryItem> contentTable;
 
     @FXML
@@ -58,17 +65,10 @@ public class HistoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        orderTable.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                Order valitud = orderTable.getSelectionModel().getSelectedItem();
-                contentTable.setItems(FXCollections.observableList(valitud.getItems()));
-            } else if (event.getButton().equals(MouseButton.SECONDARY)) {
-                orderTable.getSelectionModel().clearSelection();
-                contentTable.setItems(null);
-            }
-        });
+        setUp();
 
     }
+
     @FXML
     protected void showBetweenDatesClicked() {
         LocalDate begin = startDate.getValue();
@@ -85,5 +85,35 @@ public class HistoryController implements Initializable {
     protected void showAllClicked() {
         orderTable.setItems(FXCollections.observableList(history.showAll()));
     }
+
+    @FXML
+    protected void bestSellingButtonClicked(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Best-Selling products");
+        alert.setHeaderText("Five most sold items");
+    }
+
+    protected void setUp(){
+
+        //Toggelgroup for radio buttons
+        ToggleGroup toggleGroup = new ToggleGroup();
+        showBetweenBestRadio.setToggleGroup(toggleGroup);
+        showLastBestRadio.setToggleGroup(toggleGroup);
+        showAllBestRadio.setToggleGroup(toggleGroup);
+        showBetweenBestRadio.setSelected(true);
+
+        //Selecting order
+        orderTable.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                Order valitud = orderTable.getSelectionModel().getSelectedItem();
+                contentTable.setItems(FXCollections.observableList(valitud.getItems()));
+            } else if (event.getButton().equals(MouseButton.SECONDARY)) {
+                orderTable.getSelectionModel().clearSelection();
+                contentTable.setItems(null);
+            }
+        });
+
+    }
+
 
 }
