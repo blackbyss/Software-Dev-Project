@@ -216,8 +216,22 @@ public class PurchaseController implements Initializable {
             }
 
             SoldItem item = new SoldItem(stockItem, quantity, quantity * Double.parseDouble(priceField.getText()), nameField.getText(), Double.parseDouble(priceField.getText()));
+            boolean alreadyInCart = false;
 
-            if (purchaseAddValidator.validateAdd(item)) {
+            for (SoldItem soldItem : shoppingCart.getAll()) {
+                if (soldItem.getStockItem().getId().equals(item.getStockItem().getId())){
+                    alreadyInCart = true;
+                    if (purchaseAddValidator.validateExisitng(soldItem, item)){
+
+                        shoppingCart.addExisting(soldItem, item);
+                        updateShoppingCartState();
+                        resetProductField();
+
+                    }
+                }
+            }
+
+            if (purchaseAddValidator.validateAdd(item) && !alreadyInCart) {
 
                 shoppingCart.addItem(item);
                 updateShoppingCartState();

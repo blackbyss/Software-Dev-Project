@@ -5,6 +5,8 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javafx.scene.control.Alert;
 
+import java.util.List;
+
 
 public class PurchaseAddValidator {
 
@@ -37,14 +39,25 @@ public class PurchaseAddValidator {
             alert.setTitle("Error");
             alert.setHeaderText("Insert valid information");
             alert.setContentText(errors.toString());
-
             alert.showAndWait();
+
             return false;
 
         }
 
         return true;
-        
+
+    }
+
+    public boolean validateExisitng(SoldItem inCart, SoldItem toAdd){
+
+
+
+
+
+
+        return true;
+
     }
 
 }

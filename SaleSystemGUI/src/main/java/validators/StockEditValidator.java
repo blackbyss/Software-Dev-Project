@@ -11,8 +11,6 @@ public class StockEditValidator {
         this.dao = dao;
     }
 
-
-    //TODO-Kogu valideerimine
     public boolean valideeriMuutus(double price) {
         StringBuilder errors = new StringBuilder();
 
