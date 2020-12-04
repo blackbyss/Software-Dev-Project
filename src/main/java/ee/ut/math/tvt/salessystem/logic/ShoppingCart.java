@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,31 +30,10 @@ public class ShoppingCart {
     /**
      * Add new SoldItem to table.
      */
-    public boolean addItem(SoldItem item) {
+    public void addItem(SoldItem item) {
 
-        //Add/verify products
-        if (item.getQuantity() > item.getStockItem().getQuantity()) {
-            return false;
-        } else {
-            boolean unused = true;
-            for (SoldItem soldItem : items) {
-                if (soldItem.getStockItem().getId().equals(item.getStockItem().getId())) {
-                    if (soldItem.getQuantity() + item.getQuantity() > dao.findStockItem(soldItem.getStockItem().getId()).getQuantity()) {
-                        return false;
-                    } else {
-                        soldItem.setQuantity(soldItem.getQuantity() + item.getQuantity());
-                        soldItem.setSum(soldItem.getSum() + item.getQuantity() * item.getPrice());
-                    }
-                    unused = false;
-                    break;
-                }
-            }
-            if (unused) {
-                items.add(item);
-                log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-            }
-            return true;
-        }
+        items.add(item);
+        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
     }
 
     public void removeItem(SoldItem item) {
@@ -64,7 +44,7 @@ public class ShoppingCart {
         return items;
     }
 
-    public SoldItem getSoldItem(long id){
+    public SoldItem getSoldItem(long id) {
         SoldItem tagasta = null;
         for (SoldItem item : items) {
             if (id == item.getId()) {
@@ -80,11 +60,11 @@ public class ShoppingCart {
     }
 
     public void submitCurrentPurchase() {
-        for (SoldItem soldItem: items){
+        for (SoldItem soldItem : items) {
             soldItem.getStockItem().setQuantity(soldItem.getStockItem().getQuantity() - soldItem.getQuantity());
-            if(soldItem.getStockItem().getQuantity() == 0){
+            if (soldItem.getStockItem().getQuantity() == 0) {
                 dao.deleteStockitem(soldItem.getId());
-                SoldItem item = new SoldItem(soldItem.getStockItem(), soldItem.getQuantity(), soldItem.getSum());
+                SoldItem item = new SoldItem(soldItem.getStockItem(), soldItem.getQuantity(), soldItem.getSum(), soldItem.getName(), soldItem.getPrice());
                 dao.saveSoldItem(item);
             }
         }
@@ -93,7 +73,6 @@ public class ShoppingCart {
             for (SoldItem item : items) {
                 HistoryItem item1 = new HistoryItem(item);
                 dao.addSoldItem(item);
-                dao.addHistoryItem(item1);
                 hisItem.add(item1);
             }
             System.out.println(hisItem);
@@ -105,4 +84,5 @@ public class ShoppingCart {
             throw e;
         }
     }
+
 }

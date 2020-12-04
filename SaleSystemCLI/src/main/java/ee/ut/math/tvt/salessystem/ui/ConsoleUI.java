@@ -2,21 +2,17 @@ package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.SalesSystemException;
 import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
-import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
-import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.ShoppingCart;
-import ee.ut.math.tvt.salessystem.logic.Warehouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -32,7 +28,7 @@ public class ConsoleUI {
 
     public ConsoleUI(SalesSystemDAO dao) {
         this.dao = dao;
-        cart = new ShoppingCart(dao);
+        cart = new ShoppingCart(dao, purchaseAddValidator);
     }
 
     public static void main(String[] args) throws Exception {

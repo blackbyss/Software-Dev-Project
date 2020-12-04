@@ -11,7 +11,6 @@ public class StockAddValidator {
         this.dao = dao;
     }
 
-    //TODO-Kui kogus ei ole int ja kui hind ei ole double.
     public boolean validateAdd(Integer amount, double price, String name){
         StringBuilder errors = new StringBuilder();
 

@@ -1,9 +1,10 @@
 package validators;
 
-import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
-import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
+import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javafx.scene.control.Alert;
+
 
 public class PurchaseAddValidator {
 
@@ -13,24 +14,37 @@ public class PurchaseAddValidator {
         this.dao = dao;
     }
 
-    //TODO-Kui kogus ei ole int ja kui hind ei ole double.
-    public boolean validateAdd(Integer soldItemAmount, Integer stockItemAmount){
-        StringBuilder errors = new StringBuilder();
+    public boolean validateAdd(SoldItem item) {
 
-        if(soldItemAmount > stockItemAmount){
-            errors.append("- You can't add more items than in stock. Max: ").append(stockItemAmount);
-        }
+        StringBuilder errors = new StringBuilder();
+        StockItem stockItem = item.getStockItem();
+
+        if (item.getQuantity() > item.getStockItem().getQuantity()) {
+
+            errors.append("-Max quantity exceeded. Max:  ").append(item.getStockItem().getQuantity()).append("\n");
+
+        } if (!stockItem.getName().equals(item.getName())){
+
+            errors.append("-Product with ID ").append(stockItem.getId()).append(" correct name: ").append(stockItem.getName()).append("\n");
+
+        } if (stockItem.getPrice() != item.getPrice())
+
+            errors.append("-Product with ID ").append(stockItem.getId()).append(" correct price: ").append(stockItem.getPrice()).append("\n");
 
         if (errors.length() > 0) {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
+            alert.setTitle("Error");
             alert.setHeaderText("Insert valid information");
             alert.setContentText(errors.toString());
 
             alert.showAndWait();
             return false;
+
         }
 
         return true;
+        
     }
+
 }

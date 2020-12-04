@@ -273,7 +273,7 @@ public class StockController implements Initializable {
 
         updateWarehouseState();
 
-        //Incase we remove product with non maximum ID
+        //If we remove product with non maximum ID
         insertBar.setText(warehouse.autoID());
 
         //Logging

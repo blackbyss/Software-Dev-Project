@@ -115,11 +115,7 @@
       </SplitPane>
       <TableView fx:id="contentTable" layoutY="298.0" prefHeight="200.0" prefWidth="600.0">
         <columns>
-            <TableColumn prefWidth="120.0" text="Id">
-                <cellValueFactory>
-                    <PropertyValueFactory property="id" />
-                </cellValueFactory>
-            </TableColumn>
+            <TableColumn prefWidth="120.0" text="Id" />
             <TableColumn prefWidth="120.0" text="Name">
                 <cellValueFactory>
                     <PropertyValueFactory property="name" />

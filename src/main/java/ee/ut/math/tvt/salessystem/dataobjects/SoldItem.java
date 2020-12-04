@@ -31,11 +31,11 @@ public class SoldItem {
     public SoldItem() {
     }
 
-    public SoldItem(StockItem stockItem, int quantity, double sum) {
+    public SoldItem(StockItem stockItem, int quantity, double sum, String name, double price) {
         this.id = stockItem.getId();
         this.stockItem = stockItem;
-        this.name = stockItem.getName();
-        this.price = stockItem.getPrice();
+        this.name = name;
+        this.price = price;
         this.quantity = quantity;
         this.sum = sum;
     }

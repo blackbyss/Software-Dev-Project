@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class HistoryItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -28,7 +29,6 @@ public class HistoryItem {
     }
 
     public HistoryItem(SoldItem soldItem) {
-        this.id = soldItem.getId();
         this.name = soldItem.getName();
         this.quantity = soldItem.getQuantity();
         this.price = soldItem.getPrice();

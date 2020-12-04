@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import validators.PurchaseAddValidator;
 import validators.StockAddValidator;
 import validators.StockEditValidator;
 
@@ -38,11 +39,13 @@ public class SalesSystemUI extends Application {
     private final History history;
     private final Warehouse warehouse;
     private final StockAddValidator addValidator;
+    private final PurchaseAddValidator purchaseAddValidator;
     private final StockEditValidator editValidator;
     private final LoginController loginController;
 
     public SalesSystemUI() {
         dao = new HibernateSalesSystemDAO();
+        purchaseAddValidator = new PurchaseAddValidator(dao);
         shoppingCart = new ShoppingCart(dao);
         history = new History(dao);
         warehouse = new Warehouse(dao);
@@ -71,7 +74,7 @@ public class SalesSystemUI extends Application {
         Tab purchaseTab = new Tab();
         purchaseTab.setText("Point-of-sale");
         purchaseTab.setClosable(false);
-        purchaseTab.setContent(loadControls("PurchaseTab.fxml", new PurchaseController(dao, shoppingCart, history)));
+        purchaseTab.setContent(loadControls("PurchaseTab.fxml", new PurchaseController(dao, shoppingCart, history, purchaseAddValidator)));
 
 
         Tab stockTab = new Tab();

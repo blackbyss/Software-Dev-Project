@@ -20,6 +20,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import validators.PurchaseAddValidator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +37,7 @@ public class PurchaseController implements Initializable {
     private final SalesSystemDAO dao;
     private final ShoppingCart shoppingCart;
     private final History history;
+    private final PurchaseAddValidator purchaseAddValidator;
 
     @FXML
     private Button newPurchase;
@@ -67,10 +69,11 @@ public class PurchaseController implements Initializable {
     @FXML
     private TableView<SoldItem> purchaseTableView;
 
-    public PurchaseController(SalesSystemDAO dao, ShoppingCart shoppingCart, History history) {
+    public PurchaseController(SalesSystemDAO dao, ShoppingCart shoppingCart, History history, PurchaseAddValidator purchaseAddValidator) {
         this.dao = dao;
         this.shoppingCart = shoppingCart;
         this.history = history;
+        this.purchaseAddValidator = purchaseAddValidator;
     }
 
     @Override
@@ -104,7 +107,9 @@ public class PurchaseController implements Initializable {
 
     }
 
-    /** Event handler for the <code>new purchase</code> event. */
+    /**
+     * Event handler for the <code>new purchase</code> event.
+     */
     @FXML
     protected void newPurchaseButtonClicked() {
         log.info("New sale process started");
@@ -200,9 +205,8 @@ public class PurchaseController implements Initializable {
     @FXML
     public void addItemEventHandler() {
 
-        // add chosen item to the shopping cart.
         StockItem stockItem = getStockItemByBarcode();
-        
+
         if (stockItem != null) {
             int quantity;
             try {
@@ -210,17 +214,16 @@ public class PurchaseController implements Initializable {
             } catch (NumberFormatException e) {
                 quantity = 1;
             }
-            if(!shoppingCart.addItem(new SoldItem(stockItem, quantity, quantity * Double.parseDouble(priceField.getText())))){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Insert valid information");
-                alert.setContentText("Max quantity exceeded. Max:  " + stockItem.getQuantity());
 
-                alert.showAndWait();
+            SoldItem item = new SoldItem(stockItem, quantity, quantity * Double.parseDouble(priceField.getText()), nameField.getText(), Double.parseDouble(priceField.getText()));
+
+            if (purchaseAddValidator.validateAdd(item)) {
+
+                shoppingCart.addItem(item);
+                updateShoppingCartState();
+                resetProductField();
+
             }
-
-            updateShoppingCartState();
-            resetProductField();
 
         }
     }
@@ -246,7 +249,7 @@ public class PurchaseController implements Initializable {
         priceField.setText("");
     }
 
-    private void updateShoppingCartState(){
+    private void updateShoppingCartState() {
         purchaseTableView.setItems(FXCollections.observableList(shoppingCart.getAll()));
         purchaseTableView.refresh();
     }

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
-import ee.ut.math.tvt.salessystem.dataobjects.HistoryItem;
 import ee.ut.math.tvt.salessystem.dataobjects.Order;
 import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
@@ -13,11 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShoppingCartTest {
@@ -30,7 +24,7 @@ public class ShoppingCartTest {
     @Before
     public void setup() {
         this.dao = new InMemorySalesSystemDAO();
-        this.cart = new ShoppingCart(dao);
+        this.cart = new ShoppingCart(dao, purchaseAddValidator);
     }
     private void clearMemory(){
         cart.getAll().clear();
