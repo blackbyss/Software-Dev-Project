@@ -5,8 +5,6 @@ import ee.ut.math.tvt.salessystem.dataobjects.SoldItem;
 import ee.ut.math.tvt.salessystem.dataobjects.StockItem;
 import javafx.scene.control.Alert;
 
-import java.util.List;
-
 
 public class PurchaseAddValidator {
 
@@ -25,11 +23,13 @@ public class PurchaseAddValidator {
 
             errors.append("-Max quantity exceeded. Max:  ").append(item.getStockItem().getQuantity()).append("\n");
 
-        } if (!stockItem.getName().equals(item.getName())){
+        }
+        if (!stockItem.getName().equals(item.getName())) {
 
             errors.append("-Product with ID ").append(stockItem.getId()).append(" correct name: ").append(stockItem.getName()).append("\n");
 
-        } if (stockItem.getPrice() != item.getPrice())
+        }
+        if (stockItem.getPrice() != item.getPrice())
 
             errors.append("-Product with ID ").append(stockItem.getId()).append(" correct price: ").append(stockItem.getPrice()).append("\n");
 
@@ -37,11 +37,11 @@ public class PurchaseAddValidator {
 
     }
 
-    public boolean validateExisitng(SoldItem inCart, SoldItem toAdd){
+    public boolean validateExisitng(SoldItem inCart, SoldItem toAdd) {
 
         StringBuilder errors = new StringBuilder();
 
-        if (inCart.getQuantity() + toAdd.getQuantity() > inCart.getStockItem().getQuantity()){
+        if (inCart.getQuantity() + toAdd.getQuantity() > inCart.getStockItem().getQuantity()) {
 
             errors.append("-Max quantity exceeded. Available: ").append(inCart.getStockItem().getQuantity() - inCart.getQuantity()).append("\n");
 

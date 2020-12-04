@@ -40,6 +40,15 @@ public class SoldItem {
         this.sum = sum;
     }
 
+    public SoldItem(StockItem stockItem, int quantity, double sum){
+        this.id = stockItem.getId();
+        this.stockItem = stockItem;
+        this.name = stockItem.getName();
+        this.price = stockItem.getPrice();
+        this.quantity = quantity;
+        this.sum = sum;
+    }
+
     public double getSum() {
         return sum;
     }
