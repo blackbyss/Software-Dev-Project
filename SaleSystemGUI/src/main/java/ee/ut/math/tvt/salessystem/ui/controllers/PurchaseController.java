@@ -233,7 +233,7 @@ public class PurchaseController implements Initializable {
                 }
             }
 
-            if (purchaseAddValidator.validateAdd(item) && !alreadyInCart) {
+            if (!alreadyInCart && purchaseAddValidator.validateAdd(item)) {
 
                 shoppingCart.addItem(item);
                 updateShoppingCartState();

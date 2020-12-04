@@ -31,6 +31,9 @@ public class SoldItem {
     public SoldItem() {
     }
 
+    /**
+     * GUI constructor
+     */
     public SoldItem(StockItem stockItem, int quantity, double sum, String name, double price) {
         this.id = stockItem.getId();
         this.stockItem = stockItem;
@@ -40,6 +43,9 @@ public class SoldItem {
         this.sum = sum;
     }
 
+    /**
+     * CLI constructor
+     */
     public SoldItem(StockItem stockItem, int quantity, double sum){
         this.id = stockItem.getId();
         this.stockItem = stockItem;
