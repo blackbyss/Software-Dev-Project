@@ -33,6 +33,25 @@ public class PurchaseAddValidator {
 
             errors.append("-Product with ID ").append(stockItem.getId()).append(" correct price: ").append(stockItem.getPrice()).append("\n");
 
+        return errorMessage(errors);
+
+    }
+
+    public boolean validateExisitng(SoldItem inCart, SoldItem toAdd){
+
+        StringBuilder errors = new StringBuilder();
+
+        if (inCart.getQuantity() + toAdd.getQuantity() > inCart.getStockItem().getQuantity()){
+
+            errors.append("-Max quantity exceeded. Available: ").append(inCart.getStockItem().getQuantity() - inCart.getQuantity()).append("\n");
+
+        }
+
+        return errorMessage(errors);
+
+    }
+
+    private boolean errorMessage(StringBuilder errors) {
         if (errors.length() > 0) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -45,19 +64,8 @@ public class PurchaseAddValidator {
 
         }
 
-        return true;
-
-    }
-
-    public boolean validateExisitng(SoldItem inCart, SoldItem toAdd){
-
-
-
-
-
 
         return true;
-
     }
 
 }
