@@ -142,12 +142,28 @@ public class PurchaseController implements Initializable {
     protected void submitPurchaseButtonClicked() {
         log.info("Sale complete");
         try {
+            if (shoppingCart.getAll().size() == 0){
+                throw new Exception();
+            }
             log.debug("Contents of the current basket:\n" + shoppingCart.getAll());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Purchase was successful!");
+            alert.setContentText("Total: " + shoppingCart.getTotal(shoppingCart.getAll()));
+            alert.show();
             shoppingCart.submitCurrentPurchase();
             disableInputs();
             purchaseTableView.refresh();
-        } catch (SalesSystemException e) {
-            log.error(e.getMessage(), e);
+
+
+        } catch (Exception e) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Purchase was unsuccessful!");
+            alert.setContentText("Cart is empty");
+            alert.showAndWait();
+
         }
     }
 

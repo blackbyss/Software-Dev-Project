@@ -62,6 +62,16 @@ public class ShoppingCart {
         return tagasta;
     }
 
+    public double getTotal(List<SoldItem> items){
+        double total = 0;
+        for (SoldItem item: items) {
+            total += item.getQuantity() * item.getPrice();
+        }
+
+
+        return total;
+    }
+
     public void cancelCurrentPurchase() {
         items.clear();
         log.info("Current purhcase canceled");

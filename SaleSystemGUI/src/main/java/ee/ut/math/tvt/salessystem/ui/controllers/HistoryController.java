@@ -136,7 +136,7 @@ public class HistoryController implements Initializable {
             ArrayList<String> nimed = new ArrayList<>(bestSelling.keySet());
             ArrayList<Integer> kogused = new ArrayList<>(bestSelling.values());
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Best-Selling products");
             alert.setHeaderText(numbrid[bestSelling.size() - 1] + " most sold items:");
 
