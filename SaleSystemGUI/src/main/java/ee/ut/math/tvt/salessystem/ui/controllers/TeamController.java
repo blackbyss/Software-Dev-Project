@@ -1,18 +1,13 @@
 package ee.ut.math.tvt.salessystem.ui.controllers;
 
-import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
-import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Text;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,8 +42,8 @@ public class TeamController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         String dir = System.getProperty("user.dir");
         dir = dir.replace("SaleSystemGUI", "src/main/resources/application.properties");
-        log.debug("application.properties file location: "+dir);
-        try (InputStream input = new FileInputStream(dir)){
+        log.debug("application.properties file location: " + dir);
+        try (InputStream input = new FileInputStream(dir)) {
             Properties prop = new Properties();
             prop.load(input);
 
@@ -56,15 +51,17 @@ public class TeamController implements Initializable {
             teamLeader.setText(prop.getProperty("teamLeader"));
             teamLeaderEmail.setText(prop.getProperty("teamLeaderEmail"));
             teamMembers.setText(prop.getProperty("teamMembers"));
+
             imageLoc.setImage(new Image(prop.getProperty("imageLoc")));
-            log.debug("teamName = "+teamName+" ; teamLeader: "+teamLeader+ " ; teamLeaderEmail: "+
-                    teamLeaderEmail+" ; teamMembers: "+ teamMembers+" ; imageLoc: "+imageLoc);
+            log.debug("teamName = " + teamName + " ; teamLeader: " + teamLeader + " ; teamLeaderEmail: " +
+                    teamLeaderEmail + " ; teamMembers: " + teamMembers + " ; imageLoc: ");
 
         } catch (IOException e) {
             log.error("application.properties file not found");
             e.printStackTrace();
         }
     }
+
     public TeamController() {
     }
 

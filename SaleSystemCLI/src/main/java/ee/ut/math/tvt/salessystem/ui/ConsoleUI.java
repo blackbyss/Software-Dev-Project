@@ -28,7 +28,7 @@ public class ConsoleUI {
 
     public ConsoleUI(SalesSystemDAO dao) {
         this.dao = dao;
-        cart = new ShoppingCart(dao, purchaseAddValidator);
+        cart = new ShoppingCart(dao);
     }
 
     public static void main(String[] args) throws Exception {

@@ -66,7 +66,6 @@ public class LoginController implements Initializable {
 
     @FXML
     void loginButtonClicked(MouseEvent event) {
-        System.out.println("Loome validaatori");
         LoginValidator validator = new LoginValidator(inputUser.getText(), inputPassword.getText());
         this.tagastatavOigus = validator.getOigus();
         System.out.println(tagastatavOigus);
