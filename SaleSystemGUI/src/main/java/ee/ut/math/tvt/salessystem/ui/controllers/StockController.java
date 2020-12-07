@@ -8,10 +8,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -213,15 +210,24 @@ public class StockController implements Initializable {
         warehouseTableView.getSelectionModel().clearSelection();
 
         //Features of new product
-        long bar = Long.parseLong(insertBar.getText());
-        int amount = Integer.parseInt(insertAmount.getText());
-        String name = insertName.getText();
-        double price = Double.parseDouble(insertPrice.getText());
+        try {
+            long bar = Long.parseLong(insertBar.getText());
+            int amount = Integer.parseInt(insertAmount.getText());
+            String name = insertName.getText();
+            double price = Double.parseDouble(insertPrice.getText());
 
-        //Validator for checking product features
-        if (addValidator.validateAdd(amount, price, name)) {
-            warehouse.addToStock(new StockItem(bar, name, "", price, amount));
-            defaultWindow();
+            //Validator for checking product features
+            if (addValidator.validateAdd(amount, price, name)) {
+                warehouse.addToStock(new StockItem(bar, name, "", price, amount));
+                defaultWindow();
+            }
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Insert valid information");
+            alert.setContentText("- Amount must be integer\n- Price must be double");
+
+            alert.showAndWait();
         }
 
     }
@@ -299,23 +305,34 @@ public class StockController implements Initializable {
     @FXML
     void confirmButtonClicked(MouseEvent event) {
 
-        if (!insertPrice.getText().equals("")) {
-            if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
-                warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
-                if (!insertName.getText().equals("")){
-                    warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+
+        try {
+            if (!insertPrice.getText().equals("")) {
+                double price = Double.parseDouble(insertPrice.getText());
+                if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
+                    warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
+                    if (!insertName.getText().equals("")){
+                        warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+                    }
+                    defaultWindow();
+                }
+            }
+            else if (!insertName.getText().equals("")) {
+                warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
+                if (!insertPrice.getText().equals("")) {
+                    if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
+                        warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
+                    }
                 }
                 defaultWindow();
             }
-        }
-        else if (!insertName.getText().equals("")) {
-            warehouse.editStockItemName(Long.parseLong(insertBar.getText()), insertName.getText());
-            if (!insertPrice.getText().equals("")) {
-                if (editValidator.valideeriMuutus(Double.parseDouble(insertPrice.getText()))) {
-                    warehouse.editStockItemPrice(Long.parseLong(insertBar.getText()), Double.parseDouble(insertPrice.getText()));
-                }
-            }
-            defaultWindow();
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Insert valid information");
+            alert.setContentText("- Price must be double");
+
+            alert.showAndWait();
         }
 
     }

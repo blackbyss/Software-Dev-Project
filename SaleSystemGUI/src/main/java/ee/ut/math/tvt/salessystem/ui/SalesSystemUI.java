@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.dao.HibernateSalesSystemDAO;
+import ee.ut.math.tvt.salessystem.dao.InMemorySalesSystemDAO;
 import ee.ut.math.tvt.salessystem.dao.SalesSystemDAO;
 import ee.ut.math.tvt.salessystem.logic.History;
 import ee.ut.math.tvt.salessystem.logic.Warehouse;
@@ -44,7 +45,9 @@ public class SalesSystemUI extends Application {
     private final LoginController loginController;
 
     public SalesSystemUI() {
-        dao = new HibernateSalesSystemDAO();
+        // Andmebaasi loomine
+        // dao = new HibernateSalesSystemDAO();
+        dao = new InMemorySalesSystemDAO();
         purchaseAddValidator = new PurchaseAddValidator(dao);
         shoppingCart = new ShoppingCart(dao);
         history = new History(dao);
