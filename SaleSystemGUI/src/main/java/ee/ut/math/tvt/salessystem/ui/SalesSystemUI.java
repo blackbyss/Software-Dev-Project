@@ -65,7 +65,7 @@ public class SalesSystemUI extends Application {
         try {
             Stage stage = new Stage();
             Parent loginRoot = (Parent) loadControls("LoginWindow.fxml", loginController);
-            Scene loginScene = new Scene(loginRoot,400, 300);
+            Scene loginScene = new Scene(loginRoot,500, 300);
             loginScene.getStylesheets().add(getClass().getResource("DefaultTheme.css").toExternalForm());
             stage.setScene(loginScene);
             stage.showAndWait();
@@ -147,6 +147,11 @@ public class SalesSystemUI extends Application {
         return fxmlLoader.load();
 
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }
 
 

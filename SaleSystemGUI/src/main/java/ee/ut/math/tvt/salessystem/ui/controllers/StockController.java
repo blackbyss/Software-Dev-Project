@@ -138,6 +138,9 @@ public class StockController implements Initializable {
 
         //Change text of textfields and buttons
         insertBar.setText(String.valueOf(valitud.getId()));
+        insertAmount.clear();
+        insertPrice.clear();
+        insertName.clear();
         amountText.setText("Increase:");
         addExisting.setText("Add");
 
