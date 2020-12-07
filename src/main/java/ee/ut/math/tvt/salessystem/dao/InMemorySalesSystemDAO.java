@@ -145,13 +145,23 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     }
 
+
+    /**
+     * Add item to Sold methods
+     */
     @Override
     public void addSoldItem(SoldItem item) {
-
+        saveSoldItem(item);
     }
 
+
+    /**
+     * Add item to History methods
+     */
     @Override
     public void addHistoryItem(HistoryItem item) {
+
+        saveHistoryItem(item);
 
     }
 
@@ -159,8 +169,7 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     public void addOrder(Order order) {
         long id = orderList.size();
         order.setId(id + 1);
-        orderList.add(order);
-
+        saveOrder(order);
     }
 
 
@@ -229,17 +238,28 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public void saveOrder(Order order) {
+        orderList.add(order);
+    }
 
+    @Override
+    public void saveHistoryItem(HistoryItem historyItem) {
+        historyItemList.add(historyItem);
     }
 
     @Override
     public List<Order> showAll() {
-        return null;
+        return orderList;
     }
 
     @Override
     public List<Order> showLast10() {
-        return null;
+        int size = orderList.size();
+
+        if (size <= 10){
+            return orderList;
+        } else {
+            return orderList.subList(size - 10, size);
+        }
     }
 
     @Override
@@ -247,9 +267,5 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
         return null;
     }
 
-    @Override
-    public void saveHistoryItem(HistoryItem historyItem) {
-        historyItemList.add(historyItem);
-    }
 
 }

@@ -157,6 +157,9 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
 
+    /**
+     * Add item to Sold methods
+     */
     @Override
     //GUI
     public void addSoldItem(SoldItem item){
@@ -168,6 +171,9 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
 
+    /**
+     * Add item to History methods
+     */
     @Override
     //GUI
     public void addHistoryItem(HistoryItem item) {
@@ -179,6 +185,9 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
     }
 
 
+    /**
+     * Add new Order
+     */
     @Override
     //GUI
     public void addOrder(Order order) {
@@ -200,9 +209,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         return query.getResultList();
     }
 
-    /**
-     * Methods to show Orders
-     */
     //GUI
     @Override
     public List<Order> showAll() {
@@ -212,6 +218,24 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         } else {
             return orders;
         }
+    }
+
+
+    /**
+     * Find Order
+     */
+    @Override
+    public Order findOrder(long id) {
+        return em.find(Order.class, id);
+    }
+
+
+    /**
+     * Save Order
+     */
+    @Override
+    public void saveOrder(Order order) {
+        em.merge(order);
     }
 
     //GUI
@@ -239,10 +263,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
                 .getResultList();
     }
 
-    @Override
-    public Order findOrder(long id) {
-        return em.find(Order.class, id);
-    }
 
     @Override
     public void saveStockItem(StockItem stockItem) {
@@ -259,10 +279,6 @@ public class HibernateSalesSystemDAO implements SalesSystemDAO {
         em.merge(item);
     }
 
-    @Override
-    public void saveOrder(Order order) {
-        em.merge(order);
-    }
 
 
 }
