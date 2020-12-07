@@ -184,5 +184,4 @@ public class HistoryController implements Initializable {
         });
 
     }
-
 }
