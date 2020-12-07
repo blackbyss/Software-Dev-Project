@@ -116,7 +116,7 @@ public class HistoryController implements Initializable {
     protected void showHistoryEmpty() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("History Error");
+        alert.setTitle("Error");
         alert.setHeaderText("Error!");
         alert.setContentText("No purchases were made during the selected time period");
         alert.show();

@@ -248,6 +248,9 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<Order> showAll() {
+        if (orderList.size() == 0) {
+            return null;
+        }
         return orderList;
     }
 
@@ -255,7 +258,9 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
     public List<Order> showLast10() {
         int size = orderList.size();
 
-        if (size <= 10){
+        if (size == 0) {
+            return null;
+        } else if (size <= 10) {
             return orderList;
         } else {
             return orderList.subList(size - 10, size);
@@ -264,7 +269,19 @@ public class InMemorySalesSystemDAO implements SalesSystemDAO {
 
     @Override
     public List<Order> showBetweenDates(LocalDate begin, LocalDate end) {
-        return null;
+
+        if (orderList.size() == 0) {
+            return null;
+        }
+        
+        List<Order> ordersBetween = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.getDate().isAfter(begin) || order.getDate().isEqual(begin)) {
+                if (order.getDate().isBefore(end) || order.getDate().isEqual(end))
+                    ordersBetween.add(order);
+            }
+        }
+        return ordersBetween;
     }
 
 
