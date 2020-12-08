@@ -77,13 +77,23 @@ public class HistoryController implements Initializable {
     @FXML
     protected void showBetweenDatesClicked() {
 
-        LocalDate begin = startDate.getValue();
-        LocalDate end = endDate.getValue();
+        try {
 
-        if (history.showBetweenDates(begin, end) != null) {
-            orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
-        } else {
-            showHistoryEmpty();
+            LocalDate begin = startDate.getValue();
+            LocalDate end = endDate.getValue();
+
+            if (history.showBetweenDates(begin, end) != null || end != null && begin != null) {
+                orderTable.setItems(FXCollections.observableList(history.showBetweenDates(begin, end)));
+            } else {
+                showHistoryEmpty();
+            }
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error!");
+            alert.setContentText("Choose date");
+            alert.show();
         }
 
     }
@@ -126,37 +136,45 @@ public class HistoryController implements Initializable {
     @FXML
     protected void bestSellingButtonClicked(MouseEvent event) {
 
-        LocalDate begin = startDate.getValue();
-        LocalDate end = endDate.getValue();
-        HashMap<String, Integer> bestSelling = history.getBestSellingItems(this.toggleGroup.getSelectedToggle().getUserData().toString(), begin, end);
-        String[] numbrid = new String[]{"One", "Two", "Three", "Four", "Five"};
+        try {
+            LocalDate begin = startDate.getValue();
+            LocalDate end = endDate.getValue();
+            HashMap<String, Integer> bestSelling = history.getBestSellingItems(this.toggleGroup.getSelectedToggle().getUserData().toString(), begin, end);
+            String[] numbrid = new String[]{"One", "Two", "Three", "Four", "Five"};
 
-        if (bestSelling != null) {
+            if (bestSelling != null) {
 
-            ArrayList<String> nimed = new ArrayList<>(bestSelling.keySet());
-            ArrayList<Integer> kogused = new ArrayList<>(bestSelling.values());
+                ArrayList<String> nimed = new ArrayList<>(bestSelling.keySet());
+                ArrayList<Integer> kogused = new ArrayList<>(bestSelling.values());
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Best-Selling products");
-            alert.setHeaderText(numbrid[bestSelling.size() - 1] + " most sold items:");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Best-Selling products");
+                alert.setHeaderText(numbrid[bestSelling.size() - 1] + " most sold items:");
 
-            StringBuilder items = new StringBuilder();
+                StringBuilder items = new StringBuilder();
 
-            for (int i = 0; i < nimed.size(); i++) {
-                items.append(nimed.get(i)).append(": ").append(kogused.get(i)).append("\n");
+                for (int i = 0; i < nimed.size(); i++) {
+                    items.append(nimed.get(i)).append(": ").append(kogused.get(i)).append("\n");
+                }
+
+                alert.setContentText(items.toString());
+                alert.show();
+
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("History Error");
+                alert.setHeaderText("Error!");
+                alert.setContentText("No items were sold during the selected time period");
+                alert.show();
+
             }
-
-            alert.setContentText(items.toString());
-            alert.show();
-
-        } else {
-
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("History Error");
+            alert.setTitle("Error");
             alert.setHeaderText("Error!");
-            alert.setContentText("No items were sold during the selected time period");
+            alert.setContentText("Choose date");
             alert.show();
-
         }
 
     }

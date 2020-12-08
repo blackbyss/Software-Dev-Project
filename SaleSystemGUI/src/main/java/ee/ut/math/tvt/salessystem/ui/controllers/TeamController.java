@@ -54,7 +54,7 @@ public class TeamController implements Initializable {
 
             imageLoc.setImage(new Image(prop.getProperty("imageLoc")));
             log.debug("teamName = " + teamName + " ; teamLeader: " + teamLeader + " ; teamLeaderEmail: " +
-                    teamLeaderEmail + " ; teamMembers: " + teamMembers + " ; imageLoc: ");
+                    teamLeaderEmail + " ; teamMembers: " + teamMembers + " ; imageLoc: " + imageLoc);
 
         } catch (IOException e) {
             log.error("application.properties file not found");
