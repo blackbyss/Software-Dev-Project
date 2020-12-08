@@ -24,7 +24,4 @@ System-level functional test plan:
 <https://bitbucket.org/allark/lab3-kolmtarkvara/commits/ed5bc797c1556ee656584ce94b7ac31339a931e3>
 
 ## Homework 7:
-<Links to the solution>
-
-We encourage you to use [markdown syntax](https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html)
->>>>>>> 2ceb89d6c8c31036ec9f737541b126c18c28d2dd
+<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%207>
