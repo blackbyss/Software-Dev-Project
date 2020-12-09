@@ -21,17 +21,22 @@ public class PurchaseAddValidator {
 
         if (item.getQuantity() > item.getStockItem().getQuantity()) {
 
-            errors.append("-Max quantity exceeded. Max:  ").append(item.getStockItem().getQuantity()).append("\n");
+            errors.append(" -Max quantity exceeded. Max:  ").append(item.getStockItem().getQuantity()).append("\n");
+
+        }
+        if (item.getQuantity() <= 0){
+
+            errors.append("- Product with incorrect amount\n");
 
         }
         if (!stockItem.getName().equals(item.getName())) {
 
-            errors.append("-Product with ID ").append(stockItem.getId()).append(" correct name: ").append(stockItem.getName()).append("\n");
+            errors.append("- Product with ID ").append(stockItem.getId()).append(" correct name: ").append(stockItem.getName()).append("\n");
 
         }
         if (stockItem.getPrice() != item.getPrice())
 
-            errors.append("-Product with ID ").append(stockItem.getId()).append(" correct price: ").append(stockItem.getPrice()).append("\n");
+            errors.append("- Product with ID ").append(stockItem.getId()).append(" correct price: ").append(stockItem.getPrice()).append("\n");
 
         return errorMessage(errors);
 
@@ -43,7 +48,7 @@ public class PurchaseAddValidator {
 
         if (inCart.getQuantity() + toAdd.getQuantity() > inCart.getStockItem().getQuantity()) {
 
-            errors.append("-Max quantity exceeded. Available: ").append(inCart.getStockItem().getQuantity() - inCart.getQuantity()).append("\n");
+            errors.append("- Max quantity exceeded. Available: ").append(inCart.getStockItem().getQuantity() - inCart.getQuantity()).append("\n");
 
         }
 
