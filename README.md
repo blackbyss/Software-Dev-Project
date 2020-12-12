@@ -34,5 +34,6 @@ Task 2.1(From F-33):
 <https://docs.google.com/spreadsheets/d/18JHIxjzeD7HAE8TdT5Ivw4JjkG07uVQiU_b5RPav66A/edit#gid=0>
 
 Task 2.2:
+<https://docs.google.com/document/d/1CFLNQ7LeR_0mBWYbsija0WgLjlmcNtak8ha5gD5hoPY/edit?usp=sharing>
 
 
