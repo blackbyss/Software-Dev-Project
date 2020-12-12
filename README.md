@@ -30,4 +30,7 @@ Software:
 Task 1:
 <https://docs.google.com/document/d/1OvdABX1lZjqFw8PQpyWLuWDtVJOGI5ib5KE2HISniho>
 
+Task 2(From F-33):
+<https://docs.google.com/spreadsheets/d/18JHIxjzeD7HAE8TdT5Ivw4JjkG07uVQiU_b5RPav66A/edit#gid=0>
+
 
