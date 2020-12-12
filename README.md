@@ -24,4 +24,6 @@ System-level functional test plan:
 <https://bitbucket.org/allark/lab3-kolmtarkvara/commits/ed5bc797c1556ee656584ce94b7ac31339a931e3>
 
 ## Homework 7:
-<https://bitbucket.org/allark/lab3-kolmtarkvara/wiki/Homework%207>
+Task 1:
+<https://docs.google.com/document/d/1OvdABX1lZjqFw8PQpyWLuWDtVJOGI5ib5KE2HISniho>
+
